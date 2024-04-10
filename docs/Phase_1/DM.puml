@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+
+
+class Person {
+    - name
+}
+
+class Task {
+    - reference
+    - title
+    - informalDescription
+    - technicalDescription
+    - effortEstimation
+    - deadline
+}
+
+class Category {
+    - code
+    - description
+}
+
+class JoeProfiles {
+}
+
+Person "*" -left-- "1" JoeProfiles:  registered in >
+Person "1" -right-- "0..*" Category:  maintains >
+Person "1" -right-- "0..*" Task:  defines >
+Task "*" -- "1" Category:  categorized in >
+
+
+@enduml

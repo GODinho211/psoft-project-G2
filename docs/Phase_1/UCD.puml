@@ -1,0 +1,37 @@
+@startuml
+
+title Use Case Diagram - First Draft
+
+left to right direction
+
+
+
+
+
+Librarian --> (US04 - I want to update an author’s data)
+Librarian --> (US05 - I want to know an author’s detail given its author number)
+Librarian --> (US06 - I want to search authors by name)
+Librarian --> (US07 - I want to register a book)
+Librarian --> (US08 - I want to update a book’s data)
+Librarian --> (US09 -I want to know the details of a book given its ISBN)
+Librarian --> (US010 - I want to search books by genre)
+Librarian --> (US013 - I want to know a user’s detail given its reader number)
+Librarian --> (US014 - I want to search Readers by name)
+Librarian --> (US015 - I want to lend a book to a reader.)
+Librarian --> (US017 - I want to know the details of a lending given its lending number)
+
+
+
+
+Reader --> (US05 - I want to know an author’s detail given its author number)
+Reader --> (US06 - I want to search authors by name)
+Reader --> (US09 -I want to know the details of a book given its ISBN)
+Reader --> (US010 - I want to search books by genre)
+Reader --> (US012 - I want to update my personal data)
+Reader --> (US016 - As Reader I want to return a book.)
+Reader --> (US017 - I want to know the details of a lending given its lending number)
+
+
+Anonymous --> (US011 - I want to register as a reader)
+
+@enduml
