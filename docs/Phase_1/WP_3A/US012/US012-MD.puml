@@ -4,19 +4,28 @@ hide circle
 skinparam classAttributeIconSize 0
 hide methods
 
-title Domain Model extract
 
-Class Administrator{
+title Domain Model extract to update my personal data
 
--Name
+class users {
+
+    - id_user
+    - name
+    - email
+    - date_of_birth
+    - phone_number
+    - GDPR_consent
+
 }
 
-Class VaccineType{
--Code
--Short Description
--Vaccine Technology
+class roles {
+
+    - readers
+    - librarian
+
 }
 
-Administrator"*"->"1"VaccineType:specify   >
+
+users "1" -right-- "*" roles
 
 @enduml

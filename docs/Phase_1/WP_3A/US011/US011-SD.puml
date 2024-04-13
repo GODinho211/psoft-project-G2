@@ -1,0 +1,31 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title register as a reader
+
+actor "Anonymous" as User
+
+participant ":UserController" as Ctrl
+participant ":UserService" as srv
+participant ":CreateUserRequest" as model
+participant ":UserRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: Request to register as a reader\n(POST/users)
+Ctrl -> srv: create user
+srv -> model: create user
+model --> srv: create user parameters
+srv -> repo: save
+repo --> srv: saved
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml

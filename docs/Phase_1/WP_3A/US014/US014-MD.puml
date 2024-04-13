@@ -6,17 +6,21 @@ hide methods
 
 title Domain Model extract
 
-Class Administrator{
+class users {
 
--Name
+    - id_user
+    - name
+    - email
+    - date_of_birth
+    - phone_number
+    - GDPR_consent
+
 }
 
-Class VaccineType{
--Code
--Short Description
--Vaccine Technology
+class roles {
+
+    - readers
+    - librarian
+
 }
-
-Administrator"*"->"1"VaccineType:specify   >
-
 @enduml

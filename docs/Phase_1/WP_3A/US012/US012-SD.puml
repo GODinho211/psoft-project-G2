@@ -1,0 +1,33 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title update my personal data
+
+actor "Reader" as User
+
+participant ":UserController" as Ctrl
+participant ":UserService" as srv
+participant ":EditUserRequest" as model
+participant ":UserRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: Request to update my personal \ndata(Patch/users{partiallyUpdate}/{id})
+Ctrl -> srv: changeUserData(partialUpdate)
+srv -> model:data to update
+model --> srv : updated data
+srv -> repo: findById
+repo --> srv: return  with the id
+srv -> repo:  save
+repo --> srv:  user  update data saved
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml

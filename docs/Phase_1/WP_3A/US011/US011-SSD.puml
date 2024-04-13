@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-title System Sequence Diagram US011
+title System Sequence Diagram US011 egister as a reader
 
 autoactivate on
 autonumber
@@ -11,7 +11,7 @@ participant ":System" as System
 
 activate Administrator
 
-Administrator -> System:  I want to register as a reader
+Administrator -> System:  Request to register as a reader
 System --> Administrator: requests data (name, email, date of birth, phone number, GDPR  consent)
 
 Administrator -> System: types requested data

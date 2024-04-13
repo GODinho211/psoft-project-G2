@@ -1,18 +1,18 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-title System Sequence Diagram US010
+title System Sequence Diagram US012 update my personal data
 
 autoactivate on
 autonumber
 
-actor "Administrator" as Administrator
+actor "Reader" as Administrator
 participant ":System" as System
 
 activate Administrator
 
-Administrator -> System: asks to specify a new VaccineType
-System --> Administrator: requests data (Code,Short Description,Vaccine Technology)
+Administrator -> System: Request to update my personal data
+System --> Administrator: requests data to update
 
 Administrator -> System: types requested data
 System --> Administrator: shows all data and requests confirmation
