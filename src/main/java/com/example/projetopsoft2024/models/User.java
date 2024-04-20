@@ -1,7 +1,9 @@
-package com.example.projetopsoft2024.usermanagement.model;
+package com.example.projetopsoft2024.models;
 //import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -9,20 +11,22 @@ import java.util.Date;
 
 
 //@Schema(description = "User")
-@Entity
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="userprofile")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    @Column(name = "name", nullable = false, unique = true, updatable = false)
+    @Column(name = "name", nullable = false, unique = true, updatable = true)
     private String name;
 
     @Column(name = "email", nullable = false)
-    @NotNull
     private String email;
 
     @Column(name = "dateofbirth")
@@ -31,22 +35,21 @@ public class User {
     @Column(name = "phonenumber", nullable = false)
     private Long phonenumber;
 
-    @Column(name = "GDPRconsent", nullable = false)
-    @NotNull
-    private String GDPRconsent;
+    @Column(name = "readernumber", nullable = true)
+    private Long readernumber;
 
-    @Version
-    private long version;
 
-    public User() {
-        setName(name);
-    }
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final String GDPRconsent) {
+    @Column(name = "gdprconsent", nullable = true)
+    private String gdprconsent;
+
+
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
         setPhonenumber(phonenumber);
-        setGDPRconsent(GDPRconsent);
+        setReadernumber(readernumber);
+        setGdprconsent(gdprconsent);
 
 
     }
