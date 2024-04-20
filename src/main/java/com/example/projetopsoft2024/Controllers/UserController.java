@@ -58,7 +58,7 @@ public class UserController {
     public ResponseEntity<?> assignedReadnumber(@PathVariable Long id, @RequestBody User assignedReadnumber) {
         try {
             userservice.assignedReadnumber(id, assignedReadnumber);
-            return ResponseEntity.ok("User updated successfully");
+            return ResponseEntity.ok("User Reader Number updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user: " + e.getMessage());
         }
