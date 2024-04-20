@@ -23,4 +23,7 @@ class roles {
     - librarian
 
 }
+
+users "1" -right-- "*" roles
+
 @enduml
