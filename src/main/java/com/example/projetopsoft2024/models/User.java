@@ -1,6 +1,7 @@
 package com.example.projetopsoft2024.models;
 //import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,8 @@ public class User {
     @Column(name = "name", nullable = false, unique = true, updatable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Email(message = "O email deve estar em um formato válido")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "dateofbirth")
@@ -34,6 +36,8 @@ public class User {
 
     @Column(name = "phonenumber", nullable = false)
     private Long phonenumber;
+
+
 
     @Column(name = "readernumber", nullable = true)
     private Long readernumber;
