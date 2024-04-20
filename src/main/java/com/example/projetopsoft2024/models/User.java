@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 
@@ -24,7 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    @Column(name = "name", nullable = false, unique = true, updatable = false)
+    @Column(name = "name", nullable = false, unique = false, updatable = false)
     private String name;
 
     @Email(message = "O email deve estar em um formato válido")
@@ -45,7 +44,6 @@ public class User {
 
     @Column(name = "gdprconsent", nullable = true)
     private String gdprconsent;
-
 
     public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent) {
         setName(name);
