@@ -51,7 +51,6 @@ public class UserService {
         if (age < 12) {
             throw new Exception("O usuário deve ter pelo menos 12 anos para se registrar no sistema.");
         }
-       
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }

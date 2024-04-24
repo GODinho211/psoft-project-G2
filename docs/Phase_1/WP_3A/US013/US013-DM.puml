@@ -13,6 +13,7 @@ class users {
     - email
     - date_of_birth
     - phone_number
+    - readernumber
     - GDPR_consent
 
 }

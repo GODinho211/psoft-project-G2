@@ -4,7 +4,8 @@ hide circle
 skinparam classAttributeIconSize 0
 hide methods
 
-title Domain Model extract
+
+title Domain Model extract to update my personal data
 
 class users {
 
@@ -13,6 +14,7 @@ class users {
     - email
     - date_of_birth
     - phone_number
+    - readernumber
     - GDPR_consent
 
 }
@@ -23,6 +25,7 @@ class roles {
     - librarian
 
 }
+
 
 users "1" -right-- "*" roles
 
