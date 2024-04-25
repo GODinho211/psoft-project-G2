@@ -21,10 +21,12 @@ public class BookController {
   public List<Book> getBooks(){
     return bookService.getAllBooks();
   }
+
   @PostMapping()
-  public String createBooks(Book book){
+  public String createBooks(@RequestBody Book book){
     return bookService.createBook(book);
   }
+
 
   @DeleteMapping("/{bookId}")
   public String deleteBook(@PathVariable long bookId){
@@ -40,6 +42,13 @@ public class BookController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with id " + bookId + " not found");
     }
   }
-
-
+  @PutMapping("/{id}")
+  public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book) {
+    try {
+      Book updatedBook = bookService.updateBook(id, book);
+      return new ResponseEntity<>(updatedBook, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 }
