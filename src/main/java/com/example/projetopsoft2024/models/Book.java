@@ -15,13 +15,15 @@ import java.util.List;
 public class Book  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
+    @Column(name = "book_id", nullable = false, unique = true, updatable = false)
     private long isbn;
-    @Column(name = "title")
+
+    @Column(name = "title", nullable = false, unique = false, updatable = true)
     private String title;
-    @Column(name = "description")
+
+    @Column(name = "description", nullable = true, unique = false, updatable = true)
     private String description;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_gender",
@@ -40,5 +42,4 @@ public class Book  {
         this.gender = gender;
         this.author = authorOfBook;
     }
-fff
 }
