@@ -1,0 +1,92 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+
+Title Central City library
+
+
+class author {
+
+    - id_author
+    - name
+    - bio
+
+}
+
+class users {
+
+    - id_user
+    - name
+    - email
+    - date_of_birth
+    - phone_number
+    - GDPR_consent
+
+}
+
+class book_lending {
+
+    - id_lending
+    - fk isbn
+    - fk id_user
+    - Date_lending
+    - Date_lending_end
+    - fee
+
+
+}
+
+class books {
+
+    - isbn
+    - title
+    - description,
+    - author(s)
+}
+
+class genre {
+
+    - id_genre
+    - Science-fiction,
+    - mistery
+    - Law
+    - Medicine
+
+}
+
+class roles {
+
+    - readers
+    - librarian
+
+}
+
+
+class books_author {
+
+ -fk id_author
+ -fk isbn
+}
+
+class genre_books {
+
+ -fk id_author
+ -fk isbn
+}
+
+author "1" -right-- "*" books_author
+books "1" -left-- "*" books_author
+genre "1" -left-- "*" genre_books
+books "1" -right-- "*" genre_books
+books "1" -down-- "*" book_lending
+users "1" -left-- "*" book_lending
+users "1" -right-- "*" roles
+
+
+
+
+
+@enduml

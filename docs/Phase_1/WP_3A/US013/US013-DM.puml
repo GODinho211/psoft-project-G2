@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+hide circle
+skinparam classAttributeIconSize 0
+hide methods
+
+title Domain Model extract
+
+class users {
+
+    - id_user
+    - name
+    - email
+    - date_of_birth
+    - phone_number
+    - readernumber
+    - GDPR_consent
+
+}
+
+class roles {
+
+    - readers
+    - librarian
+
+}
+
+
+users "1" -right-- "*" roles
+
+@enduml
