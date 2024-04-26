@@ -7,6 +7,9 @@ import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +22,7 @@ public class BookService {
     @Autowired
     private GenderRepository GenderRepository;
 
-    //@Transactional
+    @Transactional
     public List<Book> getAllBooks() {
        return bookRepository.findAll();
     }
@@ -84,7 +87,7 @@ public class BookService {
         return "Book deleted";
     }
 
-    //@Transactional
+    @Transactional
     public List<Book> getBooksByGender(Long genderId) {
         Gender gender = GenderRepository.findById(genderId)
                 .orElseThrow(() -> new RuntimeException("Gender not found with id " + genderId));
