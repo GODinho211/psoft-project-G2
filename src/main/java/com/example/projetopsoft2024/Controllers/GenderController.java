@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.Controllers;
 import com.example.projetopsoft2024.Service.GenderService;
 import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,16 @@ public class GenderController {
             Gender updatedGender = genderService.updateGender(id, gender);
             return new ResponseEntity<>(updatedGender, HttpStatus.OK);
         } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGender(@PathVariable long id) {
+        try {
+            genderService.deleteGender(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
