@@ -24,22 +24,37 @@ public class Book  {
     @Column(name = "description", nullable = true, unique = false, updatable = true)
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "book_gender",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "gender_id")
-    )
-    private List<Gender> gender; // cada livro tem uma lista de generos a que pertence
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "book_gender",
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "gender_id")
+//    )
+//    private List<Gender> gender;
+
+    //NAO TENHO A CERTEZA SE É ASSIM
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "gender_id")
+    private Gender gender;
+
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "autor_id")
     private Author author;
 
-    public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
+ //   public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
+ //       this.title = title;
+ //       this.description = description;
+ //       this.gender = gender;
+ //       this.author = authorOfBook;
+ //   }
+
+    public Book(String title, String description, Gender gender, Author authorOfBook) {
         this.title = title;
         this.description = description;
         this.gender = gender;
         this.author = authorOfBook;
     }
+
 }

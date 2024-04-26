@@ -20,7 +20,7 @@ public class BookService {
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<Book>();
         bookRepository.findAll().forEach(n -> {
-            n.getGender().size(); // force initialization of the gender collection
+            n.getGender();//.size(); // force initialization of the gender collection
             books.add(n);
         });
         return books;
@@ -30,7 +30,7 @@ public class BookService {
     public Optional<Book> getBookById(long bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
         if (book.isPresent()) {
-            book.get().getGender().size();
+            book.get().getGender();//.size();
         }
         return book;
     }

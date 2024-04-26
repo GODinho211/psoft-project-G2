@@ -4,6 +4,8 @@ import com.example.projetopsoft2024.Service.GenderService;
 import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -19,5 +21,10 @@ public class GenderController {
     @PostMapping()
     public Gender createGender(@RequestBody Gender gender){
         return genderService.createGender(gender);
+    }
+
+    @GetMapping()
+    public List<Gender> getGenders(){
+        return genderService.getAllGenders();
     }
 }
