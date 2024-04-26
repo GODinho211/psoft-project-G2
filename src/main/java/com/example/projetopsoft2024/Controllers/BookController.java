@@ -27,5 +27,33 @@ public class BookController {
     return bookService.createBook(book);
   }
 
+  @DeleteMapping("/{bookId}")
+  public String deleteBook(@PathVariable long bookId){
+    return bookService.deleteBook(bookId);
+  }
+
+  @GetMapping("/{bookId}")
+  public ResponseEntity<?> getBookById(@PathVariable long bookId){
+    Optional<Book> book = bookService.getBookById(bookId);
+    if(book.isPresent()){
+      return ResponseEntity.ok(book.get());
+    }else{
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with id " + bookId + " not found");
+    }
+  }
+  @PutMapping("/{id}")
+  public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book) {
+    try {
+      Book updatedBook = bookService.updateBook(id, book);
+      return new ResponseEntity<>(updatedBook, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @GetMapping("/gender/{genderId}")
+  public List<Book> getBooksByGender(@PathVariable Long genderId) {
+    return bookService.getBooksByGender(genderId);
+  }
 
 }
