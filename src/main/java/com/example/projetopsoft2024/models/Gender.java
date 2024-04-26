@@ -23,7 +23,12 @@ public class Gender {
     @Column( name = "book_description")
     private String description;
 
+    public String getDescription() {
+        return this.description;
+    }
 
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

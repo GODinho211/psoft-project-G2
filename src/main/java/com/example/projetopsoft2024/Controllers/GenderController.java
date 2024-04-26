@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 
 
@@ -27,4 +31,15 @@ public class GenderController {
     public List<Gender> getGenders(){
         return genderService.getAllGenders();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Gender> updateGender(@PathVariable long id, @RequestBody Gender gender) {
+        try {
+            Gender updatedGender = genderService.updateGender(id, gender);
+            return new ResponseEntity<>(updatedGender, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
