@@ -25,12 +25,15 @@ public class Gender {
     @Column( name = "gender_description",nullable = false, unique = false, updatable = false)
     private String description;
 
+
     @ManyToMany(mappedBy = "gender",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore()
     private List<Book> books= new ArrayList<>();
 
     public Gender(String description) {
         this.description= description;
+
+
     }
 
 }
