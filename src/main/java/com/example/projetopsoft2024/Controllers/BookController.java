@@ -51,4 +51,10 @@ public class BookController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
+
+  @GetMapping("/gender/{genderId}")
+  public List<Book> getBooksByGender(@PathVariable Long genderId) {
+    return bookService.getBooksByGender(genderId);
+  }
+
 }
