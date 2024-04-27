@@ -25,7 +25,7 @@ public class Author {
     @Column(name="author_name",nullable = false)
     private String name;
 
-    @Column(name = "bio")
+    @Column(name = "bio",columnDefinition = "TEXT",length = 4096)
     private String bio;
 
     public Author(String name, String bio) {
