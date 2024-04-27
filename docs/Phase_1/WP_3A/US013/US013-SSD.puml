@@ -12,10 +12,8 @@ participant ":System" as System
 
 activate Administrator
 
-Administrator -> System: Request to list a user’s detail
-System --> Administrator: requests  reader number
+Administrator -> System: Request to list a user’s detail by reader number
 
-Administrator -> System: types  reader number
 System --> Administrator: shows all user’s details
 
 @enduml

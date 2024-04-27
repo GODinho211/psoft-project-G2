@@ -12,11 +12,6 @@ participant ":System" as System
 activate Administrator
 
 Administrator -> System: Request to update my personal data
-System --> Administrator: requests data to update
+System --> Administrator:  data to updated
 
-Administrator -> System: types requested data
-System --> Administrator: shows all data and requests confirmation
-
-Administrator -> System: confirms the data
-System --> Administrator: informs operation success
 @enduml

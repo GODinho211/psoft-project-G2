@@ -11,9 +11,8 @@ participant ":System" as System
 
 activate Administrator
 
-Administrator -> System: Request to  search Readers
-System --> Administrator: requests name
+Administrator -> System: Request to  search Readers by name
 
-Administrator -> System: types requested data
+
 System --> Administrator: shows all data
 @enduml

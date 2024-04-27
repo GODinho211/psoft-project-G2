@@ -11,12 +11,7 @@ participant ":System" as System
 
 activate Administrator
 
-Administrator -> System:  Request to register as a reader
-System --> Administrator: requests data (name, email, date of birth, phone number, GDPR  consent)
+Administrator -> System:  Request to register as a reader (name, email, date of birth, phone number, GDPR  consent)
+System --> Administrator: user registed
 
-Administrator -> System: types requested data
-System --> Administrator: shows all data and requests confirmation
-
-Administrator -> System: confirms the data
-System --> Administrator: informs operation success
 @enduml

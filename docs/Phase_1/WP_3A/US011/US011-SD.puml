@@ -12,7 +12,6 @@ actor "Anonymous" as User
 
 participant ":UserController" as Ctrl
 participant ":UserService" as srv
-participant ":CreateUserRequest" as model
 participant ":UserRepository" as repo
 
 activate User
@@ -21,8 +20,6 @@ activate User
 
 User -> Ctrl: Request to register as a reader\n(POST/users)
 Ctrl -> srv: create user
-srv -> model: create user
-model --> srv: create user parameters
 srv -> repo: save
 repo --> srv: saved
 srv --> Ctrl: ok
