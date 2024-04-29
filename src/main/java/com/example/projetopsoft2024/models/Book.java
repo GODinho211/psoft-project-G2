@@ -3,6 +3,8 @@ package com.example.projetopsoft2024.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,13 +25,13 @@ public class Book {
     @Column(name = "book_description", nullable = true, unique = false, updatable = true)
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_gender",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "gender_id")
     )
-    private List<Gender> gender;
+    private List<Gender> gender= new ArrayList<>();
 
     public Book( long isbn,String title, String description ) {
         this.isbn= isbn;

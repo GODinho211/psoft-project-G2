@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +30,9 @@ public class Gender {
     @Column( name = "gender_description")
     private String description;
 
-    @ManyToMany(mappedBy = "gender",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "gender",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore()
-    private List<Book> books;
+    private List<Book> books= new ArrayList<>();
 
     public Gender(String description) {
         this.description= description;

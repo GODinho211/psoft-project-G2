@@ -15,9 +15,7 @@ public class BookService {
     private BookRepository bookRepository;
 
     public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.findAll().forEach(n->books.add(n));
-        return books;
+       return bookRepository.findAll();
     }
 
     public Book createBook(Book book) {
