@@ -4,11 +4,9 @@ import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class BookService {
@@ -16,44 +14,14 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    @Transactional
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<Book>();
-        bookRepository.findAll().forEach(n -> {
-            n.getGender();//.size(); // force initialization of the gender collection
-            books.add(n);
-        });
+        bookRepository.findAll().forEach(n->books.add(n));
         return books;
     }
 
-    @Transactional
-    public Optional<Book> getBookById(long bookId) {
-        Optional<Book> book = bookRepository.findById(bookId);
-        if (book.isPresent()) {
-            book.get().getGender();//.size();
-        }
-        return book;
-    }
-
-    @Transactional
-    public Book updateBook(long bookId, Book updatedBook) {
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if (!bookOptional.isPresent()) {
-            throw new RuntimeException("Book not found with id " + bookId);
-        }
-
-        Book existingBook = bookOptional.get();
-        existingBook.setTitle(updatedBook.getTitle());
-        existingBook.setDescription(updatedBook.getDescription());
-        existingBook.setGender(updatedBook.getGender());
-        existingBook.setAuthor(updatedBook.getAuthor());
-        bookRepository.save(existingBook);
-        return existingBook;
-    }
-
-    public String createBook(Book book) {
-        bookRepository.save(book);
-        return "Book created";
+    public Book createBook(Book book) {
+        return bookRepository.save(book);
     }
 
     public String deleteBook(long bookId) {
@@ -62,4 +30,3 @@ public class BookService {
     }
 }
 
-//teste

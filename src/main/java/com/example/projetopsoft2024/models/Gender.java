@@ -1,6 +1,7 @@
 package com.example.projetopsoft2024.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,14 +17,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gender {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column( name = "gender_id")
     private Long genderId;
-    @Column( name = "book_description")
+
+    @Column( name = "gender_description")
     private String description;
 
+    @ManyToMany(mappedBy = "gender",cascade = CascadeType.ALL)
+    @JsonIgnore()
+    private List<Book> books;
 
-
+    public Gender(String description) {
+        this.description= description;
+    }
 
 }
