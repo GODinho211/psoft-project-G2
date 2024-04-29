@@ -22,7 +22,7 @@ public class Gender {
     @Column( name = "gender_id")
     private Long genderId;
 
-    @Column( name = "gender_description")
+    @Column( name = "gender_description",nullable = false, unique = false, updatable = false)
     private String description;
 
     @ManyToMany(mappedBy = "gender",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
