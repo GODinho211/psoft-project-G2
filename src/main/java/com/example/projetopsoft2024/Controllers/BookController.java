@@ -2,6 +2,7 @@ package com.example.projetopsoft2024.Controllers;
 
 import com.example.projetopsoft2024.Service.BookService;
 import com.example.projetopsoft2024.models.Book;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,12 @@ public class BookController {
 
   @Autowired
   private BookService bookService;
+
+  public BookController(BookService bookService) {
+    this.bookService = bookService;
+  }
+
+
 
   @GetMapping("/getAll")
   public List<Book> getBooks(){
@@ -33,6 +40,7 @@ public class BookController {
     return bookService.deleteBook(bookId);
   }
 
+  @Transactional
   @GetMapping("/{bookId}")
   public ResponseEntity<?> getBookById(@PathVariable long bookId){
     Optional<Book> book = bookService.getBookById(bookId);
