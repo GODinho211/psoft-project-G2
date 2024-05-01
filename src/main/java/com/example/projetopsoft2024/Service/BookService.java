@@ -22,15 +22,17 @@ public class BookService {
     @Autowired
     private GenderRepository GenderRepository;
 
-    @Transactional
+    //@Transactional
     public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.findAll().forEach(n -> {
-            n.getGender();//.size(); // force initialization of the gender collection
-            books.add(n);
-        });
-        return books;
+        //List<Book> books = new ArrayList<Book>();
+        //bookRepository.findAll().forEach(n -> {
+          //  n.getGender();//.size(); // force initialization of the gender collection
+          //  books.add(n);
+        //});
+        //return books;
+        return bookRepository.findAllWithGender();
     }
+
 
     @Transactional
     public Optional<Book> getBookById(long bookId) {
@@ -40,6 +42,22 @@ public class BookService {
         }
         return book;
     }
+
+    //@Transactional
+    //public Book updateBook(long bookId, Book updatedBook) {
+        //Optional<Book> bookOptional = bookRepository.findById(bookId);
+        //if (!bookOptional.isPresent()) {
+            //throw new RuntimeException("Book not found with id " + bookId);
+        //}
+
+        //Book existingBook = bookOptional.get();
+        //existingBook.setTitle(updatedBook.getTitle());
+        //existingBook.setDescription(updatedBook.getDescription());
+        //existingBook.setGender(updatedBook.getGender());
+        //existingBook.setAuthor(updatedBook.getAuthor());
+        //bookRepository.save(existingBook);
+        //return existingBook;
+    //}
 
     @Transactional
     public Book updateBook(long bookId, Book updatedBook) {
@@ -51,15 +69,23 @@ public class BookService {
         Book existingBook = bookOptional.get();
         existingBook.setTitle(updatedBook.getTitle());
         existingBook.setDescription(updatedBook.getDescription());
-        existingBook.setGender(updatedBook.getGender());
-        existingBook.setAuthor(updatedBook.getAuthor());
+
+        // Fetch the Gender objects from the GenderRepository using the provided genderId's
+        List<Gender> updatedGenders = new ArrayList<>();
+        for (Gender gender : updatedBook.getGender()) {
+            Gender updatedGender = GenderRepository.findById(gender.getGenderId())
+                    .orElseThrow(() -> new RuntimeException("Gender not found with id " + gender.getGenderId()));
+            updatedGenders.add(updatedGender);
+        }
+
+        existingBook.setGender(updatedGenders); // update the gender field
         bookRepository.save(existingBook);
         return existingBook;
     }
 
-    public String createBook(Book book) {
-        bookRepository.save(book);
-        return "Book created";
+    public Book createBook(Book book) {
+        return bookRepository.save(book);
+        //return "Book created";
     }
 
     public String deleteBook(long bookId) {
@@ -67,7 +93,7 @@ public class BookService {
         return "Book deleted";
     }
 
-    @Transactional
+    //@Transactional
     public List<Book> getBooksByGender(Long genderId) {
         Gender gender = GenderRepository.findById(genderId)
                 .orElseThrow(() -> new RuntimeException("Gender not found with id " + genderId));
