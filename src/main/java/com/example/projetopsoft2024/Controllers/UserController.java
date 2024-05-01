@@ -85,5 +85,15 @@ public class UserController {
     }
 
 
+    @GetMapping("/readernumber/{readernumber}")
+    public ResponseEntity<?> getUserByReaderNumber(@PathVariable Long readernumber) {
+        Optional<User> user = userservice.getUserByReaderNumber(readernumber);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with reader number " + readernumber + " not found");
+        }
+    }
+
 }
 

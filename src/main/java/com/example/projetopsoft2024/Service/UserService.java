@@ -96,6 +96,9 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public Optional<User> getUserByReaderNumber(Long readerNumber) {
+        return userRepository.findByReaderNumber(readerNumber);
+    }
 
 }
 
