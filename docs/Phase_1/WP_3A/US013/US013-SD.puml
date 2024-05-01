@@ -21,7 +21,7 @@ activate User
 User -> Ctrl: Request user’s detail given its reader number\n(GET/users/{id})
 Ctrl -> srv: UserData(findById)
 
-srv -> repo: findById
+srv -> repo: findReaderNumber
 repo --> srv: return  with the id
 srv -> repo:  list user’s detail
 repo --> srv:  user’s detail given its reader number
