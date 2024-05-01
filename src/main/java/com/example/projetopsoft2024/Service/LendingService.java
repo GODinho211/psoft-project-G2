@@ -29,7 +29,7 @@ public class LendingService {
     }
 
     public boolean lendBooks(Long userId, Long bookId) {
-        // Verifica se o usuário e o livro existem
+        // add if user not exist e book
         User user = userRepository.findById(userId).orElse(null);
         Book book = bookRepository.findById(bookId).orElse(null);
 
@@ -57,5 +57,10 @@ public class LendingService {
 
     public List<Lending> getAll() {
         return lendingRepository.findAll();
+    }
+
+    public List<Lending> findLendingByBookId(Long bookId) {
+
+        return lendingRepository.findLendingByBookId(bookId);
     }
 }

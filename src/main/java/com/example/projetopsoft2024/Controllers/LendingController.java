@@ -34,4 +34,14 @@ public class LendingController {
     public List<Lending> getLendings(){
         return lendingService.getAll();
     }
+
+    @GetMapping("/{bookId}")
+    public ResponseEntity<List<Lending>> findLendingsByBookId(@PathVariable Long bookId) {
+        List<Lending> lendings = lendingService.findLendingByBookId(bookId);
+        if (lendings.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(lendings);
+        }
+    }
 }
