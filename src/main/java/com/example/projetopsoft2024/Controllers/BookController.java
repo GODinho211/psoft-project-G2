@@ -74,6 +74,7 @@ public class BookController {
     return bookService.getBooksByGender(genderId);
   }
 
+
   @DeleteMapping("/{bookId}")
   public String deleteBook(@PathVariable long bookId){
     return bookService.deleteBook(bookId);
