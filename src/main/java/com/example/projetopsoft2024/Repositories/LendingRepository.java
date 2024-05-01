@@ -13,4 +13,7 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
 
     @Query("SELECT l FROM Lending l JOIN l.books b WHERE b.isbn = :bookId")
     List<Lending> findLendingByBookId(Long bookId);
+
+    @Query("SELECT l FROM Lending l JOIN l.user lu WHERE lu.userId = :userId")
+    List<Lending> findLendingByUserId(Long userId);
 }

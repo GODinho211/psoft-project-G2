@@ -63,4 +63,8 @@ public class LendingService {
 
         return lendingRepository.findLendingByBookId(bookId);
     }
+
+    public List<Lending> findLendingByUserId(Long userId) {
+        return lendingRepository.findLendingByUserId(userId);
+    }
 }
