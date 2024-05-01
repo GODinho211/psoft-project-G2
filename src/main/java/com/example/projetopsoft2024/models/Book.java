@@ -36,7 +36,7 @@ public class Book {
     private List<Gender> gender= new ArrayList<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "book_gender",
             joinColumns = @JoinColumn(name = "book_id"),
