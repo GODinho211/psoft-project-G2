@@ -4,9 +4,9 @@ import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class BookService {
@@ -14,16 +14,12 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-
     public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.findAll().forEach(n -> books.add(n));
-        return books;
+       return bookRepository.findAll();
     }
 
-    public String createBook(Book book) {
-        bookRepository.save(book);
-        return "Book created";
+    public Book createBook(Book book) {
+        return bookRepository.save(book);
     }
 
     public String deleteBook(long bookId) {
@@ -31,3 +27,4 @@ public class BookService {
         return "Book deleted";
     }
 }
+
