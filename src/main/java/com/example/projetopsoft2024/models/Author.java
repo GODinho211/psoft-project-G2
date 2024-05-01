@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,14 +16,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name="author")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_author")
     private Long idAuthor;
 
-    @Version
-    private long version;
-    @Column(name="author_name",nullable = false)
+    @Column(name="author_name")
     private String name;
 
     @Column(name = "bio",columnDefinition = "TEXT",length = 4096)
