@@ -79,6 +79,7 @@ public class BookController {
     return bookService.deleteBook(bookId);
   }
 
+  @Transactional
   @GetMapping("/{bookId}")
   public ResponseEntity<?> getBookById(@PathVariable long bookId){
     Optional<Book> book = bookService.getBookById(bookId);
