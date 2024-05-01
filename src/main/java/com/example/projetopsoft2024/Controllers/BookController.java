@@ -29,10 +29,21 @@ public class BookController {
     return bookService.getAllBooks();
   }
 
+  //@PostMapping()
+  //public Book createBooks(@RequestBody Book book){
+  //  return bookService.createBook(book);
+  //}
+
   @PostMapping()
-  public Book createBooks(@RequestBody Book book){
-    return bookService.createBook(book);
+  public ResponseEntity<String> createBooks(@RequestBody Book book){
+    Book createdBooks = bookService.createBook(book);
+    if (createdBooks != null) {
+      return new ResponseEntity<>("Book created successfully", HttpStatus.CREATED);
+    } else {
+      return new ResponseEntity<>("Failed to create book", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
+
 
 
   @DeleteMapping("/{bookId}")
