@@ -5,6 +5,7 @@ import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +24,23 @@ public class GenderService {
     public List<Gender> getAllGenders() {
     return genderRepository.findAll();
     }
+
+    @Transactional
+    public Gender updateGender(long genderId, Gender updatedGender) {
+        Optional<Gender> genderOptional = genderRepository.findById(genderId);
+        if (!genderOptional.isPresent()) {
+            throw new RuntimeException("Gender not found with id " + genderId);
+        }
+
+        Gender existingGender = genderOptional.get();
+        existingGender.setDescription(updatedGender.getDescription());
+        genderRepository.save(existingGender);
+        return existingGender;
+    }
+
+    public void deleteGender(long genderId) {
+        genderRepository.deleteById(genderId);
+    }
+
 }
 
