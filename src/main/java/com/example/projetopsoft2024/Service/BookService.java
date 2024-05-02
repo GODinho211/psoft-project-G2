@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -26,8 +26,8 @@ public class BookService {
     public List<Book> getAllBooks() {
         //List<Book> books = new ArrayList<Book>();
         //bookRepository.findAll().forEach(n -> {
-          //  n.getGender();//.size(); // force initialization of the gender collection
-          //  books.add(n);
+        //  n.getGender();//.size(); // force initialization of the gender collection
+        //  books.add(n);
         //});
         //return books;
         return bookRepository.findAllWithGender();
@@ -45,18 +45,18 @@ public class BookService {
 
     //@Transactional
     //public Book updateBook(long bookId, Book updatedBook) {
-        //Optional<Book> bookOptional = bookRepository.findById(bookId);
-        //if (!bookOptional.isPresent()) {
-            //throw new RuntimeException("Book not found with id " + bookId);
-        //}
+    //Optional<Book> bookOptional = bookRepository.findById(bookId);
+    //if (!bookOptional.isPresent()) {
+    //throw new RuntimeException("Book not found with id " + bookId);
+    //}
 
-        //Book existingBook = bookOptional.get();
-        //existingBook.setTitle(updatedBook.getTitle());
-        //existingBook.setDescription(updatedBook.getDescription());
-        //existingBook.setGender(updatedBook.getGender());
-        //existingBook.setAuthor(updatedBook.getAuthor());
-        //bookRepository.save(existingBook);
-        //return existingBook;
+    //Book existingBook = bookOptional.get();
+    //existingBook.setTitle(updatedBook.getTitle());
+    //existingBook.setDescription(updatedBook.getDescription());
+    //existingBook.setGender(updatedBook.getGender());
+    //existingBook.setAuthor(updatedBook.getAuthor());
+    //bookRepository.save(existingBook);
+    //return existingBook;
     //}
 
     @Transactional
@@ -100,4 +100,3 @@ public class BookService {
         return bookRepository.findByGender(gender);
     }
 }
-

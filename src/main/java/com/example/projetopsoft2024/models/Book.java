@@ -27,13 +27,13 @@ public class Book {
     @Column(name = "book_description", nullable = true, unique = false, updatable = true)
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "book_gender",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "gender_id")
-    )
-    private List<Gender> gender= new ArrayList<>();
+    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinTable(
+    //        name = "book_gender",
+    //        joinColumns = @JoinColumn(name = "book_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "gender_id")
+    //)
+    //private List<Gender> gender= new ArrayList<>();
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
