@@ -23,9 +23,19 @@ public class GenderController {
 
     // existing endpoints...
 
+    //@PostMapping()
+    //public Gender createGender(@RequestBody Gender gender){
+    //    return genderService.createGender(gender);
+    //}
+
     @PostMapping()
-    public Gender createGender(@RequestBody Gender gender){
-        return genderService.createGender(gender);
+    public ResponseEntity<String> createGender(@RequestBody Gender gender){
+        Gender createdGender = genderService.createGender(gender);
+        if (createdGender != null) {
+            return new ResponseEntity<>("Gender created successfully", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to create gender", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping()
