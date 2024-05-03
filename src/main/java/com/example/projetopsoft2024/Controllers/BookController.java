@@ -50,10 +50,7 @@ public class BookController {
   }
 
 
-  @DeleteMapping("/{bookId}")
-  public String deleteBook(@PathVariable long bookId){
-    return bookService.deleteBook(bookId);
-  }
+
 
   @Transactional
   @GetMapping("/{bookId}")
