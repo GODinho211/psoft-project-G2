@@ -1,0 +1,29 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title search Readers by name
+
+actor "Librarian" as User
+
+participant ":UserController" as Ctrl
+participant ":UserService" as srv
+participant ":UserRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: search Readers by name\n(GET/users/{name})
+Ctrl -> srv: UserData(findByName)
+
+srv -> repo: findByName
+repo --> srv: return  with the name list 
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml

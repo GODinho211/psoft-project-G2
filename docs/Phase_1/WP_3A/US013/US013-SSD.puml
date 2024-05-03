@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title System Sequence Diagram US010 user’s\n detail given its reader number
+
+
+autoactivate on
+autonumber
+
+actor "Librarian" as Administrator
+participant ":System" as System
+
+activate Administrator
+
+Administrator -> System: Request to list a user’s detail by reader number
+
+System --> Administrator: shows all user’s details
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title user’s detail given its reader number
+
+actor "Librarian" as User
+
+participant ":UserController" as Ctrl
+participant ":UserService" as srv
+participant ":UserRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: Request user’s detail given its reader number\n(GET/users/{id})
+Ctrl -> srv: UserData(findById)
+
+srv -> repo: findReaderNumber
+repo --> srv: return  with the id
+srv -> repo:  list user’s detail
+repo --> srv:  user’s detail given its reader number
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml
