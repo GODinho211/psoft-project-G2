@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Getter
 @Setter
 @Entity
@@ -28,26 +27,16 @@ public class Book {
     @Column(name = "book_description", nullable = true, unique = false, updatable = true)
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "book_gender",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "gender_id")
-    )
-    private List<Gender> gender= new ArrayList<>();
+    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinTable(
+    //        name = "book_gender",
+    //        joinColumns = @JoinColumn(name = "book_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "gender_id")
+    //)
+    //private List<Gender> gender= new ArrayList<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "book_gender",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "gender_id")
-    )
-    private List<Gender> gender= new ArrayList<>();
-
-
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_gender",
             joinColumns = @JoinColumn(name = "book_id"),

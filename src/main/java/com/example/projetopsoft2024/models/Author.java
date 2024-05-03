@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,18 +16,44 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name="author")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_author")
     private Long idAuthor;
+
     @Column(name="author_name")
     private String name;
 
-    @Column(name = "data_nascimento")
-    private LocalDate dataNascimento;
+    @Column(name = "bio",columnDefinition = "TEXT",length = 4096)
+    private String bio;
 
-    public Author(String name, LocalDate dataNascimento) {
+    public Author(String name, String bio) {
         this.name = name;
-        this.dataNascimento = dataNascimento;
+        this.bio = bio;
+    }
+    public String getName() {
+        return name;
+    }
+    public Long getVersion() {
+        return version;
+    }
+    public String getBio(){
+        return bio;
+    }
+    private void setName(final String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("'name' is a mandatory attribute of Author");
+        }
+        if (!name.matches("^[a-zA-Z0-9_-]+$")) {
+            throw new IllegalArgumentException("Invalid chracter(s) in 'name', i.e., only alphanumeric are valid");
+        }
+        this.name = name;
+    }
+    public void setBio(final String bio) {
+        this.bio = bio;
+    }
+    public void updateName(String newName) {
+        this.name = newName;
     }
 }

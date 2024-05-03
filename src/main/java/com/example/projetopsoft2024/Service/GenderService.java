@@ -38,9 +38,6 @@ public class GenderService {
         return existingGender;
     }
 
-    public void deleteGender(long genderId) {
-        genderRepository.deleteById(genderId);
-    }
 
 }
 

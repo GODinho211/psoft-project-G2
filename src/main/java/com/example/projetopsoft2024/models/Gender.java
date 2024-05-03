@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class Gender {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column( name = "gender_id")
     private Long genderId;
-
+    //@Column( name = "book_description")
     @Column( name = "gender_description",nullable = false, unique = false, updatable = false)
     private String description;
 
@@ -32,6 +34,16 @@ public class Gender {
 
     public Gender(String description) {
         this.description= description;
+    }
+
+
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
