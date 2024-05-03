@@ -22,7 +22,9 @@ public class Author {
     @Column(name="id_author")
     private Long idAuthor;
 
-    @Column(name="author_name")
+    @Version
+    private long version;
+    @Column(name="author_name",nullable = false)
     private String name;
 
     @Column(name = "bio",columnDefinition = "TEXT",length = 4096)
