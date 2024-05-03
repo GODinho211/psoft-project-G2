@@ -1,12 +1,9 @@
 package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.AuthorRepository;
-import com.example.projetopsoft2024.exceptions.ConflictException;
 import com.example.projetopsoft2024.models.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ public class AuthorService {
 
     public String deleteAuthor(long authorId) {
         authorRepository.deleteById(authorId);
-        return "User deleted";
+        return "Author deleted";
 
     }
     public Optional<Author> getAuthorById(Long id) {
