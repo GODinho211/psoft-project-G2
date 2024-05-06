@@ -24,10 +24,10 @@ public class Author {
 
     @Version
     private long version;
-    @Column(name="author_name",nullable = false)
+    @Column(name="author_name",nullable = false,length = 150)
     private String name;
 
-    @Column(name = "bio",columnDefinition = "TEXT",length = 4096)
+    @Column(name = "bio",columnDefinition = "TEXT",length = 4096,nullable = false)
     private String bio;
 
     public Author(String name, String bio) {

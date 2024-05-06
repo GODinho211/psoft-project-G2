@@ -20,9 +20,9 @@ public class AuthorService {
         return authors;
     }
 
-    public String createAuthor(Author author) {
-        authorRepository.save(author);
-        return "Author created!";
+    public Author createAuthor(Author author) {
+        return authorRepository.save(author);
+        //return "Author created!";
     }
 
     public String deleteAuthor(long authorId) {
