@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title System Sequence Diagram US009 user’s\n detail given its ISBN
+
+
+autoactivate on
+autonumber
+
+actor "Librarian / Reader" as Administrator
+participant ":System" as System
+
+activate Administrator
+
+Administrator -> System: Request to list a book’s detail by ISBN
+
+System --> Administrator: shows all user’s details
+
+@enduml
