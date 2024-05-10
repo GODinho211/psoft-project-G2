@@ -1,0 +1,31 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title book’s detail given its ISBN
+
+actor "Librarian / Reader" as User
+
+participant ":BookController" as Ctrl
+participant ":BookService" as srv
+participant ":BookRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: Request book’s detail given its ISBN(GET/books/{id})
+Ctrl -> srv: UserData(findById)
+
+srv -> repo: find ISBN
+repo --> srv: return  with the id
+srv -> repo:  list book’s detail
+repo --> srv:  book’s detail given its ISBN
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml

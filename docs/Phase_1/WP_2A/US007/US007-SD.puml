@@ -1,0 +1,28 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title register book
+
+actor "Librarian" as User
+
+participant ":BookController" as Ctrl
+participant ":BookService" as srv
+participant ":BookRepository" as repo
+
+activate User
+    
+
+
+User -> Ctrl: Request to register as a book\n(POST/books)
+Ctrl -> srv: create book
+srv -> repo: save
+repo --> srv: saved
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml
