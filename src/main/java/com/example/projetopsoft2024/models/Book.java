@@ -69,4 +69,13 @@ public class Book {
         this.description = description;
     }
 
+    public void setIsbn(long isbn) {
+        String isbnStr = Long.toString(isbn);
+        if (!isbnStr.matches("^(?:[0-9]{9}X|[0-9]{10})$") && !isbnStr.matches("^[0-9]{13}$")) {
+            throw new IllegalArgumentException("Invalid ISBN format");
+        }
+        this.isbn = isbn;
+    }
+
+
 }
