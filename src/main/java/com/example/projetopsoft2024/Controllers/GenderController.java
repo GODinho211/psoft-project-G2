@@ -73,5 +73,10 @@ public class GenderController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Gender>> findByDescription(@RequestParam String description) {
+        List<Gender> genders = genderService.findByDescription(description);
+        return ResponseEntity.ok(genders);
+    }
 
 }

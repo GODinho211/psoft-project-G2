@@ -14,4 +14,7 @@ public interface GenderRepository extends JpaRepository<Gender,Long> {
 
     @Query("SELECT f from Gender f where f.genderId = :genderId")
     List<Gender> findByGenderId(@Param("genderId") String genderId);
+
+    List<Gender> findByDescription(String description);
+
 }

@@ -57,5 +57,9 @@ public class GenderService {
         }
     }
 
+    public List<Gender> findByDescription(String description) {
+        return genderRepository.findByDescription(description);
+    }
+
 }
 
