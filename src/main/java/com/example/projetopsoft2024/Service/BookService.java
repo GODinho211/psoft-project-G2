@@ -22,6 +22,10 @@ public class BookService {
     @Autowired
     private GenderRepository GenderRepository;
 
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
+
     //@Transactional
     public List<Book> getAllBooks() {
         //List<Book> books = new ArrayList<Book>();
@@ -69,24 +73,20 @@ public class BookService {
         Book existingBook = bookOptional.get();
         existingBook.setTitle(updatedBook.getTitle());
         existingBook.setDescription(updatedBook.getDescription());
-
-        // Fetch the Gender objects from the GenderRepository using the provided genderId's
-        List<Gender> updatedGenders = new ArrayList<>();
-        for (Gender gender : updatedBook.getGender()) {
-            Gender updatedGender = GenderRepository.findById(gender.getGenderId())
-                    .orElseThrow(() -> new RuntimeException("Gender not found with id " + gender.getGenderId()));
-            updatedGenders.add(updatedGender);
-        }
-
-        existingBook.setGender(updatedGenders); // update the gender field
+        existingBook.setGender(updatedBook.getGender());
+        existingBook.setAuthor(updatedBook.getAuthor());
         bookRepository.save(existingBook);
         return existingBook;
     }
 
     public Book createBook(Book book) {
+        Optional<Book> existingBook = bookRepository.findByIsbn(book.getIsbn());
+        if (existingBook.isPresent()) {
+            throw new IllegalArgumentException("A book with this ISBN already exists");
+        }
         return bookRepository.save(book);
-        //return "Book created";
     }
+
 
     public String deleteBook(long bookId) {
         bookRepository.deleteById(bookId);
@@ -99,4 +99,9 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Gender not found with id " + genderId));
         return bookRepository.findByGender(gender);
     }
+
+    public List<Book> findByGenderDescription(String description) {
+        return bookRepository.findByGenderDescription(description);
+    }
+
 }

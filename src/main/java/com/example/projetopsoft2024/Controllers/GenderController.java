@@ -43,24 +43,38 @@ public class GenderController {
         return genderService.getAllGenders();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Gender> updateGender(@PathVariable long id, @RequestBody Gender gender) {
-        try {
-            Gender updatedGender = genderService.updateGender(id, gender);
-            return new ResponseEntity<>(updatedGender, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    //@PutMapping("/{id}")
+    //public ResponseEntity<Gender> updateGender(@PathVariable long id, @RequestBody Gender gender) {
+    //    try {
+    //        Gender updatedGender = genderService.updateGender(id, gender);
+    //        return new ResponseEntity<>(updatedGender, HttpStatus.OK);
+    //    } catch (RuntimeException e) {
+    //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //    }
+    //}
+
+    //@PutMapping("/{id}")
+    //public ResponseEntity<Gender> updateGender(@PathVariable Long id, @RequestBody Gender updatedGender) {
+    //    try {
+    //        Gender gender = genderService.updateGender(id, updatedGender);
+    //        return new ResponseEntity<>(gender, HttpStatus.OK);
+    //    } catch (RuntimeException e) {
+    //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //    }
+    //}
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGender(@PathVariable long id) {
-        try {
-            genderService.deleteGender(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteGender(@PathVariable Long id) {
+        String response = genderService.deleteGender(id);
+        if (response.equals("Gender deleted")) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
-
+    @GetMapping("/search")
+    public ResponseEntity<List<Gender>> findByDescription(@RequestParam String description) {
+        List<Gender> genders = genderService.findByDescription(description);
+        return ResponseEntity.ok(genders);
+    }
 }

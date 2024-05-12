@@ -1,0 +1,31 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title update an book data
+
+actor "Librarian" as User
+
+participant ":BookController" as Ctrl
+participant ":BookService" as srv
+
+participant ":BookRepository" as repo
+
+activate User
+
+
+
+User -> Ctrl: Request to update bookdata(Put/books/{id})
+Ctrl -> srv: changeBookData(partialUpdate)
+srv -> repo: findById
+repo --> srv: return  with the id
+srv -> repo:  save
+repo --> srv:  book update data saved
+srv --> Ctrl: ok
+Ctrl --> User: ok
+
+@enduml
