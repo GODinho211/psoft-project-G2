@@ -99,4 +99,9 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Gender not found with id " + genderId));
         return bookRepository.findByGender(gender);
     }
+
+    public List<Book> findByGenderDescription(String description) {
+        return bookRepository.findByGenderDescription(description);
+    }
+
 }

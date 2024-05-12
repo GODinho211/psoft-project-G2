@@ -46,5 +46,4 @@ public class Gender {
         this.description = description;
     }
 
-
 }

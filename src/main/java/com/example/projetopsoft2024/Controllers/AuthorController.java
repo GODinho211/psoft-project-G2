@@ -26,9 +26,15 @@ public class AuthorController {
         return authorService.getAuthors();
     }
     @PostMapping()
-    public String createAuthor(@RequestBody Author author ){
-        return authorService.createAuthor(author);
+    public ResponseEntity<String> createAuthor(@RequestBody Author author ){
+        Author createdAuthor = authorService.createAuthor(author);
+        if (createdAuthor != null) {
+            return new ResponseEntity<>("Author created successfully", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to create Author", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @DeleteMapping("/{authorId}")
     public String deleteAuthor(@PathVariable long authorId){

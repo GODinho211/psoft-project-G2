@@ -77,4 +77,10 @@ public class BookController {
     return bookService.getBooksByGender(genderId);
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<List<Book>> findByGenderDescription(@RequestParam String description) {
+    List<Book> books = bookService.findByGenderDescription(description);
+    return ResponseEntity.ok(books);
+  }
+
 }

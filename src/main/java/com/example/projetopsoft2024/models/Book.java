@@ -69,4 +69,19 @@ public class Book {
         this.description = description;
     }
 
+    public void setIsbn(long isbn) {
+        String isbnStr = Long.toString(isbn);
+        if (!isbnStr.matches("^(?:[0-9]{9}X|[0-9]{10})$") && !isbnStr.matches("^[0-9]{13}$")) {
+            throw new IllegalArgumentException("Invalid ISBN format");
+        }
+        this.isbn = isbn;
+    }
+
+    public void setDescription(String description) {
+        if (description.length() > 4096) {
+            throw new IllegalArgumentException("Description cannot exceed 4096 characters");
+        }
+        this.description = description;
+    }
+
 }

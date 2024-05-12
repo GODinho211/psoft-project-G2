@@ -56,6 +56,9 @@ public class GenderService {
             return "Gender not found";
         }
     }
-
+  
+    public List<Gender> findByDescription(String description) {
+        return genderRepository.findByDescription(description);
+    }
 }
 
