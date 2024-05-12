@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import java.util.List;
 import java.util.Optional;
@@ -97,10 +99,19 @@ public class BookController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with id " + bookId + " not found");
     }
   }
-  @PutMapping("/{id}")
-  public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book) {
+
+  @PutMapping("/{bookId}")
+  public ResponseEntity<Book> updateBook(@PathVariable Long bookId, @RequestBody Book bookDetails) {
     try {
-      Book updatedBook = bookService.updateBook(id, book);
+      Book existingBook = bookService.getBookById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+      existingBook.setTitle(bookDetails.getTitle());
+      existingBook.setDescription(bookDetails.getDescription());
+      // Merge existing and new genders
+      List<Gender> mergedGenders = Stream.concat(existingBook.getGender().stream(), bookDetails.getGender().stream())
+              .distinct()
+              .collect(Collectors.toList());
+      existingBook.setGender(mergedGenders);
+      Book updatedBook = bookService.saveBook(existingBook);
       return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     } catch (RuntimeException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
