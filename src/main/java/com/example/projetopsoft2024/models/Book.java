@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.models;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -84,4 +85,12 @@ public class Book {
         this.description = description;
     }
 
+    public void setTitle(String title) {
+        if (title.length() > 128) {
+            throw new IllegalArgumentException("Title cannot exceed 128 characters");
+        }
+        this.title = title;
+
+    }
 }
+
