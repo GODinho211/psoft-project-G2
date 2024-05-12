@@ -20,13 +20,16 @@ public class LendingController {
 
     @PostMapping("/{bookId}lend{userId}")
     public ResponseEntity<String> lendBooks(@PathVariable Long userId, @PathVariable Long bookId) {
-        // Chama a função correspondente no serviço para realizar o empréstimo
-        boolean success = lendingService.lendBooks(userId, bookId);
 
-        if (success) {
-            return ResponseEntity.ok("Livro emprestado com sucesso.");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao emprestar o livro.");
+        try {
+            boolean success = lendingService.lendBooks(userId, bookId);
+            if (success) {
+                return ResponseEntity.ok("Livro emprestado com sucesso.");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao emprestar o livro.");
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -52,6 +55,15 @@ public class LendingController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(lendings);
+        }
+    }
+    @PostMapping("/returnBook")
+    public ResponseEntity<String> returnBook(@RequestParam Long lendingId) {
+        try {
+            lendingService.returnBook(lendingId);
+            return ResponseEntity.ok("Livro devolvido com sucesso.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

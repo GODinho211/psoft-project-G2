@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -34,15 +34,22 @@ public class Lending {
     private List<Book> books;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "return_date", nullable = true)
-    private Date returnDate;
+    private LocalDate returnDate = null;
 
-    public Lending(User user, List<Book> books, Date startDate) {
+    private boolean fine = false;
+
+    public Lending(User user, List<Book> books, LocalDate startDate) {
         this.user = user;
         this.books = books;
         this.startDate = startDate;
+        this.returnDate = startDate.plusDays(15); // Define a data de retorno como 15 dias após a data de início
+    }
+    @PrePersist
+    public void setDates() {
+        this.startDate = LocalDate.now();
     }
 
 }

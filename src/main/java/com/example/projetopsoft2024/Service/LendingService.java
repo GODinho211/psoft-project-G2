@@ -10,8 +10,8 @@ import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,7 +29,7 @@ public class LendingService {
     }
 
     public boolean lendBooks(Long userId, Long bookId) {
-        // add if user not exist e book
+
         User user = userRepository.findById(userId).orElse(null);
         Book book = bookRepository.findById(bookId).orElse(null);
 
@@ -37,34 +37,61 @@ public class LendingService {
             return false;
         }
 
+        // Verifica se o usuário possui empréstimos com multas pendentes
+        List<Lending> userLendings = lendingRepository.findLendingByUserIdAndFineIsTrue(userId);
+        if (!userLendings.isEmpty()) {
+            throw new RuntimeException("Usuário possui multas pendentes e não pode fazer novos empréstimos!");
+        }
+        //verifica se user tem mais de 3 emprestimos.
+        List<Lending> userLendingsMax = lendingRepository.findLendingByUserId(userId);
+        if (userLendingsMax.size() >= 3) {
+            throw new RuntimeException("Usuário possui o máximo de empréstimos possíveis (3)!");
+        }
+
+        List<Lending> bookLendings = lendingRepository.findLendingByBookIdAndReturnDateIsNull(bookId);
+        if (!bookLendings.isEmpty()) {
+            throw new RuntimeException("O livro não está disponível no momento!");
+        }
 
         Lending lending = new Lending();
         lending.setUser(user);
-        lending.setStartDate(new Date());
 
         if (lending.getBooks() == null) {
             lending.setBooks(new ArrayList<>());
         }
 
-
         lending.getBooks().add(book);
-
-
         lendingRepository.save(lending);
 
         return true;
     }
-
     public List<Lending> getAll() {
         return lendingRepository.findAll();
     }
 
     public List<Lending> findLendingByBookId(Long bookId) {
-
         return lendingRepository.findLendingByBookId(bookId);
     }
 
     public List<Lending> findLendingByUserId(Long userId) {
         return lendingRepository.findLendingByUserId(userId);
     }
+
+
+    public void returnBook(Long lendingId) {
+        // Encontrar o empréstimo pelo ID
+        Lending lending = lendingRepository.findById(lendingId)
+                .orElseThrow(() -> new IllegalArgumentException("Empréstimo não encontrado!"));
+
+        // Verificar se a data atual é superior à data de retorno
+        if (LocalDate.now().isAfter(lending.getReturnDate())) {
+            lending.setFine(true); // Define 'fine' como true se a data atual for superior à data de retorno
+        } else {
+            lending.setReturnDate(null); // Define a data de retorno como null se a data atual não for superior à data de retorno
+        }
+
+        // Atualizar o empréstimo no banco de dados
+        lendingRepository.save(lending);
+    }
+
 }
