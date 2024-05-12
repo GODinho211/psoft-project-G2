@@ -53,9 +53,9 @@ public class Book {
 
 
 
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "autor_id")
-    //private Author author;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "autor_id")
+    private Author author;
 
  //   public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
  //       this.title = title;
