@@ -64,8 +64,8 @@ public class Book {
  //       this.author = authorOfBook;
  //   }
 
-    public Book(long isbn, String title, String description) {
-        this.isbn = isbn;
+    public Book( String title, String description) {
+        //this.isbn = isbn;
         this.title = title;
         this.description = description;
     }
@@ -73,7 +73,7 @@ public class Book {
     public void setIsbn(long isbn) {
         String isbnStr = Long.toString(isbn);
         if (!isbnStr.matches("^(?:[0-9]{9}X|[0-9]{10})$") && !isbnStr.matches("^[0-9]{13}$")) {
-            throw new IllegalArgumentException("Invalid ISBN format");
+            throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
         }
         this.isbn = isbn;
     }

@@ -69,9 +69,10 @@ public class BookController {
       return new ResponseEntity<>("Gender not found", HttpStatus.NOT_FOUND);
     }
 
-    Book book = new Book(isbn, title, description);
+    Book book = new Book(title, description);
     book.setAuthor(author);
     book.setGender(genders);
+    book.setIsbn(isbn);
 
     Book createdBook = bookService.createBook(book);
     if (createdBook != null) {
