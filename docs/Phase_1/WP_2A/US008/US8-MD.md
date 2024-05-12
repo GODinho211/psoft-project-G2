@@ -16,9 +16,6 @@ As librarian I want to update a book
 > à execção do ISBN todos os dados sao alteraveis
 
 
->**Question:**
-> 
-
 ### 1.3. Acceptance Criteria
 
 - AC008:
