@@ -80,9 +80,13 @@ public class BookService {
     }
 
     public Book createBook(Book book) {
+        Optional<Book> existingBook = bookRepository.findByIsbn(book.getIsbn());
+        if (existingBook.isPresent()) {
+            throw new IllegalArgumentException("A book with this ISBN already exists");
+        }
         return bookRepository.save(book);
-        //return "Book created";
     }
+
 
     public String deleteBook(long bookId) {
         bookRepository.deleteById(bookId);

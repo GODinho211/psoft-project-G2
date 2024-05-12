@@ -15,6 +15,9 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book,Long> {
 
+    Optional<Book> findByIsbn(long isbn);
+
+
     @Query("SELECT f from Book f where f.title = :title")
         List<Book> findByTitle(@Param("title") String title);
 
@@ -25,6 +28,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 
     @Query("SELECT b FROM Book b JOIN b.gender g WHERE lower(g.description) LIKE lower(concat('%', :description, '%'))")
     List<Book> findByGenderDescription(@Param("description") String description);
+
 
 
 }
