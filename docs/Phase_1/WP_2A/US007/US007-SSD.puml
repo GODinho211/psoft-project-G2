@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title System Sequence Diagram US007 register as a book
+
+autoactivate on
+autonumber
+
+actor "Librarian" as Librarian
+participant ":System" as System
+
+activate Librarian
+
+Librarian -> System:  Request to register as a book (ISBN, title, authorId, genderId, description)
+System --> Librarian: book registed
+
+@enduml

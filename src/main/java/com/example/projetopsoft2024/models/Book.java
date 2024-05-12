@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.models;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -52,9 +53,9 @@ public class Book {
 
 
 
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "autor_id")
-    //private Author author;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "autor_id")
+    private Author author;
 
  //   public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
  //       this.title = title;
@@ -63,10 +64,33 @@ public class Book {
  //       this.author = authorOfBook;
  //   }
 
-    public Book(long isbn, String title, String description) {
-        this.isbn = isbn;
+    public Book( String title, String description) {
+        //this.isbn = isbn;
         this.title = title;
         this.description = description;
     }
 
+    public void setIsbn(long isbn) {
+        String isbnStr = Long.toString(isbn);
+        if (!isbnStr.matches("^(?:[0-9]{9}X|[0-9]{10})$") && !isbnStr.matches("^[0-9]{13}$")) {
+            throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
+        }
+        this.isbn = isbn;
+    }
+
+    public void setDescription(String description) {
+        if (description.length() > 4096) {
+            throw new IllegalArgumentException("Description cannot exceed 4096 characters");
+        }
+        this.description = description;
+    }
+
+    public void setTitle(String title) {
+        if (title.length() > 128) {
+            throw new IllegalArgumentException("Title cannot exceed 128 characters");
+        }
+        this.title = title;
+
+    }
 }
+

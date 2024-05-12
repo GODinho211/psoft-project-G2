@@ -7,9 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import java.util.List;
 import java.util.Optional;
+
+import java.util.Map;
+import com.example.projetopsoft2024.models.Author;
+import com.example.projetopsoft2024.Service.AuthorService;
+import com.example.projetopsoft2024.Repositories.GenderRepository;
+import com.example.projetopsoft2024.models.Gender;
+
+
 
 @RestController
 @RequestMapping("api/books")
@@ -17,6 +27,13 @@ public class BookController {
 
   @Autowired
   private BookService bookService;
+
+  @Autowired
+  private AuthorService authorService;
+
+  @Autowired
+  private GenderRepository genderRepository;
+
 
   public BookController(BookService bookService) {
     this.bookService = bookService;
@@ -35,9 +52,30 @@ public class BookController {
   //}
 
   @PostMapping()
-  public ResponseEntity<String> createBooks(@RequestBody Book book){
-    Book createdBooks = bookService.createBook(book);
-    if (createdBooks != null) {
+  public ResponseEntity<String> createBooks(@RequestBody Map<String, Object> payload){
+    long isbn = Long.parseLong(payload.get("isbn").toString());
+    String title = payload.get("title").toString();
+    String description = payload.get("description").toString();
+    long authorId = Long.parseLong(payload.get("authorId").toString());
+    String genderId = payload.get("genderId").toString();
+
+    Author author = authorService.getAuthorById(authorId).orElse(null);
+    if (author == null) {
+      return new ResponseEntity<>("Author not found", HttpStatus.NOT_FOUND);
+    }
+
+    List<Gender> genders = genderRepository.findByGenderId(genderId);
+    if (genders.isEmpty()) {
+      return new ResponseEntity<>("Gender not found", HttpStatus.NOT_FOUND);
+    }
+
+    Book book = new Book(title, description);
+    book.setAuthor(author);
+    book.setGender(genders);
+    book.setIsbn(isbn);
+
+    Book createdBook = bookService.createBook(book);
+    if (createdBook != null) {
       return new ResponseEntity<>("Book created successfully", HttpStatus.CREATED);
     } else {
       return new ResponseEntity<>("Failed to create book", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,10 +100,19 @@ public class BookController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book with id " + bookId + " not found");
     }
   }
-  @PutMapping("/{id}")
-  public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book) {
+
+  @PutMapping("/{bookId}")
+  public ResponseEntity<Book> updateBook(@PathVariable Long bookId, @RequestBody Book bookDetails) {
     try {
-      Book updatedBook = bookService.updateBook(id, book);
+      Book existingBook = bookService.getBookById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+      existingBook.setTitle(bookDetails.getTitle());
+      existingBook.setDescription(bookDetails.getDescription());
+      // Merge existing and new genders
+      List<Gender> mergedGenders = Stream.concat(existingBook.getGender().stream(), bookDetails.getGender().stream())
+              .distinct()
+              .collect(Collectors.toList());
+      existingBook.setGender(mergedGenders);
+      Book updatedBook = bookService.saveBook(existingBook);
       return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     } catch (RuntimeException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,6 +122,12 @@ public class BookController {
   @GetMapping("/gender/{genderId}")
   public List<Book> getBooksByGender(@PathVariable Long genderId) {
     return bookService.getBooksByGender(genderId);
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<List<Book>> findByGenderDescription(@RequestParam String description) {
+    List<Book> books = bookService.findByGenderDescription(description);
+    return ResponseEntity.ok(books);
   }
 
 }
