@@ -2,6 +2,8 @@ package com.example.projetopsoft2024.Controllers;
 
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -12,6 +14,7 @@ import com.example.projetopsoft2024.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "USer", description = "Endpoints for managing users.")
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -20,12 +23,13 @@ public class UserController {
     @Autowired
     private UserService userservice;
 
-
+    @Operation(summary = "Get all users")
    @GetMapping(value = "/all")
     public List<User> getUsers() {
         return userservice.getAllUsers();
     }
 
+    @Operation(summary = "Get user by id ")
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         Optional<User> user = userservice.getUserById(id);
@@ -35,6 +39,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + id + " not found");
         }
     }
+
+    @Operation(summary = "Get user by name")
     @GetMapping("/name/{name}")
     public ResponseEntity<?> getUsersByName(@PathVariable String name) {
         List<User> users = userservice.findByName(name);
@@ -45,6 +51,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "create user")
     @PostMapping()
     public ResponseEntity<?> createUsers(@RequestBody User user) {
         try {

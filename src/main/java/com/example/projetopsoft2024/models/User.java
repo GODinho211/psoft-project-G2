@@ -1,7 +1,7 @@
 package com.example.projetopsoft2024.models;
-//import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.Date;
 
 
-//@Schema(description = "User")
+@Schema(description = "User")
 @Getter
 @Setter
 @Entity
@@ -35,7 +35,6 @@ public class User {
 
     @Column(name = "phonenumber", nullable = false)
     private Long phonenumber;
-
 
 
     @Column(name = "readernumber", nullable = true)
