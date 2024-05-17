@@ -21,9 +21,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long readernumber;
 
-    @Column(name = "name", nullable = false, unique = false, updatable = false)
+    @Column(name = "name", nullable = false, unique = false, updatable = true)
     private String name;
 
     @Email(message = "O email deve estar em um formato válido")
@@ -36,20 +36,14 @@ public class User {
     @Column(name = "phonenumber", nullable = false)
     private Long phonenumber;
 
-
-    @Column(name = "readernumber", nullable = true)
-    private Long readernumber;
-
-
     @Column(name = "gdprconsent", nullable = true)
     private String gdprconsent;
 
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent) {
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final String gdprconsent) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
         setPhonenumber(phonenumber);
-        setReadernumber(readernumber);
         setGdprconsent(gdprconsent);
 
 

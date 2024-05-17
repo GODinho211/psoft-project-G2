@@ -24,10 +24,10 @@ public class UserDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         List<User> users = Arrays.asList(
-                new User("Alice", "alice@example.com", new Date(), 123456789L, 123456L, "sim"),
-                new User("Bob", "bob@example.com", new Date(), 987654321L, 654321L, "sim"),
-                new User("Charlie", "charlie@example.com", new Date(), 555555555L, 333333L, "sim"),
-                new User("Diana", "diana@example.com", new Date(), 111111111L, 999999L, "sim")
+                new User("Alice", "alice@example.com", new Date(),  123456L, "sim"),
+                new User("Bob", "bob@example.com", new Date(), 654321L, "sim"),
+                new User("Charlie", "charlie@example.com", new Date(), 333333L, "sim"),
+                new User("Diana", "diana@example.com", new Date(), 999999L, "sim")
 
         );
 
