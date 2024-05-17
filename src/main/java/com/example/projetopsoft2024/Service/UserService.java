@@ -68,17 +68,17 @@ public class UserService {
             return false;
         }
 
-    public void replaceUser(Long id , User user) throws Exception {
+    public void replaceUser(Long readernumber , User user) throws Exception {
 
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
-        user.setReadernumber(id);
+        user.setReadernumber(readernumber);
         userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(Long readernumber) {
+        userRepository.deleteById(readernumber);
     }
 
     public Optional<User> getUserByReaderNumber(Long readerNumber) {

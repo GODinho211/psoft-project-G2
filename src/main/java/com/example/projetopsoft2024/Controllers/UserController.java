@@ -65,10 +65,10 @@ public class UserController {
 
 
     @Operation(summary = "Replace user info")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> replaceUser(@PathVariable Long id, @RequestBody User user) {
+    @PutMapping("/{readernumber}")
+    public ResponseEntity<?> replaceUser(@PathVariable Long readernumber, @RequestBody User user) {
         try {
-            userservice.replaceUser(id, user);
+            userservice.replaceUser(readernumber, user);
             return ResponseEntity.ok("User replaced successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error replacing user: " + e.getMessage());
@@ -77,10 +77,10 @@ public class UserController {
 
 
     @Operation(summary = "Delete a user")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/{readernumber}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long readernumber) {
         try {
-            userservice.deleteUser(id);
+            userservice.deleteUser(readernumber);
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user: " + e.getMessage());
