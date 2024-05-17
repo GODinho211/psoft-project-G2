@@ -19,8 +19,8 @@ public class UserService {
         userRepository.findAll().forEach(n -> users.add(n));
         return users;
     }
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserByReadernumber(Long readernumber) {
+        return userRepository.findByReaderNumber(readernumber);
     }
     public List<User> findByName(String name) {
         return userRepository.findByName(name);
@@ -68,27 +68,12 @@ public class UserService {
             return false;
         }
 
-    public void assignedReadnumber(Long id, User userUpdates) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (userUpdates.getReadernumber() != null) {
-                String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-               // user.setReadernumber(userUpdates.getReadernumber());
-                user.setReadernumber(Long.valueOf(year  + userUpdates.getReadernumber()));
-            }
-            userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("User with id " + id + " not found");
-        }
-    }
-
-    public void replaceUser(Long id, User user) throws Exception {
+    public void replaceUser(Long id , User user) throws Exception {
 
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
-        user.setUserId(id);
+        user.setReadernumber(id);
         userRepository.save(user);
     }
 

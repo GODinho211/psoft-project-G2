@@ -14,7 +14,7 @@ import com.example.projetopsoft2024.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "USer", description = "Endpoints for managing users.")
+@Tag(name = "User", description = "Endpoints for managing users.")
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -29,14 +29,14 @@ public class UserController {
         return userservice.getAllUsers();
     }
 
-    @Operation(summary = "Get user by id ")
-    @GetMapping("/id/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<User> user = userservice.getUserById(id);
+    @Operation(summary = "Get user by readernumber ")
+    @GetMapping("/readernumber/{readernumber}")
+    public ResponseEntity<?> getUserByReadernumber(@PathVariable Long readernumber) {
+        Optional<User> user = userservice.getUserByReadernumber(readernumber);
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + id + " not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + readernumber + " not found");
         }
     }
 
@@ -51,7 +51,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "create user")
+    @Operation(summary = "Create a user")
     @PostMapping()
     public ResponseEntity<?> createUsers(@RequestBody User user) {
         try {
@@ -61,16 +61,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
         }
     }
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> assignedReadnumber(@PathVariable Long id, @RequestBody User assignedReadnumber) {
-        try {
-            userservice.assignedReadnumber(id, assignedReadnumber);
-            return ResponseEntity.ok("User Reader Number updated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user: " + e.getMessage());
-        }
-    }
 
+
+
+    @Operation(summary = "Replace user info")
     @PutMapping("/{id}")
     public ResponseEntity<?> replaceUser(@PathVariable Long id, @RequestBody User user) {
         try {
@@ -81,6 +75,8 @@ public class UserController {
         }
     }
 
+
+    @Operation(summary = "Delete a user")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
@@ -91,16 +87,6 @@ public class UserController {
         }
     }
 
-
-    @GetMapping("/readernumber/{readernumber}")
-    public ResponseEntity<?> getUserByReaderNumber(@PathVariable Long readernumber) {
-        Optional<User> user = userservice.getUserByReaderNumber(readernumber);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with reader number " + readernumber + " not found");
-        }
-    }
 
 }
 
