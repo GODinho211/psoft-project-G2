@@ -60,7 +60,12 @@ public class Lending {
     //to calc the fine value, this should be call on return
     public void fineCalc(LocalDate startDate, LocalDate returnDate){
         long daysBetween = ChronoUnit.DAYS.between(startDate, returnDate);
-        this.fine = (daysBetween - MAX_LOAN_PERIOD) * FINE_PER_DAY;
+        if (daysBetween > MAX_LOAN_PERIOD) {
+            this.fine = (daysBetween - MAX_LOAN_PERIOD) * FINE_PER_DAY;
+        } else {
+            this.fine = 0; // Sem multa se o retorno estiver dentro do prazo
+        }
+
    }
 
 

@@ -49,6 +49,10 @@ public class LendingService {
         return lendingRepository.findLendingByUserId(userId);
     }
 
+    public Lending findLendingById(Long lendingId) {
+        return lendingRepository.findById(lendingId).orElseThrow(() -> new RuntimeException("Lending not found"));
+    }
+
 
 
 
