@@ -1,10 +1,14 @@
 package com.example.projetopsoft2024.Service;
 
 
+import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
+import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GenderRepository genderRepository;
 
     public  List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
@@ -55,6 +62,14 @@ public class UserService {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
 
+        List<Gender> managedGenders = user.getGenres().stream()
+                .map(gender -> genderRepository.findById(gender.getGenderId())
+                        .orElseThrow(() -> new RuntimeException("Gender not found: " + gender.getGenderId())))
+                .collect(Collectors.toList());
+
+        // Set the managed genders to the user
+        user.setGenres(managedGenders);
+
         userRepository.save(user);
         return "User created";
         }
@@ -83,6 +98,14 @@ public class UserService {
 
     public Optional<User> getUserByReaderNumber(Long readerNumber) {
         return userRepository.findByReaderNumber(readerNumber);
+    }
+
+    public List<Book> getBooksByUserGenres(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getGenres().stream()
+                .flatMap(genre -> genre.getBooks().stream())
+                .distinct()
+                .toList();
     }
 
 }
