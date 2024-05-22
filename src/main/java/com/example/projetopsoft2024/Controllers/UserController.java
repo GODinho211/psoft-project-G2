@@ -2,6 +2,7 @@ package com.example.projetopsoft2024.Controllers;
 
 
 
+import com.example.projetopsoft2024.models.Book;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,12 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/books/{userId}")
+    public ResponseEntity<List<Book>> getBooksByUserGenres(@PathVariable Long userId) {
+        List<Book> books = userservice.getBooksByUserGenres(userId);
+        return ResponseEntity.ok(books);
     }
 
 

@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Schema(description = "User")
@@ -39,6 +41,15 @@ public class User {
     @Column(name = "gdprconsent", nullable = true)
     private String gdprconsent;
 
+    @Column(name = "list_interess", nullable = true)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_genre",
+            joinColumns = @JoinColumn(name = "reader_id"),
+            inverseJoinColumns = @JoinColumn(name = "gender_id")
+    )
+    private List<Gender> genres = new ArrayList<>();
+
     public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final String gdprconsent) {
         setName(name);
         setEmail(email);
@@ -46,8 +57,9 @@ public class User {
         setPhonenumber(phonenumber);
         setGdprconsent(gdprconsent);
 
-
     }
+
+
 }
 
 
