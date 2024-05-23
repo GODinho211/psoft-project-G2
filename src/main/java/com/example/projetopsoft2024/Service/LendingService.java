@@ -4,9 +4,9 @@ package com.example.projetopsoft2024.Service;
 import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
-import com.example.projetopsoft2024.models.Entitys.Book;
+import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Entitys.Lending;
-import com.example.projetopsoft2024.models.Entitys.User;
+import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

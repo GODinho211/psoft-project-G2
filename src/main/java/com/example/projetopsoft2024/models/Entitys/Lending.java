@@ -1,6 +1,8 @@
 package com.example.projetopsoft2024.models.Entitys;
 
+import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
+import com.example.projetopsoft2024.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
 
 @Getter
 @Setter

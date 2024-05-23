@@ -2,13 +2,15 @@ package com.example.projetopsoft2024.Controllers;
 
 
 import com.example.projetopsoft2024.Service.LendingService;
+import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
 import com.example.projetopsoft2024.models.DTO.ReturnDTO;
-import com.example.projetopsoft2024.models.Entitys.Book;
+
 import com.example.projetopsoft2024.models.Entitys.Lending;
-import com.example.projetopsoft2024.models.Entitys.User;
+
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
 import com.example.projetopsoft2024.models.Requests.ReturnRequest;
+import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,7 @@ public class LendingController {
         User user = lendingService.findUserById(request.getUserId());
         List<Book> books = lendingService.findBooksByIds(request.getBookIds());
 
-        Lending lending = new Lending(user, books, request.getStartDate(), request.getReturnDate());
+        Lending lending = new Lending(user,books, request.getStartDate(), request.getReturnDate());
         lendingService.saveLending(lending);
         return lending.toLendingDTO();
     }

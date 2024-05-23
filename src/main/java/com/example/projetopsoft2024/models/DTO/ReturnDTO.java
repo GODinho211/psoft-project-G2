@@ -1,7 +1,8 @@
 package com.example.projetopsoft2024.models.DTO;
 
-import com.example.projetopsoft2024.models.Entitys.Book;
-import com.example.projetopsoft2024.models.Entitys.User;
+
+import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
