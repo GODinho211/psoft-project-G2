@@ -1,10 +1,14 @@
 package com.example.projetopsoft2024.Service;
 
 
+import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
+import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,13 +18,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GenderRepository genderRepository;
+
     public  List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
         userRepository.findAll().forEach(n -> users.add(n));
         return users;
     }
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserByReadernumber(Long readernumber) {
+        return userRepository.findByReaderNumber(readernumber);
     }
     public List<User> findByName(String name) {
         return userRepository.findByName(name);
@@ -55,6 +62,14 @@ public class UserService {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
 
+        List<Gender> managedGenders = user.getGenres().stream()
+                .map(gender -> genderRepository.findById(gender.getGenderId())
+                        .orElseThrow(() -> new RuntimeException("Gender not found: " + gender.getGenderId())))
+                .collect(Collectors.toList());
+
+        // Set the managed genders to the user
+        user.setGenres(managedGenders);
+
         userRepository.save(user);
         return "User created";
         }
@@ -68,36 +83,29 @@ public class UserService {
             return false;
         }
 
-    public void assignedReadnumber(Long id, User userUpdates) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (userUpdates.getReadernumber() != null) {
-                String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-               // user.setReadernumber(userUpdates.getReadernumber());
-                user.setReadernumber(Long.valueOf(year  + userUpdates.getReadernumber()));
-            }
-            userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("User with id " + id + " not found");
-        }
-    }
-
-    public void replaceUser(Long id, User user) throws Exception {
+    public void replaceUser(Long readernumber , User user) throws Exception {
 
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
-        user.setUserId(id);
+        user.setReadernumber(readernumber);
         userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(Long readernumber) {
+        userRepository.deleteById(readernumber);
     }
 
     public Optional<User> getUserByReaderNumber(Long readerNumber) {
         return userRepository.findByReaderNumber(readerNumber);
+    }
+
+    public List<Book> getBooksByUserGenres(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getGenres().stream()
+                .flatMap(genre -> genre.getBooks().stream())
+                .distinct()
+                .toList();
     }
 
 }
