@@ -4,11 +4,17 @@ import com.example.projetopsoft2024.Service.AuthorService;
 
 import com.example.projetopsoft2024.models.Author;
 
+import com.example.projetopsoft2024.models.DTO.AuthorDTO;
+import com.example.projetopsoft2024.models.Requests.AuthorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +28,31 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping()
-    public List<Author> getAuthors() {
+    public List<AuthorDTO> getAuthors() {
         return authorService.getAuthors();
     }
     @PostMapping()
-    public ResponseEntity<String> createAuthor(@RequestBody Author author ){
-        Author createdAuthor = authorService.createAuthor(author);
+    public ResponseEntity<String> createAuthor(@RequestParam(value = "photo", required = false) MultipartFile photo, @ModelAttribute AuthorRequest authorRequest ){
+        byte[] photoBytes = null;
+        try {
+            if (photo != null && !photo.isEmpty()) {
+                // Check photo format
+                String contentType = photo.getContentType();
+                if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                    return new ResponseEntity<>("Unsupported photo format", HttpStatus.BAD_REQUEST);
+                }
+                // Check photo size
+                if (photo.getSize() > 20 * 1024) { // 20 KB limit
+                    return new ResponseEntity<>("Photo size exceeds 20 KB", HttpStatus.BAD_REQUEST);
+                }
+                photoBytes = photo.getBytes();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed to upload photo", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        AuthorDTO createdAuthor = authorService.createAuthor(authorRequest, photoBytes);
         if (createdAuthor != null) {
             return new ResponseEntity<>("Author created successfully", HttpStatus.CREATED);
         } else {
@@ -60,16 +85,32 @@ public class AuthorController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAuthor(@PathVariable Long id, @RequestBody Author updatedAuthor) {
+    public ResponseEntity<String> updateAuthor(@PathVariable Long id, @RequestBody AuthorRequest updatedAuthorRequest) {
         Optional<Author> optionalAuthor = authorService.getAuthorById(id);
         if (optionalAuthor.isPresent()) {
-            Author existingAuthor = optionalAuthor.get();
-            existingAuthor.updateName(updatedAuthor.getName());
-            existingAuthor.setBio(updatedAuthor.getBio());
-            authorService.updateAuthor(id, existingAuthor);
+            AuthorDTO updatedAuthor = authorService.updateAuthor(id, updatedAuthorRequest);
             return ResponseEntity.ok("Author updated!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author not found");
+        }
+    }
+
+    @GetMapping("/{id}/photo")
+    public ResponseEntity<byte[]> getAuthorPhoto(@PathVariable Long id) {
+        Optional<Author> optionalAuthor = authorService.getAuthorById(id);
+        if (optionalAuthor.isPresent()) {
+            Author author = optionalAuthor.get();
+            byte[] photo = author.getPhoto();
+            if (photo != null && photo.length > 0) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                headers.setContentLength(photo.length);
+                return new ResponseEntity<>(photo, headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -12,8 +12,11 @@ import java.util.Optional;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author,Long> {
 
-    @Query("SELECT a FROM Author a WHERE a.name = :name")
-    List<Author> findByName(@Param("name")String name);
+    //@Query("SELECT a FROM Author a WHERE a.name = :name")
+    //List<Author> findByName(@Param("name")String name);
     @Query("SELECT a FROM Author a WHERE a.idAuthor = :idAuthor")
     Optional<Author> findById(Long idAuthor);
+
+    @Query("SELECT a FROM Author a WHERE a.name LIKE CONCAT(:name, '%')")
+    List<Author> findByName(@Param("name") String name);
 }
