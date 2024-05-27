@@ -47,6 +47,10 @@ public class BookService {
         return book;
     }
 
+    public List<Book> getBooksByTitle(String title) {
+        return bookRepository.findByTitle(title);
+    }
+
     //@Transactional
     //public Book updateBook(long bookId, Book updatedBook) {
     //Optional<Book> bookOptional = bookRepository.findById(bookId);

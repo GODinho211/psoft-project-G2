@@ -130,4 +130,13 @@ public class BookController {
     return ResponseEntity.ok(books);
   }
 
+  @GetMapping("/title/{title}")
+  public ResponseEntity<List<Book>> getBooksByTitle(@PathVariable String title) {
+    List<Book> books = bookService.getBooksByTitle(title);
+    if (books.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(books, HttpStatus.OK);
+  }
+
 }
