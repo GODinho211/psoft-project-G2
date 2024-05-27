@@ -50,12 +50,16 @@ public class User {
     )
     private List<Gender> genres = new ArrayList<>();
 
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final String gdprconsent) {
+    @Column(name = "funny_quote")
+    private String funnyQuote;
+
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final String gdprconsent,final String funnyQuote) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
         setPhonenumber(phonenumber);
         setGdprconsent(gdprconsent);
+        setFunnyQuote(funnyQuote);
 
     }
 
