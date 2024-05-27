@@ -70,14 +70,6 @@ public class Book {
         this.description = description;
     }
 
-    public void setIsbn(long isbn) {
-        String isbnStr = Long.toString(isbn);
-        if (!isbnStr.matches("^(?:[0-9]{9}X|[0-9]{10})$") && !isbnStr.matches("^[0-9]{13}$")) {
-            throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
-        }
-        this.isbn = isbn;
-    }
-
     public void setDescription(String description) {
         if (description.length() > 4096) {
             throw new IllegalArgumentException("Description cannot exceed 4096 characters");
@@ -92,5 +84,74 @@ public class Book {
         this.title = title;
 
     }
+
+    //public void setIsbn(long isbn) {
+    //    String isbnStr = Long.toString(isbn);
+    //    if (!isValidISBN10(isbnStr) && !isValidISBN13(isbnStr)) {
+    //        throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
+    //    }
+    //    this.isbn = isbn;
+    //}
+
+
+    public void setIsbn(String isbn) {
+        String isbnStr = isbn.replace("-", "");
+        if (!isValidISBN10(isbnStr) && !isValidISBN13(isbnStr)) {
+            throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
+        }
+        this.isbn = Long.parseLong(isbnStr);
+    }
+
+
+    private boolean isValidISBN10(String isbn) {
+        if (isbn == null || isbn.length() != 10) {
+            return false;
+        }
+
+        try {
+            int total = 0;
+            for (int i = 0; i < 9; i++) {
+                int digit = Integer.parseInt(isbn.substring(i, i + 1));
+                total += ((i + 1) * digit);
+            }
+
+            String checksum = Integer.toString(total % 11);
+            if ("10".equals(checksum)) {
+                checksum = "X";
+            }
+
+            return checksum.equals(isbn.substring(9));
+        } catch (NumberFormatException nfe) {
+            // ISBN is not numeric
+            return false;
+        }
+    }
+
+    private boolean isValidISBN13(String isbn) {
+        if (isbn == null || isbn.length() != 13) {
+            return false;
+        }
+
+        try {
+            int total = 0;
+            for (int i = 0; i < 12; i += 2) {
+                total += Integer.parseInt(isbn.substring(i, i + 1));
+            }
+            for (int i = 1; i < 12; i += 2) {
+                total += Integer.parseInt(isbn.substring(i, i + 1)) * 3;
+            }
+
+            int checksum = 10 - (total % 10);
+            if (checksum == 10) {
+                checksum = 0;
+            }
+
+            return checksum == Integer.parseInt(isbn.substring(12));
+        } catch (NumberFormatException nfe) {
+            // ISBN is not numeric
+            return false;
+        }
+    }
+
 }
 

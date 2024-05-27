@@ -53,7 +53,7 @@ public class BookController {
 
   @PostMapping()
   public ResponseEntity<String> createBooks(@RequestBody Map<String, Object> payload){
-    long isbn = Long.parseLong(payload.get("isbn").toString());
+    String isbn = payload.get("isbn").toString();
     String title = payload.get("title").toString();
     String description = payload.get("description").toString();
     long authorId = Long.parseLong(payload.get("authorId").toString());
