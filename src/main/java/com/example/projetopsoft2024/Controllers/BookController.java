@@ -139,4 +139,15 @@ public class BookController {
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
 
+  @GetMapping("/top5Genders")
+  public ResponseEntity<Map<String, Long>> getTop5Genders() {
+    Map<String, Long> top5Genders = bookService.getTop5Genders();
+
+    if (top5Genders.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity<>(top5Genders, HttpStatus.OK);
+  }
+
 }

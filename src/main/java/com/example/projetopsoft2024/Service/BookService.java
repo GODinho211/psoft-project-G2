@@ -7,11 +7,15 @@ import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.function.Function;
+import java.util.LinkedHashMap;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -106,6 +110,24 @@ public class BookService {
 
     public List<Book> findByGenderDescription(String description) {
         return bookRepository.findByGenderDescription(description);
+    }
+
+
+    public Map<String, Long> getTop5Genders() {
+        List<Book> allBooks = getAllBooks();
+
+        return allBooks.stream()
+                .flatMap(book -> book.getGender().stream())
+                .collect(Collectors.groupingBy(Gender::getDescription, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(5)
+                .collect(Collectors.toMap(
+                        (entry) -> entry.getKey(),
+                        (entry) -> entry.getValue(),
+                        (oldValue, newValue) -> oldValue,
+                        LinkedHashMap::new
+                ));
     }
 
 }
