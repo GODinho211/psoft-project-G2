@@ -30,9 +30,26 @@ public class BookDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Initialize books
         List<Book> books = Arrays.asList(
-                createBook("0-061-96436-0", "Title 1", 1L, "Description 1", 1L),
-                createBook("0-545-01022-5", "Title 2", 1L, "Description 2", 1L),
-                createBook("1-56619-909-3", "Title 3", 1L, "Description 3", 1L)
+                createBook("978-0061120084", "To Kill a Mockingbird", 1L, "Description1", 1L),
+                createBook("978-0451524935", "1984", 5L,"Description2",3L),
+                createBook("978-0062316097","A Brief History of Humankind", 3L, "Description3",1L),
+                createBook("978-0399590504","Educated",2L,"Description4",4L),
+                createBook("978-0441013593","Dune",7L,"Description5",6L),
+                createBook("978-0441569595","Neuromancer",3L,"Description6",2L),
+                createBook("978-0547928227","The Hobbit",4L,"Description7",5L),
+                createBook("978-0590353427","Harry Potter",6L,"Description8",5L),
+                createBook("978-0307454546","The Girl with the Dragon Tattoo",3L,"Description9",3L),
+                createBook("978-0307588371","Gone Girl",9L,"Description10",3L),
+                createBook("978-1451648539","Steve Jobs",8L,"Description11",1L),
+                createBook("978-1524763138","Becoming",10L,"Description12",4L),
+                createBook("978-0812981605","The Power of Habit",3L,"Description13",1L),
+                createBook("978-0735211292","Atomic Habits",7L,"Description14",2L),
+                createBook("978-0375842207","The Book Thief",2L,"Description15",3L)
+
+
+
+
+
                 // Add more books as needed
         );
 
@@ -46,7 +63,9 @@ public class BookDataLoader implements CommandLineRunner {
         Gender gender = genderRepository.findById(genderId).orElse(null);
         book.setGender(Arrays.asList(gender));
         Author author = authorRepository.findById(authorId).orElse(null);
-        book.setAuthor(author);
+        if (author != null) {
+            book.setAuthor(author);
+        }
         return book;
     }
 }

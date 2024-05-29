@@ -22,9 +22,17 @@ public class GenderDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Inicializar gêneros
         List<Gender> genders = Arrays.asList(
-                new Gender("Ficção"),
-                new Gender("Não Ficção"),
-                new Gender("Romance")
+                new Gender("Fiction"),
+                new Gender("Non-Fiction"),
+                new Gender("Romance"),
+                new Gender("Horror"),
+                new Gender("Science Fiction"),
+                new Gender("Fantasy"),
+                new Gender("Mystery"),
+                new Gender("Thriller"),
+                new Gender("Historical Fiction"),
+                new Gender("Biography & Memoir")
+
                 // Adicione mais gêneros conforme necessário
         );
 

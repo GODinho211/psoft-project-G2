@@ -24,8 +24,17 @@ public class AuthorDataLoader implements CommandLineRunner {
         List<Author> authors = Arrays.asList(
                 new Author("Author 1", "Bio 1"),
                 new Author("Author 2", "Bio 2"),
-                new Author("Author 3", "Bio 3")
-                // Add more authors as needed
+                new Author("Author 3", "Bio 3"),
+                new Author("Author 4", "Bio 4"),
+                new Author("Author 5", "Bio 5"),
+                new Author("Author 6", "Bio 6"),
+                new Author("Author 7", "Bio 7"),
+                new Author("Author 8", "Bio 8"),
+                new Author("Author 9", "Bio 9"),
+                new Author("Author 10", "Bio 10")
+
+
+        // Add more authors as needed
         );
 
         // Save the authors to the database
