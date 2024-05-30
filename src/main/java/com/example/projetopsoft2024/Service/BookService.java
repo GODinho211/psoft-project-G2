@@ -38,7 +38,7 @@ public class BookService {
         //  books.add(n);
         //});
         //return books;
-        return bookRepository.findAllWithGender();
+        return bookRepository.findAll();
     }
 
 

@@ -1,71 +1,73 @@
-//package com.example.projetopsoft2024.Bootstrap;
-//
-//import com.example.projetopsoft2024.Repositories.AuthorRepository;
-//import com.example.projetopsoft2024.Repositories.BookRepository;
-//import com.example.projetopsoft2024.Repositories.GenderRepository;
-//import com.example.projetopsoft2024.models.Author;
-//import com.example.projetopsoft2024.models.Book;
-//import com.example.projetopsoft2024.models.Gender;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.stereotype.Component;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//@Component
-//public class BookDataLoader implements CommandLineRunner {
-//    private final BookRepository bookRepository;
-//    private final GenderRepository genderRepository;
-//    private final AuthorRepository authorRepository;
-//
-//    @Autowired
-//    public BookDataLoader(BookRepository bookRepository, GenderRepository genderRepository, AuthorRepository authorRepository) {
-//        this.bookRepository = bookRepository;
-//        this.genderRepository = genderRepository;
-//        this.authorRepository = authorRepository;
-//    }
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//        // Initialize books
-//        List<Book> books = Arrays.asList(
-//                createBook("978-0061120084", "To Kill a Mockingbird", 1L, "Description1", 1L),
-//                createBook("978-0451524935", "1984", 5L,"Description2",3L),
-//                createBook("978-0062316097","A Brief History of Humankind", 3L, "Description3",1L),
-//                createBook("978-0399590504","Educated",2L,"Description4",4L),
-//                createBook("978-0441013593","Dune",7L,"Description5",6L),
-//                createBook("978-0441569595","Neuromancer",3L,"Description6",2L),
-//                createBook("978-0547928227","The Hobbit",4L,"Description7",5L),
-//                createBook("978-0590353427","Harry Potter",6L,"Description8",5L),
-//                createBook("978-0307454546","The Girl with the Dragon Tattoo",3L,"Description9",3L),
-//                createBook("978-0307588371","Gone Girl",9L,"Description10",3L),
-//                createBook("978-1451648539","Steve Jobs",8L,"Description11",1L),
-//                createBook("978-1524763138","Becoming",10L,"Description12",4L),
-//                createBook("978-0812981605","The Power of Habit",3L,"Description13",1L),
-//                createBook("978-0735211292","Atomic Habits",7L,"Description14",2L),
-//                createBook("978-0375842207","The Book Thief",2L,"Description15",3L)
-//
-//
-//
-//
-//
-//                // Add more books as needed
-//        );
-//
-//        // Save the books to the database
-//        bookRepository.saveAll(books);
-//    }
-//
-//    private Book createBook(String isbn, String title, Long authorId, String description, Long genderId) {
-//        Book book = new Book(title, description); // Create the book with title and description
-//        book.setIsbn(isbn); // Set the isbn separately
-//        Gender gender = genderRepository.findById(genderId).orElse(null);
-//        book.setGender(Arrays.asList(gender));
-//        Author author = authorRepository.findById(authorId).orElse(null);
-//        if (author != null) {
-//            book.setAuthor(author);
-//        }
-//        return book;
-//    }
-//}
+package com.example.projetopsoft2024.Bootstrap;
+
+import com.example.projetopsoft2024.Repositories.AuthorRepository;
+import com.example.projetopsoft2024.Repositories.BookRepository;
+import com.example.projetopsoft2024.Repositories.GenderRepository;
+import com.example.projetopsoft2024.models.Author;
+import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.Gender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Component
+public class BookDataLoader implements CommandLineRunner {
+    private final BookRepository bookRepository;
+    private final GenderRepository genderRepository;
+    private final AuthorRepository authorRepository;
+
+    @Autowired
+    public BookDataLoader(BookRepository bookRepository, GenderRepository genderRepository, AuthorRepository authorRepository) {
+        this.bookRepository = bookRepository;
+        this.genderRepository = genderRepository;
+        this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        // Initialize books
+        List<Book> books = Arrays.asList(
+                createBook("978-0061120084", "To Kill a Mockingbird", 1L, "Description1", 1L,null),
+                createBook("978-0451524935", "1984", 5L,"Description2",3L,null),
+                createBook("978-0062316097","A Brief History of Humankind", 3L, "Description3",1L,null),
+                createBook("978-0399590504","Educated",2L,"Description4",4L,null),
+                createBook("978-0441013593","Dune",7L,"Description5",6L,null),
+                createBook("978-0441569595","Neuromancer",3L,"Description6",2L,null),
+                createBook("978-0547928227","The Hobbit",4L,"Description7",5L,null),
+                createBook("978-0590353427","Harry Potter",6L,"Description8",5L,null),
+                createBook("978-0307454546","The Girl with the Dragon Tattoo",3L,"Description9",3L,null),
+                createBook("978-0307588371","Gone Girl",9L,"Description10",3L,null),
+                createBook("978-1451648539","Steve Jobs",8L,"Description11",1L,null),
+                createBook("978-1524763138","Becoming",10L,"Description12",4L,null),
+                createBook("978-0812981605","The Power of Habit",3L,"Description13",1L,null),
+                createBook("978-0735211292","Atomic Habits",7L,"Description14",2L,null),
+                createBook("978-0375842207","The Book Thief",2L,"Description15",3L,null)
+
+
+
+
+
+                // Add more books as needed
+        );
+
+        // Save the books to the database
+        bookRepository.saveAll(books);
+    }
+
+    private Book createBook(String isbn, String title, Long authorId, String description, Long genderId, byte[] picture) {
+        // If no picture is provided, use a default picture
+        byte[] bookPicture = (picture != null) ? picture : new byte[0]; // replace new byte[0] with your default picture
+        Book book = new Book(title, description, bookPicture); // Create the book with title, description, and picture
+        book.setIsbn(isbn); // Set the isbn separately
+        Gender gender = genderRepository.findById(genderId).orElse(null);
+        book.setGender(Arrays.asList(gender));
+        Author author = authorRepository.findById(authorId).orElse(null);
+        if (author != null) {
+            book.setAuthor(author);
+        }
+        return book;
+    }
+}
