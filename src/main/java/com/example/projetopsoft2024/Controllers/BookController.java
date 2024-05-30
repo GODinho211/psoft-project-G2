@@ -1,5 +1,6 @@
 package com.example.projetopsoft2024.Controllers;
 
+import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.Service.BookService;
 import com.example.projetopsoft2024.models.Book;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,9 @@ public class BookController {
 
   @Autowired
   private GenderRepository genderRepository;
+
+  @Autowired
+  private BookRepository bookRepository;
 
 
   public BookController(BookService bookService) {
@@ -150,4 +154,16 @@ public class BookController {
     return new ResponseEntity<>(top5Genders, HttpStatus.OK);
   }
 
+  @GetMapping("/author/{authorName}")
+  public ResponseEntity<?> getBooksByAuthor(@PathVariable String authorName) {
+    List<Book> books = bookRepository.findByAuthorName(authorName);
+    if (!books.isEmpty()) {
+      return ResponseEntity.ok(books);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No books found by author " + authorName);
+    }
+
+
+
+    }
 }
