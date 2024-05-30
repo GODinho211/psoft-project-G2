@@ -28,7 +28,8 @@ public class Book {
     @Column(name = "book_description", nullable = true, unique = false, updatable = true)
     private String description;
 
-    @Column(name = "picture")
+    @Lob
+    @Column(name = "picture",nullable = true)
     private byte[] picture;
 
     //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
