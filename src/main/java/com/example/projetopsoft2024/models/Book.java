@@ -28,6 +28,9 @@ public class Book {
     @Column(name = "book_description", nullable = true, unique = false, updatable = true)
     private String description;
 
+    @Column(name = "picture")
+    private byte[] picture;
+
     //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //@JoinTable(
     //        name = "book_gender",
@@ -64,10 +67,10 @@ public class Book {
  //       this.author = authorOfBook;
  //   }
 
-    public Book( String title, String description) {
-        //this.isbn = isbn;
+    public Book(String title, String description, byte[] picture) {
         this.title = title;
         this.description = description;
+        this.picture = picture;
     }
 
     public void setDescription(String description) {

@@ -20,6 +20,10 @@ import com.example.projetopsoft2024.Service.AuthorService;
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Gender;
 
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+
 
 
 @RestController
@@ -55,14 +59,13 @@ public class BookController {
   //  return bookService.createBook(book);
   //}
 
-  @PostMapping()
-  public ResponseEntity<String> createBooks(@RequestBody Map<String, Object> payload){
-    String isbn = payload.get("isbn").toString();
-    String title = payload.get("title").toString();
-    String description = payload.get("description").toString();
-    long authorId = Long.parseLong(payload.get("authorId").toString());
-    String genderId = payload.get("genderId").toString();
-
+  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<String> createBooks(@RequestParam("title") String title,
+                                            @RequestParam("description") String description,
+                                            @RequestParam("authorId") long authorId,
+                                            @RequestParam("genderId") String genderId,
+                                            @RequestParam("isbn") String isbn,
+                                            @RequestParam("picture") MultipartFile pictureFile) {
     Author author = authorService.getAuthorById(authorId).orElse(null);
     if (author == null) {
       return new ResponseEntity<>("Author not found", HttpStatus.NOT_FOUND);
@@ -73,7 +76,14 @@ public class BookController {
       return new ResponseEntity<>("Gender not found", HttpStatus.NOT_FOUND);
     }
 
-    Book book = new Book(title, description);
+    byte[] picture = null;
+    try {
+      picture = pictureFile.getBytes();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Book book = new Book(title, description, picture);
     book.setAuthor(author);
     book.setGender(genders);
     book.setIsbn(isbn);
