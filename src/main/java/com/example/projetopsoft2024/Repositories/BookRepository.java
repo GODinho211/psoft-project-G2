@@ -18,8 +18,8 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Optional<Book> findByIsbn(long isbn);
 
 
-    @Query("SELECT f from Book f where f.title = :title")
-        List<Book> findByTitle(@Param("title") String title);
+    @Query("SELECT f from Book f where lower(f.title) LIKE lower(concat('%', :title, '%'))")
+    List<Book> findByTitle(@Param("title") String title);
 
         List<Book> findByGender(Gender gender);
 
