@@ -62,12 +62,21 @@ public class BookDataLoader implements CommandLineRunner {
         byte[] bookPicture = (picture != null) ? picture : new byte[0]; // replace new byte[0] with your default picture
         Book book = new Book(title, description, bookPicture); // Create the book with title, description, and picture
         book.setIsbn(isbn); // Set the isbn separately
+
         Gender gender = genderRepository.findById(genderId).orElse(null);
-        book.setGender(Arrays.asList(gender));
+        if (gender != null) {
+            book.setGender(Arrays.asList(gender));
+            gender.getBooks().add(book); // Add the book to the gender's list of books
+        }
+
         Author author = authorRepository.findById(authorId).orElse(null);
         if (author != null) {
             book.setAuthor(author);
+            // Instead of calling author.getBooks().add(book), we fetch the books from the database and add the new book
+            List<Book> authorBooks = bookRepository.findByAuthor(author);
+            authorBooks.add(book);
         }
+
         return book;
     }
 }
