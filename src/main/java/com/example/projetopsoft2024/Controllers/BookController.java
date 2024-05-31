@@ -66,6 +66,9 @@ public class BookController {
                                             @RequestParam("genderId") String genderId,
                                             @RequestParam("isbn") String isbn,
                                             @RequestParam("picture") MultipartFile pictureFile) {
+    if (pictureFile.getSize() > 20000) { // Check if file size is greater than 20MB
+      return new ResponseEntity<>("Picture size must not exceed 20KBytes", HttpStatus.BAD_REQUEST);
+    }
     Author author = authorService.getAuthorById(authorId).orElse(null);
     if (author == null) {
       return new ResponseEntity<>("Author not found", HttpStatus.NOT_FOUND);
