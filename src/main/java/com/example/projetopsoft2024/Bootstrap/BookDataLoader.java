@@ -67,6 +67,7 @@ public class BookDataLoader implements CommandLineRunner {
         if (gender != null) {
             book.setGender(Arrays.asList(gender));
             gender.getBooks().add(book); // Add the book to the gender's list of books
+            bookRepository.save(book); // Save the book after associating it with the gender
         }
 
         Author author = authorRepository.findById(authorId).orElse(null);
