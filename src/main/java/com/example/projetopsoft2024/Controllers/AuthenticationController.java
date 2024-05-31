@@ -1,6 +1,8 @@
 package com.example.projetopsoft2024.Controllers;
 
 
+import com.example.projetopsoft2024.Api.TokenService;
+import com.example.projetopsoft2024.models.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,17 @@ public class AuthenticationController {
     @Autowired
     private  AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(),data.password());
         var auth= this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(token);
     }
 
 }
