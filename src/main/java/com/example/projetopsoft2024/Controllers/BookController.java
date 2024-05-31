@@ -175,8 +175,16 @@ public class BookController {
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No books found by author " + authorName);
     }
+  }
 
-
-
+  @GetMapping("/picture/{bookId}")
+  public ResponseEntity<byte[]> getBookPictureById(@PathVariable Long bookId) {
+    Optional<Book> book = bookService.getBookById(bookId);
+    if (!book.isPresent()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    byte[] picture = book.get().getPicture();
+    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(picture);
+  }
+
 }
