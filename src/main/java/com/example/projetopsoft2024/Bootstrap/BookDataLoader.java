@@ -9,6 +9,7 @@ import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ public class BookDataLoader implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         // Initialize books
         List<Book> books = Arrays.asList(
