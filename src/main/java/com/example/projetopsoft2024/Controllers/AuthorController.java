@@ -85,10 +85,16 @@ public class AuthorController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAuthor(@PathVariable Long id, @RequestBody AuthorRequest updatedAuthorRequest) {
-        Optional<Author> optionalAuthor = authorService.getAuthorById(id);
-        if (optionalAuthor.isPresent()) {
-            AuthorDTO updatedAuthor = authorService.updateAuthor(id, updatedAuthorRequest);
+    public ResponseEntity<String> updateAuthor(@PathVariable Long id,
+                                               @RequestParam("name") String name,
+                                               @RequestParam("bio") String bio,
+                                               @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        AuthorRequest updatedAuthorRequest = new AuthorRequest();
+        updatedAuthorRequest.setName(name);
+        updatedAuthorRequest.setBio(bio);
+        updatedAuthorRequest.setPhoto(photo);
+        AuthorDTO updatedAuthor = authorService.updateAuthor(id, updatedAuthorRequest);
+        if (updatedAuthor != null) {
             return ResponseEntity.ok("Author updated!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author not found");
