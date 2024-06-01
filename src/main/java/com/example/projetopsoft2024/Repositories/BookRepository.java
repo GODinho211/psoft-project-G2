@@ -3,6 +3,8 @@ package com.example.projetopsoft2024.Repositories;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Author;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +21,8 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Optional<Book> findByIsbn(long isbn);
 
     List<Book> findByAuthor(Author author);
+
+    Page<Book> findAll(Pageable pageable);
 
 
     @Query("SELECT f from Book f where lower(f.title) LIKE lower(concat('%', :title, '%'))")

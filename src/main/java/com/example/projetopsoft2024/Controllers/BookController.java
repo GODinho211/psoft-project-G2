@@ -187,4 +187,13 @@ public class BookController {
     return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(picture);
   }
 
+  @GetMapping("/top5LentBooks")
+  public ResponseEntity<List<Book>> getTop5LentBooks() {
+    List<Book> books = bookService.getTop5LentBooks();
+    if (books.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(books, HttpStatus.OK);
+  }
+
 }

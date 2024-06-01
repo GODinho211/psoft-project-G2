@@ -71,5 +71,9 @@ public class Lending {
 
    }
 
+    public Book getBook(int index) {
+        return this.books.get(index);
+    }
+
 
 }

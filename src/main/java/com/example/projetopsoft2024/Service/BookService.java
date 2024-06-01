@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.projetopsoft2024.Repositories.LendingRepository;
+
 @Service
 public class BookService {
 
@@ -128,6 +130,19 @@ public class BookService {
                         (oldValue, newValue) -> oldValue,
                         LinkedHashMap::new
                 ));
+    }
+
+    @Autowired
+    private LendingRepository lendingRepository;
+
+    public List<Book> getTop5LentBooks() {
+        return lendingRepository.findAll().stream()
+                .collect(Collectors.groupingBy(lending -> lending.getBook(0), Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<Book, Long>comparingByValue().reversed())
+                .limit(5)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
 }
