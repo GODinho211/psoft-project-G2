@@ -14,6 +14,7 @@ import com.example.projetopsoft2024.models.User;
 import com.example.projetopsoft2024.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "User", description = "Endpoints for managing users.")
 @RestController
@@ -62,9 +63,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
         }
     }
-
-
-
     @Operation(summary = "Replace user info")
     @PutMapping("/{readernumber}")
     public ResponseEntity<?> replaceUser(@PathVariable Long readernumber, @RequestBody User user) {

@@ -70,9 +70,48 @@ public class UserService {
         // Set the managed genders to the user
         user.setGenres(managedGenders);
 
+        String funnyQuote = generateFunnyQuote(age);
+        user.setFunnyQuote(funnyQuote);
+
         userRepository.save(user);
         return "User created";
         }
+
+    private String generateFunnyQuote(int age) {List<String> quotes;
+        if (age >= 12 && age <= 17) {
+            quotes = Arrays.asList(
+                    "Nunca é tarde demais para desejar uma estrela!",
+                    "Por que o adolescente trouxe uma escada para a escola? Porque ouviu dizer que a escola estava 'motivadora'!",
+                    "À medida que envelhece, três coisas acontecem: primeiro, sua memória se vai, e eu não consigo me lembrar das outras duas."
+            );
+        } else if (age >= 18 && age <= 25) {
+            quotes = Arrays.asList(
+                    "A juventude é um presente da natureza, mas a idade é uma obra de arte!",
+                    "Por que os cientistas não confiam em átomos? Porque eles compõem tudo!",
+                    "O problema de ser pontual é que ninguém está lá para apreciar."
+            );
+        } else if (age >= 26 && age <= 35) {
+            quotes = Arrays.asList(
+                    "Lembre-se, uma vez que você passa do auge, começa a ganhar velocidade.",
+                    "A meia-idade é quando você está sentado em casa em uma noite de sábado e o telefone toca e você espera que não seja para você.",
+                    "Estou em uma dieta de uísque. Já perdi três dias."
+            );
+        } else if (age >= 36 && age <= 50) {
+            quotes = Arrays.asList(
+                    "Você não está envelhecendo, apenas se tornando um clássico!",
+                    "A vida começa aos 40 - mas também começam os pés chatos, o reumatismo, a visão defeituosa e a tendência de contar uma história para a mesma pessoa, três ou quatro vezes.",
+                    "Não tenho 40 anos, tenho 18 com 22 anos de experiência."
+            );
+        } else {
+            quotes = Arrays.asList(
+                    "Envelhecer é obrigatório, mas crescer é opcional.",
+                    "A idade é apenas o número de anos que o mundo tem desfrutado de você. Saúde!",
+                    "Você não para de rir quando fica velho, fica velho quando para de rir."
+            );
+        }
+        Random rand = new Random();
+        return quotes.get(rand.nextInt(quotes.size()));
+    }
         private boolean containsProhibitedWord(String username) {
             List<String> prohibitedWords = getProhibitedWords();
             for (String word : prohibitedWords) {
