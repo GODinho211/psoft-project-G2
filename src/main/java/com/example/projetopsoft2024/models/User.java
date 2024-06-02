@@ -1,5 +1,5 @@
 package com.example.projetopsoft2024.models;
-//import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 
-//@Schema(description = "User")
+@Schema(description = "User")
 @Getter
 @Setter
 @Entity
@@ -60,8 +60,11 @@ public class User implements UserDetails {
     )
     private List<Gender> genres = new ArrayList<>();
 
+    @Column(name = "funny_quote")
+    private String funnyQuote;
 
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role) {
+
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
@@ -70,6 +73,8 @@ public class User implements UserDetails {
         setGdprconsent(gdprconsent);
         setPassword(password);
         setRole(role);
+        setFunnyQuote(funnyQuote);
+
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

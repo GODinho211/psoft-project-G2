@@ -30,10 +30,10 @@ public class UserDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         List<User> users = Arrays.asList(
-                new User("Alice", "alice@example.com", new Date(), 123456789L, 123456L, "sim",passwordEncoder.encode("pass"), RoleUser.LIBRARIAN),
-                new User("Bob", "bob@example.com", new Date(), 987654321L, 654321L, "sim", passwordEncoder.encode("pass"), RoleUser.READER),
-                new User("Charlie", "charlie@example.com", new Date(), 555555555L, 333333L, "sim", passwordEncoder.encode("pass"), RoleUser.READER),
-                new User("Diana", "diana@example.com", new Date(), 111111111L, 999999L, "sim", passwordEncoder.encode("pass"), RoleUser.READER)
+                new User("Alice", "alice@example.com", new Date(), 123456789L, 123456L, "sim",passwordEncoder.encode("pass"), RoleUser.LIBRARIAN, "Alice funny quote"),
+                new User("Carlos", "carlos@example.com", new Date(), 987654321L, 654321L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Carlos funny quote"),
+                new User("Pedro", "pedro@example.com", new Date(), 555555555L, 333333L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Pedro funny quote"),
+                new User("Diana", "diana@example.com", new Date(), 111111111L, 999999L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Diana funny quote")
 
         );
 
