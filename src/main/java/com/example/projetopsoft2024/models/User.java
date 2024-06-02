@@ -63,6 +63,10 @@ public class User implements UserDetails {
     @Column(name = "funny_quote")
     private String funnyQuote;
 
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo_user;
+
 
     public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote) {
         setName(name);
