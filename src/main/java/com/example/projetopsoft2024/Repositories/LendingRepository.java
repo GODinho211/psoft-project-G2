@@ -18,8 +18,11 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
 
     @Query("SELECT l FROM Lending l JOIN l.user lu WHERE lu.readernumber = :userId")
     List<Lending> findLendingByUserId(Long userId);
-    @Query("SELECT l FROM Lending l WHERE l.startDate BETWEEN :startDate AND :endDate")
-    List<Lending> findLendingsByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT COUNT(l) FROM Lending l WHERE MONTH(l.startDate) = :month")
+    int countLendingsByMonth(int month);
 }
+
+
 
 

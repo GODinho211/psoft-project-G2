@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+
 public class BookDataLoader implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final GenderRepository genderRepository;

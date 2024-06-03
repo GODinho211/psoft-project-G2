@@ -47,7 +47,7 @@ public class LendingDataLoader implements CommandLineRunner {
         // Criar instâncias de Lending
         Lending lending1 = new Lending(user1, books1,LocalDate.of(2024, 2, 1),LocalDate.of(2024, 3, 27));
         Lending lending2 = new Lending(user2,books2,LocalDate.of(2024, 3, 1),LocalDate.of(2024, 4, 27));
-        Lending lending3 = new Lending(user1, books2,LocalDate.of(2024, 4, 1),LocalDate.of(2024, 5, 27));
+        Lending lending3 = new Lending(user1, books2,LocalDate.of(2024, 3, 1),LocalDate.of(2024, 5, 27));
         Lending lending4 = new Lending(user1,books3,LocalDate.of(2024, 6, 1),LocalDate.of(2024, 6, 27));
         Lending lending5 = new Lending(user2, books3,LocalDate.of(2024, 1, 14),LocalDate.of(2024, 6, 27));
         Lending lending6 = new Lending(user3,books4,LocalDate.of(2024, 8, 14),LocalDate.of(2024, 9, 27));

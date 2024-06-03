@@ -4,7 +4,7 @@ package com.example.projetopsoft2024.Controllers;
 import com.example.projetopsoft2024.Service.LendingService;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
-import com.example.projetopsoft2024.models.DTO.LendingDateDTO;
+import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
 import com.example.projetopsoft2024.models.DTO.ReturnDTO;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -75,10 +75,13 @@ public class LendingController {
         return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
 
-    @GetMapping("/lend-by-genre")
-    public ResponseEntity<Map<String, Long>> getLendingsByGenreForMonth(@RequestBody LendingDateDTO lendingDateDTO) {
-        Map<String, Long> lendingByGenre = lendingService.getLendingsByGenreForMonth(lendingDateDTO.getYear(), lendingDateDTO.getMonth());
-        return ResponseEntity.ok(lendingByGenre);
+    @GetMapping("/month/{month}")
+    public ResponseEntity<LendingsPerMonthDTO> getLendingsByMonth(@PathVariable int month) {
+        int numberOfLendings = lendingService.getNumberOfLendingsByMonth(month);
+        LendingsPerMonthDTO response = new LendingsPerMonthDTO();
+        response.setMonth(month);
+        response.setNumberOfLendings(numberOfLendings);
+        return ResponseEntity.ok(response);
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -72,21 +73,8 @@ public class LendingService {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, Long> getLendingsByGenreForMonth(int year, int month) {
-        LocalDate startDate = LocalDate.of(year, month, 1);
-        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        List<Lending> lendings = lendingRepository.findLendingsByDateRange(startDate, endDate);
-
-        Map<String, Long> genreCounts = new HashMap<>();
-        for (Lending lending : lendings) {
-            for (Book book : lending.getBooks()) {
-                for (Gender gender : book.getGender()) {
-                    genreCounts.merge(gender.getDescription(), 1L, Long::sum);
-                }
-            }
-        }
-
-        return genreCounts;
+    public int getNumberOfLendingsByMonth(int month) {
+        return lendingRepository.countLendingsByMonth(month);
     }
 }
