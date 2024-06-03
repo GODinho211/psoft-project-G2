@@ -4,6 +4,7 @@ import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
+import com.example.projetopsoft2024.models.Entitys.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
