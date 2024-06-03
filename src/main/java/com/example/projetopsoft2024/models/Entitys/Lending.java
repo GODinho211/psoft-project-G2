@@ -46,7 +46,7 @@ public class Lending {
 
     private float fine;
 
-    private static final long MAX_LOAN_PERIOD = 15; // Max loan period in days
+    public static final long MAX_LOAN_PERIOD = 15; // Max loan period in days
     private static final float FINE_PER_DAY = 1.0f;
 
     public Lending (User user, List<Book> books, LocalDate startDate, LocalDate returnDate){
@@ -76,8 +76,7 @@ public class Lending {
     }
 
     public long getDaysOverdue() {
-            LocalDate currentDate = LocalDate.now();
-            return ChronoUnit.DAYS.between(this.startDate, currentDate);
+            return ChronoUnit.DAYS.between(this.startDate, returnDate);
     }
 
 
