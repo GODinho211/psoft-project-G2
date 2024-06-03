@@ -10,7 +10,10 @@ import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LendingService {
@@ -24,6 +27,10 @@ public class LendingService {
         this.lendingRepository = lendingRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+    }
+
+    public Lending findLendingByLendId(long lendingId){
+        return lendingRepository.findById(lendingId).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public User findUserById(Long userId) {
@@ -49,11 +56,11 @@ public class LendingService {
         return lendingRepository.findLendingByUserId(userId);
     }
 
-    public Lending findLendingById(Long lendingId) {
-        return lendingRepository.findById(lendingId).orElseThrow(() -> new RuntimeException("Lending not found"));
+
+    public List<Lending> findOverdueLendings() {
+        return lendingRepository.findAll().stream()
+                .filter(lending -> lending.getReturnDate() == null)
+                .sorted(Comparator.comparingLong(Lending::getDaysOverdue).reversed())
+                .collect(Collectors.toList());
     }
-
-
-
-
 }

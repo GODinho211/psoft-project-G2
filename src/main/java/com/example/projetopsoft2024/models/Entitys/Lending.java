@@ -75,5 +75,10 @@ public class Lending {
         return this.books.get(index);
     }
 
+    public long getDaysOverdue() {
+            LocalDate currentDate = LocalDate.now();
+            return ChronoUnit.DAYS.between(this.startDate, currentDate);
+    }
+
 
 }

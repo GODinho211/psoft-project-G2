@@ -12,11 +12,13 @@ import com.example.projetopsoft2024.models.Requests.LendingRequest;
 import com.example.projetopsoft2024.models.Requests.ReturnRequest;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/lendings")
@@ -63,30 +65,15 @@ public class LendingController {
     }
 
 
-    @PutMapping("/return/{lendingId}")
-    public ReturnDTO returnBooks(@PathVariable Long lendingId,@RequestBody ReturnRequest returnRequest) {
-        Lending lending = lendingService.findLendingById(lendingId);
-
-        if (lending.getReturnDate() != null) {
-            throw new RuntimeException("This book has already been returned.");
-        }
-
-        LocalDate returnDate = returnRequest.getReturnDate() != null ? returnRequest.getReturnDate() : LocalDate.now();
-        lending.setReturnDate(returnDate);
-
-        lending.fineCalc(lending.getStartDate(), lending.getReturnDate());
-        lendingService.saveLending(lending);
-
-        ReturnDTO returnDTO = new ReturnDTO();
-        returnDTO.setLendingId(lending.getLendingId());
-        returnDTO.setUser(lending.getUser());
-        returnDTO.setBooks(lending.getBooks());
-        returnDTO.setStartDate(lending.getStartDate());
-        returnDTO.setReturnDate(lending.getReturnDate());
-        returnDTO.setFine(lending.getFine());
-
-
-        return returnDTO;
-
+    @PostMapping("/returnBook")
+    public ReturnDTO returnBooks(@RequestBody ReturnRequest returnRequest) {
+        Lending lending = lendingService.findLendingByLendId(returnRequest.getLendingId());// find the lending by the id the user provides
+        lending.fineCalc(lending.getStartDate(),returnRequest.getReturnDate()); //sets the fine value
+        return  new ReturnDTO(lending.getLendingId(),lending.getUser(),lending.getBooks(),lending.getStartDate(),returnRequest.getReturnDate(),lending.getFine()); //creates the response body for user to see
+    }
+    @GetMapping("/overdue")
+    public ResponseEntity<List<Lending>> getOverdueLendings() {
+        List<Lending> overdueLendings = lendingService.findOverdueLendings();
+        return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
 }
