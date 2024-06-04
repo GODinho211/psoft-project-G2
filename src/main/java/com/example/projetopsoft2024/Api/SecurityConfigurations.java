@@ -38,7 +38,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.PUT,"/api/users/{readernumber}").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/users/readernumber/{readernumber}").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/users/name/{name}").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/users/books/{userId}").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/users/books/{readernumber}").hasRole("READER")
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
 
 

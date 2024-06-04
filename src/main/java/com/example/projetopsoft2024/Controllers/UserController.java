@@ -88,6 +88,12 @@ public class UserController {
     @Operation(summary = "Replace user info")
     @PutMapping("/{readernumber}")
     public ResponseEntity<?> replaceUser(@PathVariable Long readernumber, @RequestBody User user) {
+
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getReadernumber().equals(readernumber)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
         try {
             userservice.replaceUser(readernumber, user);
             return ResponseEntity.ok("User replaced successfully");
@@ -108,9 +114,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("/books/{userId}")
-    public ResponseEntity<List<Book>> getBooksByUserGenres(@PathVariable Long userId) {
-        List<Book> books = userservice.getBooksByUserGenres(userId);
+    @GetMapping("/books/{readernumber}")
+    public ResponseEntity<?> getBooksByUserGenres(@PathVariable Long readernumber) {
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getReadernumber().equals(readernumber)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
+        List<Book> books = userservice.getBooksByUserGenres(readernumber);
         return ResponseEntity.ok(books);
     }
 
