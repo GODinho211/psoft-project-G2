@@ -10,7 +10,6 @@ import com.example.projetopsoft2024.models.DTO.ReturnDTO;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
-import com.example.projetopsoft2024.models.Requests.MonthRequest;
 import com.example.projetopsoft2024.models.Requests.ReturnRequest;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +86,10 @@ public class LendingController {
         return ResponseEntity.ok(lendingsPerGenre);
     }
 
-
+    @GetMapping("/top5readers")
+    public ResponseEntity<List<User>> getTopReaders() {
+        List<User> topReaders = lendingService.findTopReaders();
+        return new ResponseEntity<>(topReaders, HttpStatus.OK);
+    }
 
 }

@@ -85,6 +85,21 @@ public class LendingService {
         return lendingsPerGenre;
     }
 
+    public List<User> findTopReaders() {
+        // Group lendings by user and count the number of lendings for each user
+        Map<User, Long> lendingCounts = lendingRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Lending::getUser, Collectors.counting()));
+
+        // Sort users based on the number of lendings (books borrowed) in descending order
+        List<User> topReaders = lendingCounts.entrySet().stream()
+                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
+                .limit(5) // Get top 5 readers
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return topReaders;
+    }
+
 
 
 }
