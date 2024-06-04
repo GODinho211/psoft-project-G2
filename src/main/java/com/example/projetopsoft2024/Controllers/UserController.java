@@ -42,6 +42,28 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Get user by phonenumber ")
+    @GetMapping("/phonenumber/{phonenumber}")
+    public ResponseEntity<?> getUserByPhonenumber(@PathVariable Long phonenumber) {
+        Optional<User> user = userservice.getUserByPhonenumber(phonenumber);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + phonenumber + " not found");
+        }
+    }
+
+    @Operation(summary = "Get user by email ")
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        Optional<User> user = userservice.getUserByEmail(email);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + email + " not found");
+        }
+    }
+
     @Operation(summary = "Get user by name")
     @GetMapping("/name/{name}")
     public ResponseEntity<?> getUsersByName(@PathVariable String name) {
