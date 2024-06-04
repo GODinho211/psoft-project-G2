@@ -34,8 +34,8 @@ public class UserService {
         return userRepository.findByReaderNumber(readernumber);
     }
 
-    public Optional<User> getUserByPhonenumber(Long phonenumber) {
-        return userRepository.findByPhoneNumber(phonenumber);
+    public List<User> getUsersByPhonenumber(Long phonenumber) {
+        return userRepository.findByPhonenumber(phonenumber);
     }
 
     public Optional<User> getUserByEmail(String email) {

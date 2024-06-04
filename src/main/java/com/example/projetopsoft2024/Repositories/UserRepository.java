@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByReaderNumber(@Param("readernumber") Long readerNumber);
 
     @Query("SELECT u FROM User u WHERE u.phonenumber = :phonenumber")
-    Optional<User> findByPhoneNumber(@Param("phonenumber") Long PhoneNumber);
+    List<User> findByPhonenumber(@Param("phonenumber") Long phonenumber);
 
 
     @Query("SELECT f from User f where f.email LIKE :email")

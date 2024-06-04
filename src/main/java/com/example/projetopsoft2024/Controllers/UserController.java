@@ -42,14 +42,14 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Get user by phonenumber ")
+    @Operation(summary = "Get users by phone number")
     @GetMapping("/phonenumber/{phonenumber}")
-    public ResponseEntity<?> getUserByPhonenumber(@PathVariable Long phonenumber) {
-        Optional<User> user = userservice.getUserByPhonenumber(phonenumber);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+    public ResponseEntity<?> getUsersByPhonenumber(@PathVariable Long phonenumber) {
+        List<User> users = userservice.getUsersByPhonenumber(phonenumber);
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found with phone number " + phonenumber);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + phonenumber + " not found");
+            return ResponseEntity.ok(users);
         }
     }
 
