@@ -32,6 +32,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST,"/api/lendings/lend").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
