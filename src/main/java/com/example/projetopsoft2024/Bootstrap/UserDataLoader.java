@@ -8,6 +8,7 @@ import com.example.projetopsoft2024.models.RoleUser;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 
 @Component
+@Order(4)
 public class UserDataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -62,12 +64,8 @@ public class UserDataLoader implements CommandLineRunner {
                 new User("Clara", "clara@example.com", new Date(95, 0, 15), 666666666L, 777777L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Um livro por dia afasta a ignorância para sempre", Arrays.asList(romanceGender))
         );
 
-        for (User user : users) {
-            Optional<User> existingUser = userRepository.findByUserEmail(user.getEmail());
-            if (existingUser.isEmpty()) {
-                userRepository.save(user);
-            }
-        }
+
+            userRepository.saveAll(users);
 
     }
 }
