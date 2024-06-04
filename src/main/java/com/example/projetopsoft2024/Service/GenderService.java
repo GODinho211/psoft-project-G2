@@ -25,27 +25,7 @@ public class GenderService {
     return genderRepository.findAll();
     }
 
-    //@Transactional
-    //public Gender updateGender(long genderId, Gender updatedGender) {
-    //    Optional<Gender> genderOptional = genderRepository.findById(genderId);
-    //    if (!genderOptional.isPresent()) {
-    //        throw new RuntimeException("Gender not found with id " + genderId);
-    //    }
 
-    //    Gender existingGender = genderOptional.get();
-    //    existingGender.setDescription(updatedGender.getDescription());
-    //    genderRepository.save(existingGender);
-    //    return existingGender;
-    //}
-
-
-    //public Gender updateGender(Long id, Gender updatedGender) {
-    //    Gender existingGender = genderRepository.findById(id)
-    //            .orElseThrow(() -> new RuntimeException("Gender not found with id " + id));
-
-    //    existingGender.setDescription(updatedGender.getDescription());
-    //    return genderRepository.save(existingGender);
-    //}
 
     public String deleteGender(Long id) {
         Optional<Gender> optionalGender = genderRepository.findById(id);
