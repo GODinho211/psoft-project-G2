@@ -43,6 +43,7 @@ public class SecurityConfigurations {
 
 
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
