@@ -76,4 +76,10 @@ public class LendingController {
         List<Lending> overdueLendings = lendingService.findOverdueLendings();
         return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
+
+    @GetMapping("/top5readers")
+    public ResponseEntity<List<User>> getTopReaders() {
+        List<User> topReaders = lendingService.findTopReaders();
+        return new ResponseEntity<>(topReaders, HttpStatus.OK);
+    }
 }

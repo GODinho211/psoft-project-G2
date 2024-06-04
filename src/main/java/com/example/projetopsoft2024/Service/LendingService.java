@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,5 +63,20 @@ public class LendingService {
                 .filter(lending -> lending.getReturnDate() == null)
                 .sorted(Comparator.comparingLong(Lending::getDaysOverdue).reversed())
                 .collect(Collectors.toList());
+    }
+
+    public List<User> findTopReaders() {
+        // Group lendings by user and count the number of lendings for each user
+        Map<User, Long> lendingCounts = lendingRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Lending::getUser, Collectors.counting()));
+
+        // Sort users based on the number of lendings (books borrowed) in descending order
+        List<User> topReaders = lendingCounts.entrySet().stream()
+                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
+                .limit(5) // Get top 5 readers
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return topReaders;
     }
 }
