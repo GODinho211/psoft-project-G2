@@ -5,6 +5,7 @@ import com.example.projetopsoft2024.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +21,13 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("SELECT u FROM User u WHERE u.readernumber = :readernumber")
     Optional<User> findByReaderNumber(@Param("readernumber") Long readerNumber);
 
-    User findByEmail(String email);
+    @Query("SELECT u FROM User u WHERE u.phonenumber = :phonenumber")
+    List<User> findByPhonenumber(@Param("phonenumber") Long phonenumber);
+
+
+    @Query("SELECT f from User f where f.email LIKE :email")
+    Optional<User> findByUserEmail(@Param("email") String email);
+    UserDetails findByEmail(String email);
 
 }
 

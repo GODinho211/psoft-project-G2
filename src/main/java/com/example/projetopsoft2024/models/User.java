@@ -68,7 +68,7 @@ public class User implements UserDetails {
     private byte[] photo_user;
 
 
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote) {
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote, List<Gender> genres ) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
@@ -78,6 +78,7 @@ public class User implements UserDetails {
         setPassword(password);
         setRole(role);
         setFunnyQuote(funnyQuote);
+        setGenres(genres);
 
     }
     @Override

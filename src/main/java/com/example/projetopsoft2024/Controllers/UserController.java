@@ -42,6 +42,28 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Get users by phone number")
+    @GetMapping("/phonenumber/{phonenumber}")
+    public ResponseEntity<?> getUsersByPhonenumber(@PathVariable Long phonenumber) {
+        List<User> users = userservice.getUsersByPhonenumber(phonenumber);
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found with phone number " + phonenumber);
+        } else {
+            return ResponseEntity.ok(users);
+        }
+    }
+
+    @Operation(summary = "Get user by email ")
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        Optional<User> user = userservice.getUserByEmail(email);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + email + " not found");
+        }
+    }
+
     @Operation(summary = "Get user by name")
     @GetMapping("/name/{name}")
     public ResponseEntity<?> getUsersByName(@PathVariable String name) {
@@ -66,6 +88,12 @@ public class UserController {
     @Operation(summary = "Replace user info")
     @PutMapping("/{readernumber}")
     public ResponseEntity<?> replaceUser(@PathVariable Long readernumber, @RequestBody User user) {
+
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getReadernumber().equals(readernumber)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
         try {
             userservice.replaceUser(readernumber, user);
             return ResponseEntity.ok("User replaced successfully");
@@ -86,9 +114,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("/books/{userId}")
-    public ResponseEntity<List<Book>> getBooksByUserGenres(@PathVariable Long userId) {
-        List<Book> books = userservice.getBooksByUserGenres(userId);
+    @GetMapping("/books/{readernumber}")
+    public ResponseEntity<?> getBooksByUserGenres(@PathVariable Long readernumber) {
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getReadernumber().equals(readernumber)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
+        List<Book> books = userservice.getBooksByUserGenres(readernumber);
         return ResponseEntity.ok(books);
     }
 

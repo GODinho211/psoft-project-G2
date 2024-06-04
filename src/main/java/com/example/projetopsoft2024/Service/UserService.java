@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +25,9 @@ public class UserService {
     @Autowired
     private GenderRepository genderRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public  List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
         userRepository.findAll().forEach(n -> users.add(n));
@@ -28,6 +35,14 @@ public class UserService {
     }
     public Optional<User> getUserByReadernumber(Long readernumber) {
         return userRepository.findByReaderNumber(readernumber);
+    }
+
+    public List<User> getUsersByPhonenumber(Long phonenumber) {
+        return userRepository.findByPhonenumber(phonenumber);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByUserEmail(email);
     }
     public List<User> findByName(String name) {
         return userRepository.findByName(name);
@@ -61,6 +76,8 @@ public class UserService {
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         List<Gender> managedGenders = user.getGenres().stream()
                 .map(gender -> genderRepository.findById(gender.getGenderId())
@@ -127,6 +144,9 @@ public class UserService {
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
         }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user.setReadernumber(readernumber);
         userRepository.save(user);
     }
@@ -139,6 +159,11 @@ public class UserService {
         return userRepository.findByReaderNumber(readerNumber);
     }
 
+    public User getCurrentAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        return userRepository.findByUserEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+    }
     public List<Book> getBooksByUserGenres(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getGenres().stream()
