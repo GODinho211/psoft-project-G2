@@ -15,10 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
-@DependsOn({"userDataLoader", "bookDataLoader"})
+
 public class LendingDataLoader implements CommandLineRunner {
     private final LendingRepository lendingRepository;
     private final UserRepository userRepository;
@@ -35,34 +36,47 @@ public class LendingDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Recuperar usuários existentes
         User user1 = userRepository.findByEmail("alice@example.com");
-        User user2= userRepository.findByEmail("carlos@example.com");
-        User user3= userRepository.findByEmail("pedro@example.com");
+        User user2 = userRepository.findByEmail("carlos@example.com");
+        User user3 = userRepository.findByEmail("pedro@example.com");
+
+        if (user1 == null || user2 == null|| user3 == null) {
+            System.out.println("Usuário não encontrado: alice@example.com");
+            return;
+        }
 
         // Recuperar livros existentes
-        List<Book> books1 = bookRepository.findAllById(Arrays.asList(1L));
-        List<Book> books2 = bookRepository.findAllById(Arrays.asList(2L, 3L));
-        List<Book> books3 = bookRepository.findAllById(Arrays.asList(1L, 3L));
-        List<Book> books4 = bookRepository.findAllById(Arrays.asList(2L, 3L));
+        Optional<Book> bookOpt = bookRepository.findById(9780061120084L);
+        Optional<Book> bookOpt1 = bookRepository.findById(9780451524935L);
+        Optional<Book> bookOpt2 = bookRepository.findById(9780062316097L);
+        Optional<Book> bookOpt3 = bookRepository.findById(9780399590504L);
+
+        if (!bookOpt.isPresent()) {
+            System.out.println("Livro não encontrado com ISBN: 1L");
+            return;
+        }
+        Book book1 = bookOpt.get();
+        Book book2 = bookOpt1.get();
+        Book book3 = bookOpt2.get();
+        Book book4 = bookOpt3.get();
+        System.out.println("Livro encontrado: " + book1.getTitle());
 
         // Criar instâncias de Lending
-        Lending lending1 = new Lending(user1, books1,LocalDate.of(2024, 2, 1),LocalDate.of(2024, 3, 27));
-        Lending lending2 = new Lending(user2,books2,LocalDate.of(2024, 3, 1),LocalDate.of(2024, 4, 27));
-        Lending lending3 = new Lending(user1, books2,LocalDate.of(2024, 3, 1),LocalDate.of(2024, 5, 27));
-        Lending lending4 = new Lending(user1,books3,LocalDate.of(2024, 6, 1),LocalDate.of(2024, 6, 27));
-        Lending lending5 = new Lending(user2, books3,LocalDate.of(2024, 1, 14),LocalDate.of(2024, 6, 27));
-        Lending lending6 = new Lending(user3,books4,LocalDate.of(2024, 8, 14),LocalDate.of(2024, 9, 27));
-
-
+        Lending lending1 = new Lending(user1, Arrays.asList(book1), LocalDate.of(2024, 2, 1), LocalDate.of(2024, 3, 27));
+        Lending lending2 = new Lending(user2, Arrays.asList(book2), LocalDate.of(2024, 2, 1), LocalDate.of(2024, 3, 27));
+        Lending lending3 = new Lending(user3, Arrays.asList(book4), LocalDate.of(2024, 2, 1), LocalDate.of(2024, 3, 27));
+        Lending lending4 = new Lending(user1, Arrays.asList(book3), LocalDate.of(2024, 2, 1), LocalDate.of(2024, 3, 27));
+        Lending lending5 = new Lending(user2, Arrays.asList(book1), LocalDate.of(2024, 2, 1), LocalDate.of(2024, 3, 27));
+        // Calcular multa, se houver
         lending1.fineCalc(lending1.getStartDate(), lending1.getReturnDate());
-        lending2.fineCalc(lending2.getStartDate(), lending2.getReturnDate());
-        lending3.fineCalc(lending3.getStartDate(), lending3.getReturnDate());
-        lending4.fineCalc(lending4.getStartDate(), lending4.getReturnDate());
-        lending5.fineCalc(lending5.getStartDate(), lending5.getReturnDate());
-        lending6.fineCalc(lending6.getStartDate(), lending6.getReturnDate());
-        ;
+        lending2.fineCalc(lending1.getStartDate(), lending2.getReturnDate());
+        lending3.fineCalc(lending1.getStartDate(), lending3.getReturnDate());
+        lending4.fineCalc(lending1.getStartDate(), lending4.getReturnDate());
+        lending5.fineCalc(lending1.getStartDate(), lending5.getReturnDate());
 
+        System.out.println("Multa calculada para o empréstimo: " + lending1.getFine());
 
         // Salvar as instâncias de Lending no banco de dados
-        lendingRepository.saveAll(Arrays.asList(lending1,lending2,lending3,lending4,lending5,lending6));
+        lendingRepository.saveAll(Arrays.asList(lending1,lending2,lending3,lending4,lending5));
+        System.out.println("Empréstimo salvo: " + lending1.getLendingId());
     }
 }

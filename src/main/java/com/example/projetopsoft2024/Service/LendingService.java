@@ -6,18 +6,17 @@ import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import java.util.stream.Collectors;
 
@@ -73,8 +72,19 @@ public class LendingService {
                 .collect(Collectors.toList());
     }
 
+    public List<LendingsPerMonthDTO> getLendingsPerGenre() {
+        List<Object[]> results = lendingRepository.countLendingsPerGenre();
+        List<LendingsPerMonthDTO> lendingsPerGenre = new ArrayList<>();
 
-    public int getNumberOfLendingsByMonth(int month) {
-        return lendingRepository.countLendingsByMonth(month);
+        for (Object[] result : results) {
+            String description = (String) result[0];
+            Long count = (Long) result[1];
+            lendingsPerGenre.add(new LendingsPerMonthDTO(description, count.intValue()));
+        }
+
+        return lendingsPerGenre;
     }
+
+
+
 }

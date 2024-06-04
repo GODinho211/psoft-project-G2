@@ -11,8 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LendingsPerMonthDTO {
-    private int month;
-    private int numberOfLendings;
 
-    // Getters and setters
+
+    private String genderDescription;
+    private int count;
+
 }
