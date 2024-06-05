@@ -4,6 +4,7 @@ import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Order(2)
 public class GenderDataLoader implements CommandLineRunner {
     private final GenderRepository genderRepository;
 

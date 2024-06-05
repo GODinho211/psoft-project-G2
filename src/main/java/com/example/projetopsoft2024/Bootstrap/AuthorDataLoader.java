@@ -4,12 +4,14 @@ import com.example.projetopsoft2024.Repositories.AuthorRepository;
 import com.example.projetopsoft2024.models.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Order(1)
 public class AuthorDataLoader implements CommandLineRunner {
     private final AuthorRepository authorRepository;
 
