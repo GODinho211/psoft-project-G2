@@ -1,13 +1,10 @@
 package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.GenderRepository;
-import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +19,8 @@ public class GenderService {
     }
 
     public List<Gender> getAllGenders() {
-    return genderRepository.findAll();
+        return genderRepository.findAll();
     }
-
 
 
     public String deleteGender(Long id) {
@@ -36,7 +32,7 @@ public class GenderService {
             return "Gender not found";
         }
     }
-  
+
     public List<Gender> findByDescription(String description) {
         return genderRepository.findByDescription(description);
     }

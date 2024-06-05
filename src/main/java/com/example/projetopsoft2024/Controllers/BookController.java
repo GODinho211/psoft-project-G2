@@ -187,7 +187,6 @@ public class BookController {
     }
 
 
-
     @Operation(summary = "Get the top 5 most lent books")
     @GetMapping("/top5LentBooks")
     public ResponseEntity<List<Book>> getTop5LentBooks() {
