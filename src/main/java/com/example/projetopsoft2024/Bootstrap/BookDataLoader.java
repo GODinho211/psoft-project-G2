@@ -11,14 +11,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.context.annotation.DependsOn;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Component
 @Order(3)
-@DependsOn({"genderDataLoader", "authorDataLoader"})
 public class BookDataLoader implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final GenderRepository genderRepository;

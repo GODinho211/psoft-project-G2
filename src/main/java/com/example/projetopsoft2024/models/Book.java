@@ -61,12 +61,12 @@ public class Book {
     @JoinColumn(name = "autor_id")
     private Author author;
 
- //   public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
- //       this.title = title;
- //       this.description = description;
- //       this.gender = gender;
- //       this.author = authorOfBook;
- //   }
+    public Book(String title, String description, List<Gender> gender, Author authorOfBook) {
+        this.title = title;
+        this.description = description;
+        this.gender = gender;
+        this.author = authorOfBook;
+    }
 
     public Book(String title, String description, byte[] picture) {
         this.title = title;
@@ -89,13 +89,7 @@ public class Book {
 
     }
 
-    //public void setIsbn(long isbn) {
-    //    String isbnStr = Long.toString(isbn);
-    //    if (!isValidISBN10(isbnStr) && !isValidISBN13(isbnStr)) {
-    //        throw new IllegalArgumentException("ISBN must be in ISBN-10 or ISBN-13 format");
-    //    }
-    //    this.isbn = isbn;
-    //}
+
 
 
     public void setIsbn(String isbn) {

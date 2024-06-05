@@ -2,17 +2,22 @@ package com.example.projetopsoft2024.Service;
 
 
 import com.example.projetopsoft2024.Repositories.BookRepository;
+import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
 import com.example.projetopsoft2024.models.Entitys.Lending;
+import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +26,14 @@ public class LendingService {
     private final LendingRepository lendingRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final GenderRepository genderRepository;
 
     @Autowired
-    public LendingService(LendingRepository lendingRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public LendingService(LendingRepository lendingRepository, UserRepository userRepository, BookRepository bookRepository, GenderRepository genderRepository) {
         this.lendingRepository = lendingRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+        this.genderRepository = genderRepository;
     }
 
     public Lending findLendingByLendId(long lendingId){
@@ -59,8 +66,40 @@ public class LendingService {
 
     public List<Lending> findOverdueLendings() {
         return lendingRepository.findAll().stream()
-                .filter(lending -> lending.getReturnDate() == null)
+                .filter(lending -> lending.getReturnDate() != null)
+                .filter(lending -> lending.getReturnDate().isAfter(lending.getStartDate().plusDays(Lending.MAX_LOAN_PERIOD)))
                 .sorted(Comparator.comparingLong(Lending::getDaysOverdue).reversed())
                 .collect(Collectors.toList());
     }
+
+    public List<LendingsPerMonthDTO> getLendingsPerGenre() {
+        List<Object[]> results = lendingRepository.countLendingsPerGenre();
+        List<LendingsPerMonthDTO> lendingsPerGenre = new ArrayList<>();
+
+        for (Object[] result : results) {
+            String description = (String) result[0];
+            Long count = (Long) result[1];
+            lendingsPerGenre.add(new LendingsPerMonthDTO(description, count.intValue()));
+        }
+
+        return lendingsPerGenre;
+    }
+
+    public List<User> findTopReaders() {
+        // Group lendings by user and count the number of lendings for each user
+        Map<User, Long> lendingCounts = lendingRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Lending::getUser, Collectors.counting()));
+
+        // Sort users based on the number of lendings (books borrowed) in descending order
+        List<User> topReaders = lendingCounts.entrySet().stream()
+                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
+                .limit(5) // Get top 5 readers
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return topReaders;
+    }
+
+
+
 }

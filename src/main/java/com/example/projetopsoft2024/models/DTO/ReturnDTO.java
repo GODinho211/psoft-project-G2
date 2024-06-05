@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ReturnDTO {
 
-
     private Long lendingId;
     private User user;
     private List<Book> books;
