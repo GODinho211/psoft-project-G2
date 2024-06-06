@@ -2,11 +2,21 @@ package com.example.projetopsoft2024.Controllers;
 
 
 
+import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.Gender;
+import com.example.projetopsoft2024.models.RoleUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +34,9 @@ public class UserController {
 
     @Autowired
     private UserService userservice;
+
+    @Autowired
+    private GenderRepository genderRepository;
 
     @Operation(summary = "Get all users")
    @GetMapping(value = "/all")
@@ -76,7 +89,7 @@ public class UserController {
     }
 
     @Operation(summary = "Create a user")
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<?> createUsers(@RequestBody User user) {
         try {
             userservice.createUser(user);
@@ -123,6 +136,27 @@ public class UserController {
 
         List<Book> books = userservice.getBooksByUserGenres(readernumber);
         return ResponseEntity.ok(books);
+    }
+    @Operation(summary = "Create a user with a photo")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> createUserPhoto(@RequestParam("name") String name,
+                                                  @RequestParam("email") String email,
+                                                  @RequestParam("password") String password,
+                                                  @RequestParam("role") String role,
+                                                  @RequestParam("dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth,
+                                                  @RequestParam("phoneNumber") Long phoneNumber,
+                                                  @RequestParam("gdprConsent") String gdprConsent,
+                                                  @RequestParam("funnyQuote") String funnyQuote,
+                                                  @RequestParam("genderIds") List<Long> genderIds,
+                                                  @RequestParam("photo") MultipartFile photoFile) {
+        try {
+            User user = userservice.createUserPhoto(name, email, password, role, dateOfBirth, phoneNumber, gdprConsent, funnyQuote, genderIds, photoFile);
+            return new ResponseEntity<>("User created successfully  ", HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

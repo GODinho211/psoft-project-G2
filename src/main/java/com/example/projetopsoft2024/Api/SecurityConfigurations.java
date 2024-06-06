@@ -40,7 +40,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET,"/api/users/name/{name}").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/users/books/{readernumber}").hasRole("READER")
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/api/users/create").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory

@@ -5,16 +5,25 @@ import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
+import com.example.projetopsoft2024.models.RoleUser;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -75,6 +84,10 @@ public class UserService {
         }
         if (containsProhibitedWord(user.getName())) {
             throw new Exception("O nome do usuário contém palavras proibidas.");
+        }
+
+        if (!isValidEmail(user.getEmail())) {
+            throw new IllegalArgumentException("O email deve estar em um formato válido");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -139,6 +152,12 @@ public class UserService {
             return false;
         }
 
+    private boolean isValidEmail(String email) {
+        // Utilizar a classe Pattern para verificar o padrão do e-mail
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
+    }
     public void replaceUser(Long readernumber , User user) throws Exception {
 
         if (containsProhibitedWord(user.getName())) {
@@ -171,6 +190,58 @@ public class UserService {
                 .distinct()
                 .toList();
     }
+
+    public User createUserPhoto(String name, String email, String password, String role, LocalDate dateOfBirth,
+                                Long phoneNumber, String gdprConsent, String funnyQuote, List<Long> genderIds,
+                                MultipartFile photoFile) {
+        if (photoFile.getSize() > 20000) {
+            throw new IllegalArgumentException("Photo size must not exceed 20KBytes");
+        }
+
+        List<Gender> genders = genderRepository.findAllById(genderIds);
+        if (genders.isEmpty()) {
+            throw new IllegalArgumentException("One or more genders not found");
+        }
+
+
+
+
+        byte[] photo;
+        try {
+            photo = photoFile.getBytes();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to process photo file");
+        }
+
+        if (gdprConsent == null || !gdprConsent.equalsIgnoreCase("sim")) {
+            throw new IllegalArgumentException("O usuário deve aceitar a política de privacidade de dados para se registrar no sistema.");
+        }
+
+
+        if (containsProhibitedWord(name)) {
+            throw new IllegalArgumentException("O nome do usuário contém palavras proibidas.");
+        }
+
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("O email deve estar em um formato válido");
+        }
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(RoleUser.valueOf(role.toUpperCase()));
+        user.setDateofbirth(Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        user.setPhonenumber(phoneNumber);
+        user.setGdprconsent(gdprConsent);
+        user.setFunnyQuote(funnyQuote);
+        user.setGenres(genders);
+        user.setPhoto_user(photo);
+
+
+        return userRepository.save(user);
+    }
+
 
 }
 
