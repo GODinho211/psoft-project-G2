@@ -60,9 +60,8 @@ public class AuthorDataLoader implements CommandLineRunner {
                 new Author("Markus Zusak", "Markus Zusak was born in 1975 in Sydney, Australia, the youngest of four children of immigrant German and Austrian parents. Neither parent could read or write English when they first arrived in Australia, but they wanted their children to master the language and strongly encouraged them to read and communicate in English from an early age. Zusak began writing fiction at age 16 and pursued a degree in teaching. Before becoming a professional author, Zusak worked briefly as a house painter, a janitor and a high school English teacher.", photo15)
 
 
-
         );
-
+//zzzz
 
         authorRepository.saveAll(authors);
     }
