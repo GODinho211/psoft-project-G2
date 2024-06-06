@@ -4,8 +4,11 @@ import com.example.projetopsoft2024.Service.AuthorService;
 
 import com.example.projetopsoft2024.models.Author;
 
+import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.AuthorDTO;
 import com.example.projetopsoft2024.models.Requests.AuthorRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
+@Tag(name = "Author", description = "Endpoints for managing authors.")
 @RestController
 @RequestMapping("api/author")
 public class AuthorController {
@@ -26,11 +29,12 @@ public class AuthorController {
 
     @Autowired
     private AuthorService authorService;
-
+    @Operation(summary = "Get a list of all authors")
     @GetMapping()
     public List<AuthorDTO> getAuthors() {
         return authorService.getAuthors();
     }
+    @Operation(summary = "Create a new author with an optional photo")
     @PostMapping()
     public ResponseEntity<String> createAuthor(@RequestParam(value = "photo", required = false) MultipartFile photo, @ModelAttribute AuthorRequest authorRequest ){
         byte[] photoBytes = null;
@@ -65,7 +69,7 @@ public class AuthorController {
     public String deleteAuthor(@PathVariable long authorId){
         return authorService.deleteAuthor(authorId);
     }
-
+    @Operation(summary = "Find authors by name")
     @GetMapping("/name/{name}")
     public ResponseEntity<?> getAuthorByName(@PathVariable String name) {
         List<Author> authors = authorService.findByName(name);
@@ -75,6 +79,7 @@ public class AuthorController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No authors found with name " + name);
         }
     }
+    @Operation(summary = "Get an author by ID")
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getAuthorById(@PathVariable Long id) {
         Optional<Author> author = authorService.getAuthorById(id);
@@ -84,6 +89,7 @@ public class AuthorController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author with id " + id + " not found");
         }
     }
+    @Operation(summary = "Update an author by ID with an optional photo")
     @PutMapping("/{id}")
     public ResponseEntity<String> updateAuthor(@PathVariable Long id,
                                                @RequestParam("name") String name,
@@ -100,7 +106,7 @@ public class AuthorController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author not found");
         }
     }
-
+    @Operation(summary = "Get the photo of an author by ID")
     @GetMapping("/{id}/photo")
     public ResponseEntity<byte[]> getAuthorPhoto(@PathVariable Long id) {
         Optional<Author> optionalAuthor = authorService.getAuthorById(id);
@@ -117,6 +123,16 @@ public class AuthorController {
             }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @Operation(summary = "Get books by author name")
+    @GetMapping("/{name}/books")
+    public ResponseEntity<?> getBooksByAuthor(@PathVariable String name) {
+        List<Book> books = authorService.findBooksByAuthor(name);
+        if (!books.isEmpty()) {
+            return ResponseEntity.ok(books);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No books found for author with name " + name);
         }
     }
 

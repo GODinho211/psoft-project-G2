@@ -2,6 +2,7 @@ package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.AuthorRepository;
 import com.example.projetopsoft2024.models.Author;
+import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.AuthorDTO;
 import com.example.projetopsoft2024.models.Requests.AuthorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,8 @@ public class AuthorService {
         dto.setName(author.getName());
         dto.setBio(author.getBio());
         return dto;
+    }public List<Book> findBooksByAuthor(String name) {
+        return authorRepository.findBooksByAuthor(name);
     }
+
 }
