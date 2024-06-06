@@ -32,10 +32,19 @@ public class Author {
     @Column(name = "bio",columnDefinition = "TEXT",length = 4096,nullable = false)
     private String bio;
 
-    public Author(String name, String bio) {
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    public Author(String name, String bio, byte[] photo) {
         this.name = name;
         this.bio = bio;
+        this.photo = photo;
     }
+
+    public Author(String name, String bio) {
+    }
+
     public String getName() {
         return name;
     }
