@@ -44,10 +44,10 @@ public class UserDataLoader implements CommandLineRunner {
         Gender romanceGender = romanceGenderOpt.get();
 
         List<User> users = Arrays.asList(
-                new User("Alice", "alice@example.com", new Date(100, 0, 15), 123456789L, 123456L, "sim", passwordEncoder.encode("pass"), RoleUser.LIBRARIAN, "Alice funny quote", Arrays.asList(fictionGender)),
-                new User("Carlos", "carlos@example.com", new Date(99, 0, 15), 987654321L, 654321L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Carlos funny quote", Arrays.asList(nonFictionGender)),
-                new User("Pedro", "pedro@example.com", new Date(98, 0, 15), 555555555L, 333333L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Pedro funny quote", Arrays.asList(romanceGender)),
-                new User("Diana", "diana@example.com", new Date(97, 0, 15), 111111111L, 999999L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Diana funny quote", Arrays.asList(fictionGender)),
+                new User("Alice", "alice@example.com", new Date(100, 0, 15), 123456789L, 123456L, "sim", passwordEncoder.encode("pass"), RoleUser.LIBRARIAN, "A leitura é a porta para o conhecimento", Arrays.asList(fictionGender)),
+                new User("Carlos", "carlos@example.com", new Date(99, 0, 15), 987654321L, 654321L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "O conhecimento é a base do progresso", Arrays.asList(nonFictionGender)),
+                new User("Pedro", "pedro@example.com", new Date(98, 0, 15), 555555555L, 333333L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "A educação é a chave para o futuro", Arrays.asList(romanceGender)),
+                new User("Diana", "diana@example.com", new Date(97, 0, 15), 111111111L, 999999L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "A leitura nos transporta para outros mundos", Arrays.asList(fictionGender)),
                 new User("Mariana", "mariana@example.com", new Date(96, 0, 15), 222222222L, 222222L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Livros são portais para outros mundos", Arrays.asList(nonFictionGender)),
                 new User("Joaquim", "joaquim@example.com", new Date(95, 0, 15), 333333333L, 444444L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Aprender é sempre um tesouro", Arrays.asList(romanceGender)),
                 new User("Beatriz", "beatriz@example.com", new Date(94, 0, 15), 444444444L, 555555L, "sim", passwordEncoder.encode("pass"), RoleUser.READER, "Ler é viajar sem sair do lugar", Arrays.asList(fictionGender)),

@@ -1,4 +1,5 @@
 package com.example.projetopsoft2024.models;
+import com.example.projetopsoft2024.models.DTO.UserDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -80,6 +81,10 @@ public class User implements UserDetails {
         setFunnyQuote(funnyQuote);
         setGenres(genres);
 
+    }
+
+    public UserDto toUserDTO() {
+        return new UserDto(this.readernumber, this.name, this.email,this.password, this.dateofbirth, this.phonenumber, this.funnyQuote, this.genres);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

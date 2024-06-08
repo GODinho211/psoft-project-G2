@@ -4,6 +4,7 @@ package com.example.projetopsoft2024.Controllers;
 
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.DTO.UserDto;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.RoleUser;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,8 +40,8 @@ public class UserController {
     private GenderRepository genderRepository;
 
     @Operation(summary = "Get all users")
-   @GetMapping(value = "/all")
-    public List<User> getUsers() {
+    @GetMapping("/all")
+    public List<UserDto> getUsers() {
         return userservice.getAllUsers();
     }
 
@@ -119,6 +120,12 @@ public class UserController {
     @Operation(summary = "Delete a user")
     @DeleteMapping("/{readernumber}")
     public ResponseEntity<?> deleteUser(@PathVariable Long readernumber) {
+
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getReadernumber().equals(readernumber)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
         try {
             userservice.deleteUser(readernumber);
             return ResponseEntity.ok("User deleted successfully");
@@ -151,7 +158,7 @@ public class UserController {
                                                   @RequestParam("photo") MultipartFile photoFile) {
         try {
             User user = userservice.createUserPhoto(name, email, password, role, dateOfBirth, phoneNumber, gdprConsent, funnyQuote, genderIds, photoFile);
-            return new ResponseEntity<>("User created successfully  ", HttpStatus.CREATED);
+            return new ResponseEntity<>("User created   ", HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -159,6 +166,21 @@ public class UserController {
         }
     }
 
+
+    @Operation(summary = "Get user by email")
+    @GetMapping("{email}")
+    public ResponseEntity<?> getUserDtoByEmail(@PathVariable String email) {
+        User currentUser = userservice.getCurrentAuthenticatedUser();
+        if (!currentUser.getEmail().equals(email)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
+
+        Optional<UserDto> userDto = userservice.getUserDtoByEmail(email);
+        if (userDto.isPresent()) {
+            return ResponseEntity.ok(userDto.get());
+        }
+        return null;
+    }
 
 }
 
