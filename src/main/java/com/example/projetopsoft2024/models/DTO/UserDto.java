@@ -26,5 +26,6 @@ public class UserDto {
     private Long phonenumber;
     private String funnyQuote;
     private List<Gender> genres;
+    private byte[] photo_user;
 
 }

@@ -84,7 +84,7 @@ public class User implements UserDetails {
     }
 
     public UserDto toUserDTO() {
-        return new UserDto(this.readernumber, this.name, this.email,this.password, this.dateofbirth, this.phonenumber, this.funnyQuote, this.genres);
+        return new UserDto(this.readernumber, this.name, this.email,this.password, this.dateofbirth, this.phonenumber, this.funnyQuote, this.genres, this.photo_user);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
