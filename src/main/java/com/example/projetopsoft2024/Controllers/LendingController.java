@@ -7,6 +7,7 @@ import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
 import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
 import com.example.projetopsoft2024.models.DTO.ReturnDTO;
+import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
@@ -17,8 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
-import java.util.Objects;
+
 
 
 @RestController
@@ -87,9 +89,10 @@ public class LendingController {
     }
 
     @GetMapping("/top5readers")
-    public ResponseEntity<List<User>> getTopReaders() {
-        List<User> topReaders = lendingService.findTopReaders();
+    public ResponseEntity<List<Top5UsersDto>> getTopReaders() {
+        List<Top5UsersDto> topReaders = lendingService.findTopReaders();
         return new ResponseEntity<>(topReaders, HttpStatus.OK);
     }
 
-}
+
+    }
