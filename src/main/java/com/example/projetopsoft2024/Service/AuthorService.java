@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorService {
@@ -89,6 +90,17 @@ public class AuthorService {
         return dto;
     }public List<Book> findBooksByAuthor(String name) {
         return authorRepository.findBooksByAuthor(name);
+    }
+
+    public List<AuthorDTO> getTopAuthors() {
+        List<Object[]> topAuthorsData = authorRepository.findTopAuthors();
+        return topAuthorsData.stream()
+                .map(data -> {
+                    Author author = (Author) data[0];
+                    Long lendCount = (Long) data[1];
+                    return new AuthorDTO(author.getIdAuthor(), author.getName(), author.getBio(), lendCount);
+                })
+                .collect(Collectors.toList());
     }
 
 }
