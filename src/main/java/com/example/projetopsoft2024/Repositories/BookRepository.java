@@ -5,7 +5,6 @@ import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Author;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book,Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByIsbn(long isbn);
 
@@ -28,7 +27,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     @Query("SELECT f from Book f where lower(f.title) LIKE lower(concat('%', :title, '%'))")
     List<Book> findByTitle(@Param("title") String title);
 
-        List<Book> findByGender(Gender gender);
+    List<Book> findByGender(Gender gender);
 
     @Query("SELECT b FROM Book b JOIN FETCH b.gender")
     List<Book> findAllWithGender();

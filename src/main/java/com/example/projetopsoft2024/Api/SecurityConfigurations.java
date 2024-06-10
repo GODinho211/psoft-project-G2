@@ -39,6 +39,14 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET,"/api/lendings/AvgLendingPerGender").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/lendings/average-lending-duration").hasRole("LIBRARIAN")
 
+                        .requestMatchers(HttpMethod.POST,"/api/author").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/author/id/{id}").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/author/name/{name}").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/author/{name}/books").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/author/top-authors").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/top-readers-per-genre").hasRole("LIBRARIAN")
+
+
 
                         //UsersEndpoints
                         .requestMatchers(HttpMethod.PUT,"/api/users/{readernumber}").hasRole("READER")
@@ -50,6 +58,21 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/api/users/create").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users/all").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET, "/api/users/{email}").hasRole("READER")
+
+                        //BooksEndpoints
+                        .requestMatchers(HttpMethod.PUT,"/api/books/{bookId}").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/books/{bookId}").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/gender/search").hasRole("LIBRARIAN")
+
+                        .requestMatchers(HttpMethod.GET,"/api/picture/{bookId}").hasRole("LIBRARIAN")
+
+                        .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/books/title/{title}").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/books/top5LentBooks").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/books/top5Genders").hasRole("LIBRARIAN")
+
+                        //Bonus Endpoints
+                        .requestMatchers(HttpMethod.GET,"api/author/{authorName}").hasRole("READER")
 
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory
