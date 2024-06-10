@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.models.Entitys;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
 import com.example.projetopsoft2024.models.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "lending")
+@Schema(description = "Lend")
 public class Lending {
 
     @Id

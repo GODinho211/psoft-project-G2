@@ -29,10 +29,16 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers("api/lendings/**").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books/getAll").hasRole("LIBRARIAN")
-//                        .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
+
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.POST,"/api/lendings/lend").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.POST,"/api/lendings/returnBook").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/overdueLendings").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/AvgLendingPerGender").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/average-lending-duration").hasRole("LIBRARIAN")
+
 
                         //UsersEndpoints
                         .requestMatchers(HttpMethod.PUT,"/api/users/{readernumber}").hasRole("READER")
