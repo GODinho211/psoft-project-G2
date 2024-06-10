@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -134,8 +135,8 @@ public class LendingController {
     @GetMapping("/top-readers-per-genre")//
     @Operation(summary = "Get top readers per genre", description = "Retrieve the top 5 readers per genre within a specified period.")//
     public ResponseEntity<Map<String, List<User>>> getTopReadersPerGenre(//
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,//
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {//
+                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,//
+                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {//
 
         Map<String, List<User>> topReadersPerGenre = lendingService.findTopReadersPerGenre(startDate, endDate);//
         return ResponseEntity.ok(topReadersPerGenre);//
