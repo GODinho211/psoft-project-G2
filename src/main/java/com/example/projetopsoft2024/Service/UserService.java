@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
+import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.UserDto;
 import com.example.projetopsoft2024.models.Gender;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -37,6 +39,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LendingRepository lendingRepository;
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
@@ -192,10 +197,12 @@ public class UserService {
                 .toList();
     }
 
-    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {//
-        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);//
-        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());//
-    }//
+    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {
+        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
+        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
+    }
+
+
     public User createUserPhoto(String name, String email, String password, String role, LocalDate dateOfBirth,
                                 Long phoneNumber, String gdprConsent, String funnyQuote, List<Long> genderIds,
                                 MultipartFile photoFile) {

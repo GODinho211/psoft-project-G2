@@ -20,6 +20,12 @@ import java.util.stream.Collectors;
 
 import com.example.projetopsoft2024.Repositories.LendingRepository;
 
+
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+
 @Service
 public class BookService {
 
@@ -137,14 +143,18 @@ public class BookService {
     private LendingRepository lendingRepository;
 
     public List<Book> getTop5LentBooks() {
+        LocalDate oneYearAgo = LocalDate.now().minus(1, ChronoUnit.YEARS);
+
         return lendingRepository.findAll().stream()
-                .collect(Collectors.groupingBy(lending -> lending.getBook(0), Collectors.counting()))
+                .filter(lending -> lending.getLendDate().isAfter(oneYearAgo))
+                .collect(Collectors.groupingBy(Lending::getBook, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Map.Entry.<Book, Long>comparingByValue().reversed())
                 .limit(5)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
+
 
     public Book updateBookPicture(long bookId, byte[] picture) {//
         Optional<Book> bookOptional = bookRepository.findById(bookId);//
