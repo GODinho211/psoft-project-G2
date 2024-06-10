@@ -2,17 +2,20 @@ package com.example.projetopsoft2024.models;
 
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "book")
+@Table(name="book")
 public class Book {
 
     @Id
@@ -26,8 +29,16 @@ public class Book {
     private String description;
 
     @Lob
-    @Column(name = "picture", nullable = true)
+    @Column(name = "picture",nullable = true)
     private byte[] picture;
+
+    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinTable(
+    //        name = "book_gender",
+    //        joinColumns = @JoinColumn(name = "book_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "gender_id")
+    //)
+    //private List<Gender> gender= new ArrayList<>();
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -36,7 +47,14 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "gender_id")
     )
-    private List<Gender> gender = new ArrayList<>();
+    private List<Gender> gender= new ArrayList<>();
+
+
+    //NAO TENHO A CERTEZA SE É ASSIM
+    //@ManyToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "gender_id")
+    //private Gender gender;
+
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -72,6 +90,8 @@ public class Book {
     }
 
 
+
+
     public void setIsbn(String isbn) {
         String isbnStr = isbn.replace("-", "");
         if (!isValidISBN10(isbnStr) && !isValidISBN13(isbnStr)) {
@@ -100,6 +120,7 @@ public class Book {
 
             return checksum.equals(isbn.substring(9));
         } catch (NumberFormatException nfe) {
+            // ISBN is not numeric
             return false;
         }
     }
@@ -125,6 +146,7 @@ public class Book {
 
             return checksum == Integer.parseInt(isbn.substring(12));
         } catch (NumberFormatException nfe) {
+            // ISBN is not numeric
             return false;
         }
     }

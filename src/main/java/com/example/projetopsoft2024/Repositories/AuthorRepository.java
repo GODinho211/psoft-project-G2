@@ -20,8 +20,4 @@ public interface AuthorRepository extends JpaRepository<Author,Long> {
 
     @Query("SELECT a FROM Author a WHERE a.name LIKE CONCAT(:name, '%')")
     List<Author> findByName(@Param("name") String name);
-
-
-    @Query("SELECT a, COUNT(l) AS lendCount FROM Lending l JOIN l.books b JOIN b.author a GROUP BY a.id ORDER BY lendCount DESC")
-    List<Object[]> findTopAuthors();
 }

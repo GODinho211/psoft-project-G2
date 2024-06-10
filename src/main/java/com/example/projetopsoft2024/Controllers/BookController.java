@@ -187,6 +187,7 @@ public class BookController {
     }
 
 
+
     @Operation(summary = "Get the top 5 most lent books")
     @GetMapping("/top5LentBooks")
     public ResponseEntity<List<Book>> getTop5LentBooks() {
@@ -195,17 +196,6 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(books, HttpStatus.OK);
-    }
-
-    @PutMapping("/{bookId}/picture")
-    public ResponseEntity<Book> updateBookPicture(@PathVariable Long bookId, @RequestParam("picture") MultipartFile pictureFile) {
-        try {
-            byte[] picture = pictureFile.getBytes();
-            Book updatedBook = bookService.updateBookPicture(bookId, picture);
-            return new ResponseEntity<>(updatedBook, HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
 }

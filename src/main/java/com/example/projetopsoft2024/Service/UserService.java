@@ -3,7 +3,6 @@ package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
-import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.UserDto;
 import com.example.projetopsoft2024.models.Gender;
@@ -27,8 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-
 @Service
 public class UserService {
 
@@ -45,20 +42,7 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(User::toUserDTO)
                 .collect(Collectors.toList());
-}
-
-     /*           //Autowired estava no merge do wp2 to main
-    @Autowired
-    private LendingRepository lendingRepository;
-
-    public  List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
-        userRepository.findAll().forEach(n -> users.add(n));
-        return users;
     }
-        //ate aqui
-*/
-
     public Optional<User> getUserByReadernumber(Long readernumber) {
         return userRepository.findByReaderNumber(readernumber);
     }
@@ -264,7 +248,6 @@ public class UserService {
         return userRepository.findByUserEmail(email)
                 .map(User::toUserDTO);
     }
-
 
 
 

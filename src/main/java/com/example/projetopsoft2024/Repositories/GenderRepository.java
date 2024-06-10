@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface GenderRepository extends JpaRepository<Gender, Long> {
+public interface GenderRepository extends JpaRepository<Gender,Long> {
 
     @Query("SELECT f from Gender f where f.genderId = :genderId")
     List<Gender> findByGenderId(@Param("genderId") String genderId);

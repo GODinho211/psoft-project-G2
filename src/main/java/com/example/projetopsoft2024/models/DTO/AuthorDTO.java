@@ -13,5 +13,4 @@ public class AuthorDTO {
     private Long idAuthor;
     private String name;
     private String bio;
-    private Long lendCount;
 }

@@ -167,8 +167,6 @@ public class UserController {
     }
 
 
-
-
     @Operation(summary = "Get user by email")
     @GetMapping("{email}")
     public ResponseEntity<?> getUserDtoByEmail(@PathVariable String email) {

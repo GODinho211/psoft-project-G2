@@ -136,11 +136,5 @@ public class AuthorController {
         }
     }
 
-    @Operation(summary = "Get top 5 authors based on the number of lent books")
-    @GetMapping("/top-authors")
-    public ResponseEntity<List<AuthorDTO>> getTopAuthors() {
-        List<AuthorDTO> topAuthors = authorService.getTopAuthors();
-        return ResponseEntity.ok(topAuthors);
 
-    }
 }

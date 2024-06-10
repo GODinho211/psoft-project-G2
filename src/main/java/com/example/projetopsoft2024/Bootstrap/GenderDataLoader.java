@@ -23,6 +23,7 @@ public class GenderDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Inicializar gêneros
         List<Gender> genders = Arrays.asList(
                 new Gender("Fiction"),
                 new Gender("Non-Fiction"),
@@ -35,8 +36,10 @@ public class GenderDataLoader implements CommandLineRunner {
                 new Gender("Historical Fiction"),
                 new Gender("Biography & Memoir")
 
+                // Adicione mais gêneros conforme necessário
         );
 
+        // Salvar os gêneros no banco de dados
         genderRepository.saveAll(genders);
     }
 }

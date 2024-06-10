@@ -15,7 +15,6 @@ import com.example.projetopsoft2024.models.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -109,16 +107,6 @@ public class LendingController {
         BigDecimal averageDuration = lendingService.getAverageLendingDuration();
         String message = "Média de Dias por Empréstimo: " + averageDuration.setScale(2, BigDecimal.ROUND_HALF_UP);
         return message;
-    }
-
-    @GetMapping("/top-readers-per-genre")
-    @Operation(summary = "Get top readers per genre", description = "Retrieve the top 5 readers per genre within a specified period.")
-    public ResponseEntity<Map<String, List<User>>> getTopReadersPerGenre(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-
-        Map<String, List<User>> topReadersPerGenre = lendingService.findTopReadersPerGenre(startDate, endDate);
-        return ResponseEntity.ok(topReadersPerGenre);
     }
 
     }

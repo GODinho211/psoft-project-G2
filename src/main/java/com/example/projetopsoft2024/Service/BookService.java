@@ -4,19 +4,15 @@ import com.example.projetopsoft2024.Repositories.BookRepository;
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
+import com.example.projetopsoft2024.models.Entitys.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.projetopsoft2024.models.Entitys.Lending;
-
-
+import java.util.function.Function;
 import java.util.LinkedHashMap;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +33,14 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    //@Transactional
     public List<Book> getAllBooks() {
+        //List<Book> books = new ArrayList<Book>();
+        //bookRepository.findAll().forEach(n -> {
+        //  n.getGender();//.size(); // force initialization of the gender collection
+        //  books.add(n);
+        //});
+        //return books;
         return bookRepository.findAll();
     }
 
@@ -55,7 +58,21 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
+    //@Transactional
+    //public Book updateBook(long bookId, Book updatedBook) {
+    //Optional<Book> bookOptional = bookRepository.findById(bookId);
+    //if (!bookOptional.isPresent()) {
+    //throw new RuntimeException("Book not found with id " + bookId);
+    //}
 
+    //Book existingBook = bookOptional.get();
+    //existingBook.setTitle(updatedBook.getTitle());
+    //existingBook.setDescription(updatedBook.getDescription());
+    //existingBook.setGender(updatedBook.getGender());
+    //existingBook.setAuthor(updatedBook.getAuthor());
+    //bookRepository.save(existingBook);
+    //return existingBook;
+    //}
 
     @Transactional
     public Book updateBook(long bookId, Book updatedBook) {
@@ -87,7 +104,7 @@ public class BookService {
         return "Book deleted";
     }
 
-
+    //@Transactional
     public List<Book> getBooksByGender(Long genderId) {
         Gender gender = GenderRepository.findById(genderId)
                 .orElseThrow(() -> new RuntimeException("Gender not found with id " + genderId));
@@ -120,28 +137,13 @@ public class BookService {
     private LendingRepository lendingRepository;
 
     public List<Book> getTop5LentBooks() {
-        LocalDate oneYearAgo = LocalDate.now().minus(1, ChronoUnit.YEARS);
-
         return lendingRepository.findAll().stream()
-                .filter(lending -> lending.getLendDate().isAfter(oneYearAgo))
-                .collect(Collectors.groupingBy(Lending::getBook, Collectors.counting()))
+                .collect(Collectors.groupingBy(lending -> lending.getBook(0), Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Map.Entry.<Book, Long>comparingByValue().reversed())
                 .limit(5)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-    }
-
-    public Book updateBookPicture(long bookId, byte[] picture) {
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if (!bookOptional.isPresent()) {
-            throw new RuntimeException("Book not found with id " + bookId);
-        }
-
-        Book existingBook = bookOptional.get();
-        existingBook.setPicture(picture);
-        bookRepository.save(existingBook);
-        return existingBook;
     }
 
 }
