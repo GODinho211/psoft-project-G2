@@ -177,10 +177,10 @@ public class UserService {
                 .toList();
     }
 
-    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {
-        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
-        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
-    }
+    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {//
+        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);//
+        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());//
+    }//
     //comentario
 
 

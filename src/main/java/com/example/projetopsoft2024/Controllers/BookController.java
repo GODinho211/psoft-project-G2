@@ -197,15 +197,15 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @PutMapping("/{bookId}/picture")
-    public ResponseEntity<Book> updateBookPicture(@PathVariable Long bookId, @RequestParam("picture") MultipartFile pictureFile) {
-        try {
-            byte[] picture = pictureFile.getBytes();
-            Book updatedBook = bookService.updateBookPicture(bookId, picture);
-            return new ResponseEntity<>(updatedBook, HttpStatus.OK);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    @PutMapping("/{bookId}/picture")//
+    public ResponseEntity<Book> updateBookPicture(@PathVariable Long bookId, @RequestParam("picture") MultipartFile pictureFile) {//
+        try {//
+            byte[] picture = pictureFile.getBytes();//
+            Book updatedBook = bookService.updateBookPicture(bookId, picture);//
+            return new ResponseEntity<>(updatedBook, HttpStatus.OK);//
+        } catch (IOException e) {//
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//
+        }//
+    }//
 //comentario
 }

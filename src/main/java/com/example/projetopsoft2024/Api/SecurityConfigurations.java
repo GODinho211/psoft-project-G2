@@ -42,19 +42,19 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
 
                         //BooksEndpoints
-                        .requestMatchers(HttpMethod.PUT,"/api/books/{bookId}").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/books/{bookId}").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/gender/search").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.PUT,"/api/books/{bookId}").hasRole("LIBRARIAN")//
+                        .requestMatchers(HttpMethod.GET,"/api/books/{bookId}").hasRole("LIBRARIAN")//
+                        .requestMatchers(HttpMethod.GET,"/api/gender/search").hasRole("LIBRARIAN")//
 
-                        .requestMatchers(HttpMethod.GET,"/api/picture/{bookId}").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/picture/{bookId}").hasRole("LIBRARIAN")//
 
-                        .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/books/title/{title}").hasRole("READER")
-                        .requestMatchers(HttpMethod.GET,"/api/books/top5LentBooks").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/books/top5Genders").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")//
+                        .requestMatchers(HttpMethod.GET,"/api/books/title/{title}").hasRole("READER")//
+                        .requestMatchers(HttpMethod.GET,"/api/books/top5LentBooks").hasRole("LIBRARIAN")//
+                        .requestMatchers(HttpMethod.GET,"/api/books/top5Genders").hasRole("LIBRARIAN")//
 
-                        //Bonus Endpoints
-                        .requestMatchers(HttpMethod.GET,"api/author/{authorName}").hasRole("READER")
+                        //Bonus Endpoints/
+                        .requestMatchers(HttpMethod.GET,"api/author/{authorName}").hasRole("READER")//
 
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory

@@ -71,11 +71,11 @@ public class Lending {
 
    }
 
-    private boolean countLending;
+    private boolean countLending;//
 
     public boolean getCountLending() {
         return this.countLending;
-    }
+    }//
 
     public long getDaysOverdue() {
             return ChronoUnit.DAYS.between(this.startDate, returnDate);
@@ -83,11 +83,11 @@ public class Lending {
 
     public LocalDate getLendDate() {
         return this.startDate;
-    }
+    }//
 
     public Book getBook() {
         return this.books.get(0);
-    }
+    }//
 
 
 }

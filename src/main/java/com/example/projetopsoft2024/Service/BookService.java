@@ -132,17 +132,17 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public Book updateBookPicture(long bookId, byte[] picture) {
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if (!bookOptional.isPresent()) {
-            throw new RuntimeException("Book not found with id " + bookId);
-        }
+    public Book updateBookPicture(long bookId, byte[] picture) {//
+        Optional<Book> bookOptional = bookRepository.findById(bookId);//
+        if (!bookOptional.isPresent()) {//
+            throw new RuntimeException("Book not found with id " + bookId);//
+        }//
 //comentario
-        Book existingBook = bookOptional.get();
-        existingBook.setPicture(picture);
-        bookRepository.save(existingBook);
-        return existingBook;
-    }
+        Book existingBook = bookOptional.get();//
+        existingBook.setPicture(picture);//
+        bookRepository.save(existingBook);//
+        return existingBook;//
+    }//
 
 
 
