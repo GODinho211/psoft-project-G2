@@ -1,0 +1,17 @@
+@startuml
+actor Client
+participant Controller
+participant Service
+participant Repository
+database Database
+
+Client -> Controller: Request for Average Lend Duration
+Controller -> Service: getAverageLendingDuration()
+Service -> Repository: findAll()
+Repository -> Database: Query to retrieve all lendings
+Database --> Repository: List of lendings
+Repository --> Service: List of lendings
+Service -> Service: Calculate total days and total lendings
+Service --> Controller: BigDecimal averageDuration
+Controller --> Client: Response with averageDuration
+@enduml
