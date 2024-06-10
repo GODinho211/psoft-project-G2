@@ -3,6 +3,7 @@ package com.example.projetopsoft2024.Service;
 
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
+import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
@@ -27,6 +28,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LendingRepository lendingRepository;
 
     public  List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
@@ -170,6 +174,10 @@ public class UserService {
                 .flatMap(genre -> genre.getBooks().stream())
                 .distinct()
                 .toList();
+    }
+
+    public Long getLendingsCountByUserId(Long userId) {
+        return lendingRepository.countLendingsByUserId(userId);
     }
 
 }

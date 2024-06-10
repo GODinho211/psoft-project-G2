@@ -23,6 +23,8 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
     @Query("SELECT g.description, COUNT(l) FROM Lending l JOIN l.books b JOIN b.gender g GROUP BY g.description")
     List<Object[]> countLendingsPerGenre();
 
+    @Query("SELECT COUNT(l) FROM Lending l JOIN l.user lu WHERE lu.readernumber = :userId")
+    Long countLendingsByUserId(Long userId);
 
 
 }
