@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
@@ -176,8 +177,9 @@ public class UserService {
                 .toList();
     }
 
-    public Long getLendingsCountByUserId(Long userId) {
-        return lendingRepository.countLendingsByUserId(userId);
+    public Long getLendingsCountByUserIdFromLastYear(Long userId) {
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        return lendingRepository.countLendingsByUserIdFromLastYear(userId, oneYearAgo.toLocalDate());
     }
 
 }
