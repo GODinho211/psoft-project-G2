@@ -1,0 +1,23 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+title Top 5 Books
+
+actor Librarian
+
+participant ":LendingController" as Ctrl
+participant ":LendingService" as Srv
+participant ":LendingRepository" as Repo
+
+Librarian -> Ctrl: Request top 5 books (GET /top5lentbooks)
+Ctrl -> Srv: Find top books
+Srv -> Repo: Get all lendings
+Repo --> Srv: List of lendings
+Srv -> Srv: Calculate top 5 books
+Srv --> Ctrl: List of top 5 books
+
+Ctrl --> Librarian: Response with top 5 readers
+
+@enduml

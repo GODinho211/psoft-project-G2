@@ -1,0 +1,23 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+title Top 5 Books
+
+actor Librarian
+
+participant ":BookController" as Ctrl
+participant ":BookService" as Srv
+participant ":BookRepository" as Repo
+
+Librarian -> Ctrl: Request top 5 books (GET /top5genders)
+Ctrl -> Srv: Find top genders
+Srv -> Repo: Get all books
+Repo --> Srv: List of books
+Srv -> Srv: Calculate top 5 genders
+Srv --> Ctrl: List of top 5 gender
+
+Ctrl --> Librarian: Response with top 5 genders
+
+@enduml

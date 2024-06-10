@@ -78,7 +78,7 @@ pode conter qualquer caracter alfanumérico. não existem palavras proibidas
   - os autores devem ser previamente criados
   - Descrição: máximo de 4096 caracteres
   - Título: máximo de 128 caracteres
-  
+  - A fotografia deve ser jpeg ou png e ter no máximo de 20 kbites
 
 ### 1.4. Found out Dependencies
 
