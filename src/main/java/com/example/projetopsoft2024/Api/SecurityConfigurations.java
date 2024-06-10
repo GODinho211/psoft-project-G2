@@ -29,23 +29,27 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers("api/lendings/**").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books/getAll").hasRole("LIBRARIAN")
+
                         .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.POST,"/api/author").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/author/id/{id}").hasRole("READER")
-                        .requestMatchers(HttpMethod.GET,"/api/author/name/{name}").hasRole("READER")
-                        .requestMatchers(HttpMethod.GET,"/api/author/{name}/books").hasRole("READER")
-                        .requestMatchers(HttpMethod.GET,"/api/author/top-authors").hasRole("READER")
+                        .requestMatchers(HttpMethod.POST,"/api/lendings/lend").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.POST,"/api/lendings/returnBook").hasRole("READER")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/overdueLendings").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/AvgLendingPerGender").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/average-lending-duration").hasRole("LIBRARIAN")
+
 
                         //UsersEndpoints
                         .requestMatchers(HttpMethod.PUT,"/api/users/{readernumber}").hasRole("READER")
                         .requestMatchers(HttpMethod.GET,"/api/users/readernumber/{readernumber}").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/users/name/{name}").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/users/email/{email}").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/users/books/{readernumber}").hasRole("READER")
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/all").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET, "/api/users/{email}").hasRole("READER")
 
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers("/images/**").permitAll()  // Allow access to 'images' directory

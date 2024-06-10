@@ -5,8 +5,10 @@ import com.example.projetopsoft2024.models.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Order(1)
+@Order(2)
 public class AuthorDataLoader implements CommandLineRunner {
     private final AuthorRepository authorRepository;
 
@@ -58,7 +60,6 @@ public class AuthorDataLoader implements CommandLineRunner {
                 new Author("Charles Duhigg", "Charles Duhigg is a former columnist and senior editor at The New York Times. Mr. Duhigg is also the author of “The Power of Habit,” which has spent over two years on the New York Times best-seller list, and the recent “Smarter Faster Better,” which was also a New York Times best seller.", photo13),
                 new Author("James Clear", "James Clear (born 1986) is an American writer.He is best known for his book Atomic Habits.Raised in Hamilton, Ohio, Clear received his degree in biomechanics from Denison University in 2008, where he also served as captain of the baseball team.", photo14),
                 new Author("Markus Zusak", "Markus Zusak was born in 1975 in Sydney, Australia, the youngest of four children of immigrant German and Austrian parents. Neither parent could read or write English when they first arrived in Australia, but they wanted their children to master the language and strongly encouraged them to read and communicate in English from an early age. Zusak began writing fiction at age 16 and pursued a degree in teaching. Before becoming a professional author, Zusak worked briefly as a house painter, a janitor and a high school English teacher.", photo15)
-
 
 
         );

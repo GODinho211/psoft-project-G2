@@ -1,0 +1,38 @@
+@startuml
+'https://SubscriptionServicetuml.com/sequence-diagram
+
+
+
+autoactivate on
+autonumber
+
+title Get Book Suggestions Based on Interest List
+
+actor "Reader" as User
+
+participant ":UserController" as Ctrl
+participant ":UserService" as srv
+participant ":UserRepository" as userRepo
+participant ":GenderRepository" as genderRepo
+
+activate User
+
+User -> Ctrl: Request book suggestions\n(GET /api/users/books/{readernumber})
+Ctrl -> srv: getCurrentAuthenticatedUser()
+srv -> userRepo: findByUserEmail(email)
+userRepo --> srv: User
+srv -> Ctrl: Current User
+
+alt Is Current User
+    Ctrl -> srv: getBooksByUserGenres(readernumber)
+    srv -> userRepo: findByReaderNumber(readernumber)
+    userRepo --> srv: User
+    srv -> genderRepo: findAllById(User.genreIds)
+    genderRepo --> srv: List<Gender>
+    srv --> Ctrl: List<Book>
+    Ctrl --> User: List<Book
+else Is Not Current User
+    Ctrl --> User: Access denied
+end
+
+@enduml

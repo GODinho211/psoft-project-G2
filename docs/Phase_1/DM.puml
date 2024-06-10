@@ -18,15 +18,19 @@ class author {
 
 class users {
 
-    - id_user
-    - name
-    - email
-    - date_of_birth
-    - phone_number
-    - GDPR_consent
+    -  readernumber
+    -  name
+    -  email
+    -  password
+    -  role
+    -  dateofbirth
+    -  phonenumber
+    -  gdprconsent
+    -  genres
+    -  funnyQuote
+    -  photo_user
 
 }
-
 class book_lending {
 
     - id_lending
@@ -84,6 +88,7 @@ books "1" -right-- "*" genre_books
 books "1" -down-- "*" book_lending
 users "1" -left-- "*" book_lending
 users "1" -right-- "*" roles
+users "1" -up-- "*" genre_books : interested_in
 
 
 
