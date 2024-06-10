@@ -144,6 +144,12 @@ public class UserController {
         List<Book> books = userservice.getBooksByUserGenres(readernumber);
         return ResponseEntity.ok(books);
     }
+
+    @GetMapping("/{userId}/lendings/count/{months}")//
+    public ResponseEntity<String> getLendingsCountByUserIdFromLastMonths(@PathVariable Long userId, @PathVariable int months) {//
+        Long count = userservice.getLendingsCountByUserIdFromLastMonths(userId, months);//
+        return ResponseEntity.ok("The number of lends in the last " + months + " months are: " + count);//
+    }//
     @Operation(summary = "Create a user with a photo")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> createUserPhoto(@RequestParam("name") String name,

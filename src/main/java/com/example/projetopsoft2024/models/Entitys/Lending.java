@@ -73,13 +73,23 @@ public class Lending {
 
    }
 
-    public Book getBook(int index) {
-        return this.books.get(index);
-    }
+    private boolean countLending;//
+
+    public boolean getCountLending() {
+        return this.countLending;
+    }//
 
     public long getDaysOverdue() {
             return ChronoUnit.DAYS.between(this.startDate, returnDate);
     }
+
+    public LocalDate getLendDate() {
+        return this.startDate;
+    }//
+
+    public Book getBook() {
+        return this.books.get(0);
+    }//
 
 
 }

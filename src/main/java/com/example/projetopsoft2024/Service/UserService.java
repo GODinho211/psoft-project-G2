@@ -192,6 +192,10 @@ public class UserService {
                 .toList();
     }
 
+    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {//
+        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);//
+        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());//
+    }//
     public User createUserPhoto(String name, String email, String password, String role, LocalDate dateOfBirth,
                                 Long phoneNumber, String gdprConsent, String funnyQuote, List<Long> genderIds,
                                 MultipartFile photoFile) {
