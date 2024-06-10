@@ -7,6 +7,7 @@ import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
+import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
@@ -83,6 +84,24 @@ public class LendingService {
         }
 
         return lendingsPerGenre;
+    }
+
+    
+
+    public List<Top5UsersDto> findTopReaders() {
+        // Group lendings by user and count the number of lendings for each user
+        Map<User, Long> lendingCounts = lendingRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Lending::getUser, Collectors.counting()));
+
+        // Sort users based on the number of lendings (books borrowed) in descending order
+        List<Top5UsersDto> topReaders = lendingCounts.entrySet().stream()
+                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
+                .limit(5) // Get top 5 readers
+                .map(Map.Entry::getKey)
+                .map(User::toTop5UsersDto) // Convert User entity to Top5UsersDto
+                .collect(Collectors.toList());
+
+        return topReaders;
     }
 
 

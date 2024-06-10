@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+hide circle
+skinparam classAttributeIconSize 0
+hide methods
+
+title Domain Model Interest list
+
+class users {
+
+
+    -  readernumber
+    -  name
+    -  email
+    -  password
+    -  role
+    -  dateofbirth
+    -  phonenumber
+    -  gdprconsent
+    -  genres
+    -  funnyQuote
+    -  photo_user
+
+}
+
+class genre_books {
+
+ -fk id_author
+ -fk isbn
+}
+
+
+
+
+users "1" -up-- "*" genre_books : interested_in
+
+
+@enduml

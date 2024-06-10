@@ -1,4 +1,6 @@
 package com.example.projetopsoft2024.models;
+import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
+import com.example.projetopsoft2024.models.DTO.UserDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -68,7 +70,7 @@ public class User implements UserDetails {
     private byte[] photo_user;
 
 
-    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote) {
+    public User(final String name, final String email, final Date dateofbirth, final Long phonenumber, final Long readernumber, final String gdprconsent,final String password, RoleUser role,final String funnyQuote, List<Gender> genres ) {
         setName(name);
         setEmail(email);
         setDateofbirth(dateofbirth);
@@ -78,7 +80,16 @@ public class User implements UserDetails {
         setPassword(password);
         setRole(role);
         setFunnyQuote(funnyQuote);
+        setGenres(genres);
 
+    }
+
+    public UserDto toUserDTO() {
+        return new UserDto(this.readernumber, this.name, this.email,this.password, this.dateofbirth, this.phonenumber, this.funnyQuote, this.genres, this.photo_user);
+    }
+
+    public Top5UsersDto toTop5UsersDto() {
+        return new Top5UsersDto(this.readernumber, this.name, this.email, this.funnyQuote, this.genres);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
