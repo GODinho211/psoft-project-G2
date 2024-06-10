@@ -32,7 +32,7 @@ public class SecurityConfigurations {
                         .requestMatchers("api/lendings/**").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/books/getAll").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
+//                        .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
 
                         //UsersEndpoints
                         .requestMatchers(HttpMethod.PUT,"/api/users/{readernumber}").hasRole("READER")

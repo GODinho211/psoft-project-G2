@@ -5,13 +5,11 @@ import com.example.projetopsoft2024.Service.GenderService;
 import com.example.projetopsoft2024.Service.LendingService;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.LendingDTO;
-import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
+import com.example.projetopsoft2024.models.DTO.LendingDateDTO;
 import com.example.projetopsoft2024.models.DTO.ReturnDTO;
 import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
-import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
-import com.example.projetopsoft2024.models.Requests.MonthRequest;
 import com.example.projetopsoft2024.models.Requests.ReturnRequest;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
-
+import java.util.Map;
 
 
 @RestController
@@ -83,17 +83,21 @@ public class LendingController {
         List<Lending> overdueLendings = lendingService.findOverdueLendings();
         return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
-    @GetMapping("/lendings-per-genre")
-    public ResponseEntity<List<LendingsPerMonthDTO>> getLendingsPerGenreByMonth(@RequestBody MonthRequest monthRequest) {
-        List<LendingsPerMonthDTO> lendingsPerGenre = lendingService.getLendingsPerGenreByMonth(monthRequest.getMonth());
-        return ResponseEntity.ok(lendingsPerGenre);
+    @GetMapping("/AvgLendingPerGender")
+    public List<Map<String, Object>> getAvgLendingPerGenrePerDay(@RequestBody LendingDateDTO lendingDateDTO) {
+        return lendingService.getAvgLendingPerGenrePerDay(lendingDateDTO.getMonth(), lendingDateDTO.getYear());
     }
-
     @GetMapping("/top5readers")
     public ResponseEntity<List<Top5UsersDto>> getTopReaders() {
         List<Top5UsersDto> topReaders = lendingService.findTopReaders();
         return new ResponseEntity<>(topReaders, HttpStatus.OK);
     }
 
+    @GetMapping("/average-lending-duration")
+    public String getAverageLendingDuration() {
+        BigDecimal averageDuration = lendingService.getAverageLendingDuration();
+        String message = "Média de Dias por Empréstimo: " + averageDuration.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return message;
+    }
 
     }

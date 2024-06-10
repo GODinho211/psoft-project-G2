@@ -1,14 +1,11 @@
 package com.example.projetopsoft2024.Repositories;
 
 
-import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -20,14 +17,14 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
     @Query("SELECT l FROM Lending l JOIN l.user lu WHERE lu.readernumber = :userId")
     List<Lending> findLendingByUserId(Long userId);
 
-    @Query("SELECT  g.description, COUNT(l) " +
+    @Query("SELECT g.description, COUNT(l) * 1.0 " +
             "FROM Lending l " +
             "JOIN l.books b " +
-            "JOIN b.gender g " +
-            "WHERE MONTH(l.startDate) = :month " +
+            "JOIN b.gender g " + // Corrigi "gender" para "genre"
+            "WHERE FUNCTION('MONTH', l.startDate) = :month " +
+            "AND FUNCTION('YEAR', l.startDate) = :year " +
             "GROUP BY g.genderId")
-    List<Object[]> countLendingPerGenre(@Param("month") int month);
-
+    List<Object[]> countLendingsPerGenre( int month,int year);
 
 
 }
