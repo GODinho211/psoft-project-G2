@@ -125,10 +125,10 @@ public class UserController {
         return ResponseEntity.ok(books);
     }
 
-    @GetMapping("/{userId}/lendings/count/lastyear")
-    public ResponseEntity<String> getLendingsCountByUserIdFromLastYear(@PathVariable Long userId) {
-        Long count = userservice.getLendingsCountByUserIdFromLastYear(userId);
-        return ResponseEntity.ok("The number of lends in the last 12 months are: " + count);
+    @GetMapping("/{userId}/lendings/count/{months}")
+    public ResponseEntity<String> getLendingsCountByUserIdFromLastMonths(@PathVariable Long userId, @PathVariable int months) {
+        Long count = userservice.getLendingsCountByUserIdFromLastMonths(userId, months);
+        return ResponseEntity.ok("The number of lends in the last " + months + " months are: " + count);
     }
 
 

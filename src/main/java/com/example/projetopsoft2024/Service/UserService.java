@@ -177,9 +177,9 @@ public class UserService {
                 .toList();
     }
 
-    public Long getLendingsCountByUserIdFromLastYear(Long userId) {
-        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
-        return lendingRepository.countLendingsByUserIdFromLastYear(userId, oneYearAgo.toLocalDate());
+    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {
+        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
+        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
     }
 
 }
