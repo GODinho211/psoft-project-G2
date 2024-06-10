@@ -1,5 +1,4 @@
-package com.example.projetopsoft2024.models.DTO;
-
+package com.example.projetopsoft2024.models.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LendingsPerMonthDTO {
+public class MonthRequest {
 
-
-    private String genderDescription;
-    private int count;
-
+    private int year;
+    private int month;
 }

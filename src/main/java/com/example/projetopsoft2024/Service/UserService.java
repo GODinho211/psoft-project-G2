@@ -4,6 +4,7 @@ package com.example.projetopsoft2024.Service;
 import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
+import com.example.projetopsoft2024.models.DTO.UserDto;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.RoleUser;
 import com.example.projetopsoft2024.models.User;
@@ -37,10 +38,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public  List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
-        userRepository.findAll().forEach(n -> users.add(n));
-        return users;
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(User::toUserDTO)
+                .collect(Collectors.toList());
     }
     public Optional<User> getUserByReadernumber(Long readernumber) {
         return userRepository.findByReaderNumber(readernumber);
@@ -241,6 +242,13 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+
+    public Optional<UserDto> getUserDtoByEmail(String email) {
+        return userRepository.findByUserEmail(email)
+                .map(User::toUserDTO);
+    }
+
 
 
 }

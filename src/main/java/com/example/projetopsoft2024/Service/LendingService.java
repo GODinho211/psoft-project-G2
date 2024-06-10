@@ -6,16 +6,15 @@ import com.example.projetopsoft2024.Repositories.GenderRepository;
 import com.example.projetopsoft2024.Repositories.LendingRepository;
 import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
-import com.example.projetopsoft2024.models.DTO.LendingsPerMonthDTO;
+import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
-import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.YearMonth;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -72,29 +71,55 @@ public class LendingService {
                 .collect(Collectors.toList());
     }
 
-    public List<LendingsPerMonthDTO> getLendingsPerGenre() {
-        List<Object[]> results = lendingRepository.countLendingsPerGenre();
-        List<LendingsPerMonthDTO> lendingsPerGenre = new ArrayList<>();
+    public List<Map<String, Object>> getAvgLendingPerGenrePerDay(int month, int year) {
+        List<Object[]> results = lendingRepository.countLendingsPerGenre(month, year);
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
 
         for (Object[] result : results) {
-            String description = (String) result[0];
-            Long count = (Long) result[1];
-            lendingsPerGenre.add(new LendingsPerMonthDTO(description, count.intValue()));
+            Map<String, Object> map = new HashMap<>();
+            map.put("description", result[0]);
+
+            double avgLendings = ((Number) result[1]).doubleValue() / daysInMonth;// calcula a media dividindo o numero de emprestimos do genero pelo numero de dias no mes
+            String formattedAvgLendings = String.format("%.2f", avgLendings); // apenas 2 casas decimias, mas passou para string
+
+            map.put("avg",formattedAvgLendings);
+            response.add(map);
         }
 
-        return lendingsPerGenre;
+        return response;
     }
 
-    public List<User> findTopReaders() {
+    public BigDecimal getAverageLendingDuration() {
+        List<Lending> lendings = lendingRepository.findAll();
+        long totalDays = lendings.stream()
+                .mapToLong(Lending::getDaysOverdue)
+                .sum();
+        long totalLendings = lendings.size();
+
+        if (totalLendings == 0) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+
+        BigDecimal averageDuration = BigDecimal.valueOf(totalDays)
+                .divide(BigDecimal.valueOf(totalLendings), 2, RoundingMode.HALF_UP);
+        return averageDuration;
+    }
+
+
+
+    public List<Top5UsersDto> findTopReaders() {
         // Group lendings by user and count the number of lendings for each user
         Map<User, Long> lendingCounts = lendingRepository.findAll().stream()
                 .collect(Collectors.groupingBy(Lending::getUser, Collectors.counting()));
 
         // Sort users based on the number of lendings (books borrowed) in descending order
-        List<User> topReaders = lendingCounts.entrySet().stream()
+        List<Top5UsersDto> topReaders = lendingCounts.entrySet().stream()
                 .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
                 .limit(5) // Get top 5 readers
                 .map(Map.Entry::getKey)
+                .map(User::toTop5UsersDto) // Convert User entity to Top5UsersDto
                 .collect(Collectors.toList());
 
         return topReaders;
