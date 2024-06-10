@@ -26,6 +26,8 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
             "GROUP BY g.genderId")
     List<Object[]> countLendingsPerGenre( int month,int year);
 
+    @Query("SELECT l FROM Lending l WHERE l.startDate >= :startDate")
+    List<Lending> findAllLendingsSince(java.time.LocalDate startDate);
 
 }
 
