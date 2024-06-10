@@ -1,0 +1,18 @@
+
+@startuml
+actor Client
+participant Controller
+participant Service
+participant Repository
+database Database
+
+Client -> Controller: Request with LendingDateDTO
+Controller -> Service: getAvgLendingPerGenrePerDay(month, year)
+Service -> Repository: countLendingsPerGenre(month, year)
+Repository -> Database: Query to count lendings per genre
+Database --> Repository: Result set
+Repository --> Service: List<Object[]> results
+Service -> Service: Calculate days in month
+Service --> Controller: List<Map<String, Object>> response
+Controller --> Client: Response
+@enduml

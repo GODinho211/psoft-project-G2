@@ -1,0 +1,41 @@
+@startuml
+actor Client
+Client -> LendingController: POST /lend
+activate LendingController
+
+LendingController -> LendingService: findUserById(request.getUserId())
+activate LendingService
+LendingService -> LendingRepository: findUserById(userId)
+activate LendingRepository
+LendingRepository -> LendingService: User
+deactivate LendingRepository
+LendingService -> LendingController: User
+deactivate LendingService
+
+LendingController -> LendingService: findBooksByIds(request.getBookIds())
+activate LendingService
+LendingService -> LendingRepository: findBooksByIds(bookIds)
+activate LendingRepository
+LendingRepository -> LendingService: List<Book>
+deactivate LendingRepository
+LendingService -> LendingController: List<Book>
+deactivate LendingService
+
+LendingController -> Lending: new Lending(user, books, request.getStartDate(), request.getReturnDate())
+activate Lending
+
+LendingController -> LendingService: saveLending(lending)
+activate LendingService
+LendingService -> LendingRepository: save(lending)
+activate LendingRepository
+LendingRepository -> LendingService: void
+deactivate LendingRepository
+LendingService -> LendingController: void
+deactivate LendingService
+
+Lending -> LendingController: LendingDTO
+deactivate Lending
+
+LendingController -> Client: LendingDTO
+deactivate LendingController
+@enduml
