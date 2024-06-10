@@ -25,6 +25,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -43,8 +45,9 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(User::toUserDTO)
                 .collect(Collectors.toList());
+}
 
-                //Autowired estava no merge do wp2 to main
+     /*           //Autowired estava no merge do wp2 to main
     @Autowired
     private LendingRepository lendingRepository;
 
@@ -52,8 +55,10 @@ public class UserService {
         List<User> users = new ArrayList<User>();
         userRepository.findAll().forEach(n -> users.add(n));
         return users;
-        //ate aqui
     }
+        //ate aqui
+*/
+
     public Optional<User> getUserByReadernumber(Long readernumber) {
         return userRepository.findByReaderNumber(readernumber);
     }
@@ -263,9 +268,9 @@ public class UserService {
 
 
     public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {
-        LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
-        return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
-    }
+            LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
+            return LendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
+        }
 
 }
 
