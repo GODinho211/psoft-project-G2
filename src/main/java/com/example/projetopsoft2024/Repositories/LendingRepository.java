@@ -28,8 +28,8 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
             "GROUP BY g.genderId")
     List<Object[]> countLendingsPerGenre( int month,int year);
 
-    @Query("SELECT g.description, l.user, COUNT(l) FROM Lending l JOIN l.books b JOIN b.gender g WHERE l.startDate >= :startDate AND l.startDate <= :endDate GROUP BY g.description, l.user")
-    List<Object[]> countLendingsPerGenreAndUser(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT g.description, l.user, COUNT(l) FROM Lending l JOIN l.books b JOIN b.gender g WHERE l.startDate >= :startDate AND l.startDate <= :endDate GROUP BY g.description, l.user")//
+    List<Object[]> countLendingsPerGenreAndUser(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);//
 
 
 }
