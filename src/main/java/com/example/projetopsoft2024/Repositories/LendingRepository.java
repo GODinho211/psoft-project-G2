@@ -31,6 +31,9 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
     @Query("SELECT COUNT(l) FROM Lending l WHERE l.user.readernumber = :userId AND l.startDate >= :oneYearAgo")//
     Long countLendingsByUserIdFromLastYear(@Param("userId") Long userId, @Param("oneYearAgo") LocalDate oneYearAgo);//
 
+    @Query("SELECT l FROM Lending l WHERE l.startDate >= :startDate")
+    List<Lending> findAllLendingsSince(java.time.LocalDate startDate);//
+
 }
 
 
