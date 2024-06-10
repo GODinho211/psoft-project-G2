@@ -174,8 +174,7 @@ public class LendingService {
     }
 
 
-
-
-
-
+    public Lending findLendingById(Long lendingId) {
+        return lendingRepository.findById(lendingId).orElse(null);
+    }
 }
