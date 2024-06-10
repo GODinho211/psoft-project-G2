@@ -8,12 +8,15 @@ import com.example.projetopsoft2024.Repositories.UserRepository;
 import com.example.projetopsoft2024.models.Book;
 import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
+import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.util.*;
 
@@ -125,6 +128,53 @@ public class LendingService {
         return topReaders;
     }
 
+    public List<Map<String, Object>> getLendingsPerMonthAndGenreLast12Months() {
+        LocalDate oneYearAgo = LocalDate.now().minusYears(1);
+        List<Lending> lendings = lendingRepository.findAllLendingsSince(oneYearAgo);
+        Map<String, Map<String, Long>> genreMonthCountMap = new HashMap<>();
+
+        for (Lending lending : lendings) {
+            LocalDate startDate = lending.getStartDate();
+            String monthYear = startDate.getMonth() + "-" + startDate.getYear();
+            for (Book book : lending.getBooks()) {
+                for (Gender genre : book.getGender()) {
+                    genreMonthCountMap
+                            .computeIfAbsent(genre.getDescription(), k -> new HashMap<>())
+                            .merge(monthYear, 1L, Long::sum);
+                }
+            }
+        }
+
+        List<Map<String, Object>> response = new ArrayList<>();
+        for (Map.Entry<String, Map<String, Long>> genreEntry : genreMonthCountMap.entrySet()) {
+            String genre = genreEntry.getKey();
+            for (Map.Entry<String, Long> monthEntry : genreEntry.getValue().entrySet()) {
+                String[] monthYear = monthEntry.getKey().split("-");
+                Month month = Month.valueOf(monthYear[0]);
+                int year = Integer.parseInt(monthYear[1]);
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("genre", genre);
+                map.put("month", month.getValue());
+                map.put("year", year);
+                map.put("count", monthEntry.getValue());
+                response.add(map);
+            }
+        }
+
+        return response.stream()
+                .sorted((m1, m2) -> {
+                    int yearCompare = ((Integer) m1.get("year")).compareTo((Integer) m2.get("year"));
+                    if (yearCompare != 0) {
+                        return yearCompare;
+                    }
+                    return ((Integer) m1.get("month")).compareTo((Integer) m2.get("month"));
+                })
+                .collect(Collectors.toList());
+    }
 
 
+    public Lending findLendingById(Long lendingId) {
+        return lendingRepository.findById(lendingId).orElse(null);
+    }
 }

@@ -37,7 +37,7 @@ public class LendingController {
     @Autowired
     private GenderService genderService;
 
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Lend a book to user")
     @PostMapping("/lend")
     public LendingDTO createLending(@RequestBody LendingRequest request) {
 
@@ -55,7 +55,7 @@ public class LendingController {
     public List<Lending> getLendings() {
         return lendingService.getAll();
     }
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Get lend by BookId")
     @GetMapping("/bookId/{bookId}")
     public ResponseEntity<List<Lending>> findLendingByBookId(@PathVariable Long bookId) {
         List<Lending> lending = lendingService.findLendingByBookId(bookId);
@@ -75,6 +75,19 @@ public class LendingController {
             return ResponseEntity.ok(lending);
         }
     }
+
+
+    @Operation(summary = "Get lend by Id")
+    @GetMapping("/{lendingId}")
+    public ResponseEntity<Lending> findLendingById(@PathVariable Long lendingId) {
+        Lending lending = lendingService.findLendingById(lendingId);
+        if (lending != null) {
+            return new ResponseEntity<>(lending, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @Operation(summary = "Return a Book, a fine could be applied")
     @PutMapping("/returnBook")
     public ReturnDTO returnBooks(@RequestBody ReturnRequest returnRequest) {
@@ -90,23 +103,32 @@ public class LendingController {
         List<Lending> overdueLendings = lendingService.findOverdueLendings();
         return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
+
     @Operation(summary = "Get Average Lends Per Gender on given date")
     @GetMapping("/AvgLendingPerGender")
     public List<Map<String, Object>> getAvgLendingPerGenrePerDay(@RequestBody LendingDateDTO lendingDateDTO) {
         return lendingService.getAvgLendingPerGenrePerDay(lendingDateDTO.getMonth(), lendingDateDTO.getYear());
     }
+
     @Operation(summary = "Get Top 5 Readers")
     @GetMapping("/top5readers")
     public ResponseEntity<List<Top5UsersDto>> getTopReaders() {
         List<Top5UsersDto> topReaders = lendingService.findTopReaders();
         return new ResponseEntity<>(topReaders, HttpStatus.OK);
     }
+
     @Operation(summary = "Get Average Lend Duration")
-    @GetMapping("/average-lending-duration")
+    @GetMapping("/AvgLendDuration")
     public String getAverageLendingDuration() {
         BigDecimal averageDuration = lendingService.getAverageLendingDuration();
         String message = "Média de Dias por Empréstimo: " + averageDuration.setScale(2, BigDecimal.ROUND_HALF_UP);
         return message;
+    }
+
+    @Operation(summary = "Get Number Of Lendings Per gender in the last 12 month's")
+    @GetMapping("/lendings-per-month-genre")
+    public List<Map<String, Object>> getLendingsPerMonthAndGenreLast12Months() {
+        return lendingService.getLendingsPerMonthAndGenreLast12Months();
     }
 
     }

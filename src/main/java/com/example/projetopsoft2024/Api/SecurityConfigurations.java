@@ -33,11 +33,16 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST,"/api/books/getAll").hasRole("LIBRARIAN")
 
                         .requestMatchers(HttpMethod.GET,"/api/lendings/top5readers").hasRole("LIBRARIAN")
+
                         .requestMatchers(HttpMethod.POST,"/api/lendings/lend").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.POST,"/api/lendings/returnBook").hasRole("READER")
+
                         .requestMatchers(HttpMethod.GET,"/api/lendings/overdueLendings").hasRole("LIBRARIAN")
                         .requestMatchers(HttpMethod.GET,"/api/lendings/AvgLendingPerGender").hasRole("LIBRARIAN")
-                        .requestMatchers(HttpMethod.GET,"/api/lendings/average-lending-duration").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/AvgLendDuration").hasRole("LIBRARIAN")
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/{lendingId}").hasRole("READER")
+
+                        .requestMatchers(HttpMethod.GET,"/api/lendings/lendings-per-month-genre").hasRole("LIBRARIAN")
 
 
                         //UsersEndpoints
