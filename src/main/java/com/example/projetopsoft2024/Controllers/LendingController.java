@@ -37,7 +37,7 @@ public class LendingController {
     @Autowired
     private GenderService genderService;
 
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Lend a book to user")
     @PostMapping("/lend")
     public LendingDTO createLending(@RequestBody LendingRequest request) {
 
@@ -55,7 +55,7 @@ public class LendingController {
     public List<Lending> getLendings() {
         return lendingService.getAll();
     }
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Get lend by BookId")
     @GetMapping("/bookId/{bookId}")
     public ResponseEntity<List<Lending>> findLendingByBookId(@PathVariable Long bookId) {
         List<Lending> lending = lendingService.findLendingByBookId(bookId);
@@ -73,6 +73,18 @@ public class LendingController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(lending);
+        }
+    }
+
+
+    @Operation(summary = "Get lend by Id")
+    @GetMapping("/{lendingId}")
+    public ResponseEntity<Lending> findLendingById(@PathVariable Long lendingId) {
+        Lending lending = lendingService.findLendingById(lendingId);
+        if (lending != null) {
+            return new ResponseEntity<>(lending, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
