@@ -151,7 +151,7 @@ public class BookService {
         if (!bookOptional.isPresent()) {
             throw new RuntimeException("Book not found with id " + bookId);
         }
-
+//comentario
         Book existingBook = bookOptional.get();
         existingBook.setPicture(picture);
         bookRepository.save(existingBook);
