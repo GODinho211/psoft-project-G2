@@ -130,6 +130,7 @@ public class UserController {
         Long count = userservice.getLendingsCountByUserIdFromLastMonths(userId, months);
         return ResponseEntity.ok("The number of lends in the last " + months + " months are: " + count);
     }
+//comentario
 
 
 }

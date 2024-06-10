@@ -181,6 +181,8 @@ public class UserService {
         LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
         return lendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
     }
+    //comentario
+
 
 }
 
