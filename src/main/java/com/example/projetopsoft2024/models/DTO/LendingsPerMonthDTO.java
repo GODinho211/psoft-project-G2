@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +15,7 @@ import lombok.Setter;
 public class LendingsPerMonthDTO {
 
 
-    private String genderDescription;
+    private String genreDescription;
     private int count;
 
 }

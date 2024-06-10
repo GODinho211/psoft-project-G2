@@ -20,8 +20,13 @@ public interface LendingRepository extends JpaRepository<Lending,Long> {
     @Query("SELECT l FROM Lending l JOIN l.user lu WHERE lu.readernumber = :userId")
     List<Lending> findLendingByUserId(Long userId);
 
-    @Query("SELECT g.description, COUNT(l) FROM Lending l JOIN l.books b JOIN b.gender g GROUP BY g.description")
-    List<Object[]> countLendingsPerGenre();
+    @Query("SELECT  g.description, COUNT(l) " +
+            "FROM Lending l " +
+            "JOIN l.books b " +
+            "JOIN b.gender g " +
+            "WHERE MONTH(l.startDate) = :month " +
+            "GROUP BY g.genderId")
+    List<Object[]> countLendingPerGenre(@Param("month") int month);
 
 
 

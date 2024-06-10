@@ -73,8 +73,10 @@ public class LendingService {
                 .collect(Collectors.toList());
     }
 
-    public List<LendingsPerMonthDTO> getLendingsPerGenre() {
-        List<Object[]> results = lendingRepository.countLendingsPerGenre();
+    public List<LendingsPerMonthDTO> getLendingsPerGenreByMonth(int month) {
+        List<Object[]> results = lendingRepository.countLendingPerGenre(month);
+
+        System.out.println(Arrays.toString(results.get(0)));
         List<LendingsPerMonthDTO> lendingsPerGenre = new ArrayList<>();
 
         for (Object[] result : results) {

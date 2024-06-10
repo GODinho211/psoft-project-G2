@@ -11,6 +11,7 @@ import com.example.projetopsoft2024.models.DTO.Top5UsersDto;
 import com.example.projetopsoft2024.models.Entitys.Lending;
 import com.example.projetopsoft2024.models.Gender;
 import com.example.projetopsoft2024.models.Requests.LendingRequest;
+import com.example.projetopsoft2024.models.Requests.MonthRequest;
 import com.example.projetopsoft2024.models.Requests.ReturnRequest;
 import com.example.projetopsoft2024.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +84,8 @@ public class LendingController {
         return new ResponseEntity<>(overdueLendings, HttpStatus.OK);
     }
     @GetMapping("/lendings-per-genre")
-    public ResponseEntity<List<LendingsPerMonthDTO>> getLendingsPerGenre() {
-        List<LendingsPerMonthDTO> lendingsPerGenre = lendingService.getLendingsPerGenre();
+    public ResponseEntity<List<LendingsPerMonthDTO>> getLendingsPerGenreByMonth(@RequestBody MonthRequest monthRequest) {
+        List<LendingsPerMonthDTO> lendingsPerGenre = lendingService.getLendingsPerGenreByMonth(monthRequest.getMonth());
         return ResponseEntity.ok(lendingsPerGenre);
     }
 
