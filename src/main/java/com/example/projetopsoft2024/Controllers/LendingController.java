@@ -15,6 +15,7 @@ import com.example.projetopsoft2024.models.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;//
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -130,5 +131,14 @@ public class LendingController {
     public List<Map<String, Object>> getLendingsPerMonthAndGenreLast12Months() {
         return lendingService.getLendingsPerMonthAndGenreLast12Months();
     }
+    @GetMapping("/top-readers-per-genre")//
+    @Operation(summary = "Get top readers per genre", description = "Retrieve the top 5 readers per genre within a specified period.")//
+    public ResponseEntity<Map<String, List<User>>> getTopReadersPerGenre(//
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,//
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {//
+
+        Map<String, List<User>> topReadersPerGenre = lendingService.findTopReadersPerGenre(startDate, endDate);//
+        return ResponseEntity.ok(topReadersPerGenre);//
+    }//
 
     }

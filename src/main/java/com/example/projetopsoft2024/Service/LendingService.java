@@ -177,4 +177,42 @@ public class LendingService {
     public Lending findLendingById(Long lendingId) {
         return lendingRepository.findById(lendingId).orElse(null);
     }
+
+
+    public Map<String, List<User>> findTopReadersPerGenre(LocalDate startDate, LocalDate endDate) {//
+        List<Object[]> results = lendingRepository.countLendingsPerGenreAndUser(startDate, endDate);//
+
+
+        Map<String, Map<User, Long>> genreUserLendingCounts = new HashMap<>();//
+
+        for (Object[] result : results) {//
+            String genre = (String) result[0];//
+            User user = (User) result[1];//
+            Long count = (Long) result[2];//
+
+            genreUserLendingCounts.putIfAbsent(genre, new HashMap<>());//
+            Map<User, Long> userLendingCounts = genreUserLendingCounts.get(genre);//
+            userLendingCounts.put(user, count);//
+        }//
+
+
+        Map<String, List<User>> topReadersPerGenre = new HashMap<>();//
+
+        for (Map.Entry<String, Map<User, Long>> entry : genreUserLendingCounts.entrySet()) {//
+            String genre = entry.getKey();//
+            Map<User, Long> userLendingCounts = entry.getValue();//
+
+
+            List<User> topReaders = userLendingCounts.entrySet().stream()//
+                    .sorted(Map.Entry.<User, Long>comparingByValue().reversed())//
+                    .limit(5)//
+                    .map(Map.Entry::getKey)//
+                    .collect(Collectors.toList());//
+
+            topReadersPerGenre.put(genre, topReaders);//
+        }//
+
+        return topReadersPerGenre;//
+    }//
+
 }
