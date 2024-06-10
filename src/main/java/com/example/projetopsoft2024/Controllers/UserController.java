@@ -166,11 +166,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}/lendings/count/{months}")
-    public ResponseEntity<String> getLendingsCountByUserIdFromLastMonths(@PathVariable Long userId, @PathVariable int months) {
-        Long count = userservice.getLendingsCountByUserIdFromLastMonths(userId, months);
-        return ResponseEntity.ok("The number of lends in the last " + months + " months are: " + count);
-    }
 
     @Operation(summary = "Get user by email")
     @GetMapping("{email}")
