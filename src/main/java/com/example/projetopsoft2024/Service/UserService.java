@@ -267,10 +267,6 @@ public class UserService {
 
 
 
-    public Long getLendingsCountByUserIdFromLastMonths(Long userId, int months) {
-            LocalDateTime monthsAgo = LocalDateTime.now().minusMonths(months);
-            return LendingRepository.countLendingsByUserIdFromLastYear(userId, monthsAgo.toLocalDate());
-        }
 
 }
 
